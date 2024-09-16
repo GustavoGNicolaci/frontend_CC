@@ -1,0 +1,26 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Garante que o body ocupe pelo menos a altura da janela */
+  margin: 0; /* Remove margens padrão */
+}
+
+.footer {
+  bottom: 0; /* Alinha o footer ao fundo da tela */
+  left: 0; /* Alinha à esquerda */
+  right: 0; /* Alinha à direita */
+  width: 100%; /* Faz o footer ocupar toda a largura da tela */
+  color: white; /* Cor do texto */
+  text-align: center; /* Centraliza o texto */
+  padding: 0px 0; /* Espaçamento interno */
+}
+
+.content {
+  flex: 1; /* Faz com que o conteúdo ocupe todo o espaço disponível */
+}
+
+.text-footer {
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
