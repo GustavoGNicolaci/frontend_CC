@@ -1,17 +1,18 @@
 import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 // import Vitrine from './components/Vitrine'
 import Login from './components/login'
-import Footer from './components/footer'
+import Produtos from './components/produtos'
 import './styles/App.css'
 
 function App() {
   return (
-    <div>
-      <Login />
-    <footer className="footer">
-      <Footer/>
-    </footer>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/produtos" element={<Produtos />} />
+      </Routes>
+    </Router>
   );
 }
 

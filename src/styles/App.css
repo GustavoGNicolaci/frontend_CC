@@ -1,7 +1,83 @@
+/* Importando fonte do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 3rem;
   text-align: center;
 }
 
+.nav-color {
+  background-color: #DFDCCA; 
+}
+
+.title-font {
+  font-family: 'Dancing Script', cursive;
+  color: #6e6754 !important;
+  text-align: left;
+  font-size: 30px;
+}
+
+.nav-font {
+  font-family: 'Roboto', sans-serif; /* Mude isso para sua fonte desejada */
+  font-size: 18px; /* Ajuste o tamanho conforme necessário */
+  color: #663300 !important; /* Mude a cor do texto se desejado */
+}
+
+
+
+.nav-font:hover {
+  color: #DFDCCA !important; /* Mude a cor do texto ao passar o mouse se desejado */
+  background-color: #663300 !important; /* Mude a cor de fundo ao passar o mouse se desejado */
+}
+
+.btn-veja {
+  color: #663300 !important;
+  font-family: 'Roboto', sans-serif; /* Mude isso para sua fonte desejada */
+  font-size: 18px; /* Ajuste o tamanho conforme necessário */
+}
+
+/* Remover padding-top da classe content */
+.content {
+  padding-top: 80px; /* Ajuste este valor conforme necessário */
+}
+
+/* Ajustar o body para evitar sobreposição */
+body {
+    padding-top: 80px; /* Ajuste conforme a altura real da sua navbar */
+}
+
+.nav-icon {
+  color: #663300  !important; /* Cor dos ícones */
+  margin-left: 15px; /* Espaçamento entre os ícones */
+  font-size: 24px; /* Tamanho dos ícones */
+}
+
+.nav-icon:hover {
+  opacity: 0.5 !important; /* Reduz a opacidade ao passar o mouse */
+}
+
+/* Centralizar a barra de pesquisa */
+.mx-auto {
+  flex: 1; /* Faz com que o contêiner ocupe todo o espaço disponível */
+  display: flex; /* Usa flexbox para alinhar itens */
+  justify-content: center; /* Centraliza itens horizontalmente */
+}
+
+.form-control {
+    width: 500px; /* Ajuste conforme necessário para aumentar a largura */
+    min-width: 200px; /* Largura mínima para manter responsividade */
+}
+
+.btn-pesquisa {
+    background-color: #663300;
+    color: #DFDCCA; 
+    border: none;
+    height: 100%; /* Faz o botão ocupar toda a altura da barra de pesquisa */
+}
+
+.btn-pesquisa:hover {
+  background-color: #663300 !important;
+  opacity: 0.6 !important; /* Reduz a opacidade ao passar o mouse */
+}
