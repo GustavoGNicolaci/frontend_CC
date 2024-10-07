@@ -30,6 +30,7 @@ const Login = () => {
                         <input type="text" placeholder="E-mail" className={styles.input} />
                         <input type="text" placeholder="Nome de usuário" className={styles.input} />
                         <input type="password" placeholder="Senha" className={styles.input} />
+                        <input type="password" placeholder="Confirmar Senha" className={styles.input} />
                         <input type="text" placeholder="CPF" className={styles.input} />
                         <input type="text" placeholder="Telefone" className={styles.input} />
                         <button type="submit" className={styles.button}>criar</button>

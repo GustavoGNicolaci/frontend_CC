@@ -1,21 +1,34 @@
 .produtosPage {
   width: 100%;
-  padding-top: 260px;
+  padding-top: 25%;
 }
 
 .productList {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  /* Define exatamente 3 colunas */
+  grid-template-columns: repeat(3, 1fr); 
   gap: 20px;
-  /* Espaçamento entre os itens */
   padding: 20px;
-  /* Adiciona padding ao redor da grid */
+  padding-top: 15%;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  .productList {
+    grid-template-columns: repeat(2, 1fr); /* Duas colunas em telas menores */
+    padding-top: 40%;
+  }
+}
+
+@media (max-width: 768px) {
+  .productList {
+    grid-template-columns: repeat(1, 1fr); /* Uma coluna em telas pequenas */
+    padding-top: 75%;
+  }
 }
 
 .productCard {
   display: flex;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   flex-direction: column;
   align-items: center;
   background-color: white;
@@ -40,18 +53,27 @@
   font-size: 22px;
 }
 
-.productButton {
+.productButton,
+.detailsButton {
   border: none;
-  outline: 0;
+  outline: none;
   padding: 12px;
   color: white;
-  background-color: #663300;
+  background-color: #663300; 
   text-align: center;
   cursor: pointer;
   width: 100%;
-  font-size: 18px;
+  font-size: 18px; 
 }
 
 .productButton:hover {
-  background-color: #27a417;
+    background-color: #27a417; 
+}
+
+.detailsButton {
+    margin-top: 5px;
+}
+
+.detailsButton:hover {
+    opacity: 0.8;
 }

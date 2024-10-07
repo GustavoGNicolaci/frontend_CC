@@ -1,0 +1,93 @@
+.detalhesPage {
+    padding: 20px 40px;
+}
+
+.content {
+    display: flex;
+    align-items: stretch; /* Alinha itens para esticar e ter a mesma altura */
+}
+
+.imageContainer {
+    background-color: white; /* Fundo branco para a imagem */
+    padding: 10px; /* Espaçamento interno */
+    border-radius: 5px; /* Bordas arredondadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 400px; /* Largura fixa para a imagem */
+    height: 400px; /* Altura fixa para a imagem */
+}
+
+.detalhesImage {
+    width: 100%; /* Responsivo */
+    height: auto; /* Mantém a proporção da imagem */
+    object-fit: contain;
+}
+
+.detailsContainer {
+    background-color: #f9f9f9; /* Cor de fundo clara */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 20px; /* Diminui o padding-top e adiciona padding-bottom */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 500px; /* Aumenta a largura fixa do contêiner de detalhes */
+    height: 400px; /* Mantém a altura fixa para o contêiner de detalhes */
+    margin-left: 20px; /* Adiciona margem à esquerda para separar da imagem */
+    display: flex;
+    flex-direction: column; /* Permite que os elementos internos sejam empilhados verticalmente */
+    justify-content: space-between; /* Distribui espaço entre os elementos internos */
+}
+
+h2 {
+    font-size: 28px; /* Aumenta o tamanho do título */
+}
+
+.detalhesPrice {
+    font-size: 26px; /* Aumenta o tamanho do preço */
+    color: grey;
+}
+
+.productDetails {
+    margin-top: 10px; /* Espaço entre o preço e os detalhes */
+    font-size: 18px; /* Aumenta o tamanho dos detalhes do produto */
+}
+
+.buyButton {
+    padding: 16px; /* Aumenta o padding do botão para torná-lo maior */
+    background-color: #663300;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 20px; /* Aumenta o tamanho da fonte do botão */
+    margin-top: auto; /* Empurra o botão para a parte inferior do contêiner */
+}
+
+.buyButton:hover {
+    background-color: #27a417;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column; /* Empilha os elementos em telas pequenas */
+        align-items: center; /* Centraliza os itens */
+        margin-left: 0; /* Remove margem em telas pequenas */
+    }
+
+    .imageContainer,
+    .detailsContainer {
+        width: 90%; /* Largura do contêiner em telas pequenas */
+        height: auto; /* Permite que a altura se ajuste automaticamente em telas pequenas */
+        margin-bottom: 20px; /* Espaço entre os contêineres em telas pequenas */
+        min-height: auto; /* Remove altura mínima em telas pequenas */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-bottom: 20px; /* Adiciona um pouco de padding-bottom para espaço extra na parte inferior */
+        box-shadow: none; /* Remove sombra em telas pequenas se desejado */
+        border-radius: none; /* Remove bordas arredondadas em telas pequenas se desejado */
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+        
+     }
+}

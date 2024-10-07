@@ -1,0 +1,21 @@
+/* components/carrinho.module.css */
+.carrinhoPage {
+    padding: 20px;
+}
+
+.cartItems {
+    display: flex;
+    flex-direction: column;
+}
+
+.cartItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.cartImage {
+    width: 100px;
+    height: auto;
+    margin-right: 20px;
+}
