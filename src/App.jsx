@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 // import Vitrine from './components/Vitrine'
-import Login from './components/login'
+import Login from './components/login/login'
 import Produtos from './components/produtos'
 import './styles/App.css'
 
