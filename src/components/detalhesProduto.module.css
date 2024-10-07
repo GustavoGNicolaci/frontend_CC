@@ -91,3 +91,10 @@ h2 {
         
      }
 }
+    
+.stockInfo {
+    color: #333; /* Cor do texto */
+    opacity: 0.8; /* Opacidade do texto */
+    font-size: 14px; /* Tamanho da fonte */
+    margin-bottom: 10px; /* Espaçamento abaixo do texto */
+}

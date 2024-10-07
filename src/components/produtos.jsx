@@ -1,4 +1,5 @@
-import React from 'react';
+// src/components/produtos.js
+import React, { useContext } from 'react';
 import styles from './produtos.module.css';
 import NavbarComponent from './navbar';
 import Footer from './footer';
@@ -7,17 +8,19 @@ import produto2 from '../assets/images/produto2.png';
 import produto3 from '../assets/images/produto3.png';
 import produto4 from '../assets/images/produto4.png';
 import { useNavigate } from 'react-router-dom';
+import { CartContext } from '../CartContext'; // Importar o CartContext
 
 function CardProduto({ imageSrc, title, price, buttonText, description }) {
     const navigate = useNavigate();
-
-    const handleDetailsClick = () => {
-        navigate('/detalhesProduto', { state: { title, imageSrc, price, description } });
-    };
+    const { addToCart, stock } = useContext(CartContext);
 
     const handleBuyClick = () => {
-        // Redireciona para a página do carrinho com o item adicionado
-        navigate('/carrinho', { state: { cartItems: [{ title, imageSrc, price }] } });
+        if (stock[title] > 0) {
+            addToCart({ title, imageSrc, price });
+            alert(`${title} adicionado ao carrinho!`);
+        } else {
+            alert(`Desculpe, ${title} está fora de estoque.`);
+        }
     };
 
     return (
@@ -25,8 +28,9 @@ function CardProduto({ imageSrc, title, price, buttonText, description }) {
             <img className={styles.productImage} src={imageSrc} alt={title} />
             <h3 className={styles.productTitle}>{title}</h3>
             <p className={styles.productPrice}>{price}</p>
+            <p className={styles.stockInfo}>Em estoque: {stock[title]}</p>
             <button className={styles.productButton} onClick={handleBuyClick}>{buttonText}</button>
-            <button className={styles.detailsButton} onClick={handleDetailsClick}>Detalhes</button>
+            <button className={styles.detailsButton} onClick={() => navigate('/detalhesProduto', { state: { title, imageSrc, price, description } })}>Detalhes</button>
         </div>
     );
 }
@@ -39,7 +43,8 @@ function Produtos() {
             title: '3 Corações Café Torrado E Moído Extraforte Pacote 500G',
             price: 'R$17,00',
             buttonText: 'Comprar',
-            description: 'Café torrado e moído com sabor intenso e aroma marcante. Ideal para quem aprecia um café forte.'
+            description: 'Café torrado e moído com sabor intenso e aroma marcante. Ideal para quem aprecia um café forte.',
+            stock: 10 // Adicionando a quantidade em estoque
         },
         {
             id: 2,
@@ -47,7 +52,8 @@ function Produtos() {
             title: 'Café União Tradicional Torrado E Moído 500g',
             price: 'R$16,50',
             buttonText: 'Comprar',
-            description: 'Café tradicional com sabor equilibrado e aroma suave. Perfeito para o dia a dia.'
+            description: 'Café tradicional com sabor equilibrado e aroma suave. Perfeito para o dia a dia.',
+            stock: 5 // Adicionando a quantidade em estoque
         },
         {
             id: 3,
@@ -55,7 +61,8 @@ function Produtos() {
             title: 'Café Melitta Tradicional Torrado E Moído 500g',
             price: 'R$18,00',
             buttonText: 'Comprar',
-            description: 'Café com grãos selecionados, proporcionando um sabor rico e encorpado.'
+            description: 'Café com grãos selecionados, proporcionando um sabor rico e encorpado.',
+            stock: 0 // Adicionando a quantidade em estoque
         },
         {
             id: 4,
@@ -63,7 +70,8 @@ function Produtos() {
             title: 'Café Melitta Extraforte Torrado E Moído 500g',
             price: 'R$19,00',
             buttonText: 'Comprar',
-            description: 'Um café forte e encorpado, ideal para quem busca uma experiência intensa.'
+            description: 'Um café forte e encorpado, ideal para quem busca uma experiência intensa.',
+            stock: 8 // Adicionando a quantidade em estoque
         }
     ];
 
@@ -78,7 +86,8 @@ function Produtos() {
                         title={produto.title}
                         price={produto.price}
                         buttonText={produto.buttonText}
-                        description={produto.description} // Passando a descrição aqui
+                        description={produto.description}
+                        stock={produto.stock} // Passando a quantidade em estoque
                     />
                 ))}
             </div>

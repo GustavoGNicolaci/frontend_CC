@@ -1,12 +1,24 @@
-import React from 'react';
+// src/components/detalhesProduto.js
+import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import styles from './detalhesProduto.module.css'; 
 import NavbarComponent from './navbar';
 import Footer from './footer';
+import { CartContext } from '../CartContext'; // Importar o CartContext
 
 function DetalhesProduto() {
     const location = useLocation();
-    const { title, imageSrc, price, description } = location.state || {}; // Protegendo contra erros
+    const { title, imageSrc, price, description } = location.state || {};
+    const { addToCart, stock } = useContext(CartContext);
+
+    const handleAddToCart = () => {
+        if (stock[title] > 0) {
+            addToCart({ title, imageSrc, price });
+            alert(`${title} adicionado ao carrinho!`);
+        } else {
+            alert(`Desculpe, ${title} está fora de estoque.`);
+        }
+    };
 
     return (
         <div className={styles.detalhesPage}>
@@ -19,7 +31,8 @@ function DetalhesProduto() {
                     <h2>{title}</h2>
                     <p className={styles.detalhesPrice}>{price}</p>
                     <p className={styles.productDetails}>{description}</p> 
-                    <button className={styles.buyButton}>Comprar</button>
+                    <p className={styles.stockInfo}>Em estoque: {stock[title]}</p> 
+                    <button className={styles.buyButton} onClick={handleAddToCart}>Comprar</button>
                 </div>
             </div>
             <Footer />
