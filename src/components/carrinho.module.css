@@ -1,0 +1,41 @@
+.carrinhoPage {
+    padding: 20px;
+}
+
+.title {
+    color: white; /* Define a cor do texto como branca */
+    text-align: center; /* Centraliza o título */
+}
+
+.cartItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.cartImage {
+    width: 100px;
+    height: auto;
+}
+
+.cartDetails {
+    margin-left: 15px;
+}
+
+/* Estilos para a mensagem de carrinho vazio */
+.emptyCart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 200px); /* Ajuste conforme necessário */
+    background-color: white; /* Fundo branco */
+    border: 1px solid #ccc; /* Borda cinza clara */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    text-align: center; /* Centraliza o texto */
+    padding: 20px; /* Espaçamento interno */
+    width: 80%; /* Define a largura do quadrado (ajuste conforme necessário) */
+    max-width: 600px; /* Largura máxima para manter a responsividade */
+    margin: auto; /* Centraliza horizontalmente */
+}
+

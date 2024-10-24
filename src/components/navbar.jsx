@@ -18,7 +18,7 @@ function NavbarComponent() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="#home" className="nav-font">Página Inicial</Nav.Link>
-            <Nav.Link href="produtos" className="nav-font">Produtos</Nav.Link>
+            <Nav.Link href="/produtos" className="nav-font">Produtos</Nav.Link>
             <NavDropdown className="btn-veja" title="Veja Mais" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1" className="nav-font">Contato</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2" className="nav-font">Nossas lojas</NavDropdown.Item>
@@ -29,11 +29,11 @@ function NavbarComponent() {
           </Nav>
 
           {/* Centralizar a barra de pesquisa */}
-          <div className="mx-auto"> {/* Adicionando um contêiner flexível para centralizar */}
+          <div className="mx-auto">
             <Form className="d-flex">
               <Form.Control
                 type="search"
-                placeholder="Search"
+                placeholder="Pesquisar"
                 className="me-2"
                 aria-label="Search"
               />
@@ -43,10 +43,11 @@ function NavbarComponent() {
 
           {/* Ícones à direita */}
           <div className="d-flex align-items-center">
-            <Nav.Link href="#cart" className="nav-icon">
+            {/* Updated link to point to the cart route */}
+            <Nav.Link href="/carrinho" className="nav-icon">
               <FaShoppingCart size={24} />
             </Nav.Link>
-            <Nav.Link href="/" className="nav-icon">
+            <Nav.Link href="/login" className="nav-icon">
               <FaUser size={24} />
             </Nav.Link>
           </div>

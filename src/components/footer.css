@@ -13,6 +13,7 @@ body {
   color: white; /* Cor do texto */
   text-align: center; /* Centraliza o texto */
   padding: 0px 0; /* Espaçamento interno */
+  padding-top: 10%;
 }
 
 .content {
