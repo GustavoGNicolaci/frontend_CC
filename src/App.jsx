@@ -4,6 +4,7 @@ import Produtos from './components/produtos';
 import DetalhesProduto from './components/detalhesProduto';
 import Carrinho from './components/carrinho';
 import { CartProvider } from './CartContext'; // Import the CartProvider
+import UserProfile from './components/perfil/UserProfile'; 
 import './styles/App.css';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="/produtos" element={<Produtos />} />
           <Route path="/detalhesProduto" element={<DetalhesProduto />} />
           <Route path="/carrinho" element={<Carrinho />} />
+          <Route path="/perfil" element={<UserProfile />} /> 
         </Routes>
       </Router>
     </CartProvider>
