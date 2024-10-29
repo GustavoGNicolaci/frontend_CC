@@ -8,13 +8,14 @@ const Cadastro = ({
     phone, setPhone,
     password, setPassword,
     confirmPassword, setConfirmPassword,
-    fieldErrors, handleRegister
+    fieldErrors, handleRegister,
+    toggleForm
 }) => {
     return (
-        <div>
+        <div  className={styles.container}>
             <h2 className={styles.welcomeMessage}>Cadastre-se</h2>
             <form className={styles.registerForm} onSubmit={handleRegister}>
-                <div className="informacoes-pessoais">
+                <div className={styles.informacoesPessoais}>
                     <input
                         type="text"
                         placeholder="E-mail"
@@ -49,7 +50,7 @@ const Cadastro = ({
                     {fieldErrors.phone && <p className={styles.error}>{fieldErrors.phone}</p>}
                 </div>
 
-                <div className="confirmar-senha">
+                <div className={styles.confirmarSenha}>
                     <input
                         type="password"
                         placeholder="Senha"
@@ -70,6 +71,9 @@ const Cadastro = ({
                 </div>
 
                 <button type="submit" className={styles.button}>Cadastrar</button>
+                <p className={styles.message}>
+                    Já tem uma conta? <a href="#" onClick={toggleForm}>Login</a>
+                </p>
             </form>
         </div>
     );

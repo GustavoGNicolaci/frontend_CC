@@ -6,7 +6,6 @@ import Footer from '../footer';
 import NavbarComponent from '../navbar';
 import styles from './login.module.css';
 
-
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -82,6 +81,7 @@ const Login = () => {
                         setConfirmPassword={setConfirmPassword}
                         fieldErrors={fieldErrors}
                         handleRegister={handleRegister}
+                        toggleForm={toggleForm}
                     />
                 ) : (
                     <div>
