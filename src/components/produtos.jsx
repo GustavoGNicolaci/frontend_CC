@@ -1,14 +1,10 @@
-// src/components/produtos.js
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
 import styles from './produtos.module.css';
 import NavbarComponent from './navbar';
 import Footer from './footer';
-import produto1 from '../assets/images/produto1.png';
-import produto2 from '../assets/images/produto2.png';
-import produto3 from '../assets/images/produto3.png';
-import produto4 from '../assets/images/produto4.png';
 import { useNavigate } from 'react-router-dom';
-import { CartContext } from '../CartContext'; // Importar o CartContext
+import { CartContext } from '../CartContext';
 
 function CardProduto({ imageSrc, title, price, buttonText, description, stock }) {
     const navigate = useNavigate();
@@ -45,44 +41,28 @@ function CardProduto({ imageSrc, title, price, buttonText, description, stock })
 }
 
 function Produtos() {
-    const produtos = [
-        {
-            id: 1,
-            imageSrc: produto1,
-            title: '3 Corações Café Torrado E Moído Extraforte Pacote 500G',
-            price: 'R$17,00',
-            buttonText: 'Comprar',
-            description: 'Café torrado e moído com sabor intenso e aroma marcante. Ideal para quem aprecia um café forte.',
-            stock: 10 // Adicionando a quantidade em estoque
-        },
-        {
-            id: 2,
-            imageSrc: produto2,
-            title: 'Café União Tradicional Torrado E Moído 500g',
-            price: 'R$16,50',
-            buttonText: 'Comprar',
-            description: 'Café tradicional com sabor equilibrado e aroma suave. Perfeito para o dia a dia.',
-            stock: 5 // Adicionando a quantidade em estoque
-        },
-        {
-            id: 3,
-            imageSrc: produto3,
-            title: 'Café Melitta Tradicional Torrado E Moído 500g',
-            price: 'R$18,00',
-            buttonText: 'Comprar',
-            description: 'Café com grãos selecionados, proporcionando um sabor rico e encorpado.',
-            stock: 0 // Adicionando a quantidade em estoque
-        },
-        {
-            id: 4,
-            imageSrc: produto4,
-            title: 'Café Melitta Extraforte Torrado E Moído 500g',
-            price: 'R$19,00',
-            buttonText: 'Comprar',
-            description: 'Um café forte e encorpado, ideal para quem busca uma experiência intensa.',
-            stock: 8 // Adicionando a quantidade em estoque
-        }
-    ];
+    const [produtos, setProdutos] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchProdutos = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/product');
+                setProdutos(response.data);
+            } catch (error) {
+                console.error('Erro ao buscar produtos:', error);
+                setError('Erro ao carregar produtos');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProdutos();
+    }, []);
+
+    if (loading) return <div>Carregando produtos...</div>;
+    if (error) return <div>{error}</div>;
 
     return (
         <div className={styles.produtosPage}>
@@ -91,12 +71,12 @@ function Produtos() {
                 {produtos.map((produto) => (
                     <CardProduto
                         key={produto.id}
-                        imageSrc={produto.imageSrc}
-                        title={produto.title}
-                        price={produto.price}
-                        buttonText={produto.buttonText}
-                        description={produto.description}
-                        stock={produto.stock} // Passando a quantidade em estoque
+                        imageSrc={produto.imagem}
+                        title={produto.titulo}
+                        price={`R$${produto.preco.toFixed(2)}`}
+                        buttonText="Comprar"
+                        description={produto.descricao}
+                        stock={produto.quantidadeEstoque}
                     />
                 ))}
             </div>
