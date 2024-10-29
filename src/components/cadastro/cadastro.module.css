@@ -1,6 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
 
+.container {
+  height: 390px !important;
+}
+
 .input {
   font-family: "Roboto", sans-serif;
   outline: 0;
@@ -50,6 +54,8 @@
   margin-bottom: 20px;
 }
 
-.confirmar-senha {
+.confirmarSenha {
+  display: flex;
+  -ms-grid-row-span: 10px;
   margin-bottom: 20px;
 }
