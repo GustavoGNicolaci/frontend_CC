@@ -10,16 +10,14 @@ import produto4 from '../assets/images/produto4.png';
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../CartContext'; // Importar o CartContext
 
-function CardProduto({ imageSrc, title, price, buttonText, description }) {
+function CardProduto({ imageSrc, title, price, buttonText, description, stock }) {
     const navigate = useNavigate();
-    const { addToCart, stock } = useContext(CartContext);
+    const { addToCart } = useContext(CartContext);
 
     const handleBuyClick = () => {
-        if (stock[title] > 0) {
+        if (stock > 0) {
             addToCart({ title, imageSrc, price });
             alert(`${title} adicionado ao carrinho!`);
-        } else {
-            alert(`Desculpe, ${title} está fora de estoque.`);
         }
     };
 
@@ -28,9 +26,20 @@ function CardProduto({ imageSrc, title, price, buttonText, description }) {
             <img className={styles.productImage} src={imageSrc} alt={title} />
             <h3 className={styles.productTitle}>{title}</h3>
             <p className={styles.productPrice}>{price}</p>
-            <p className={styles.stockInfo}>Em estoque: {stock[title]}</p>
-            <button className={styles.productButton} onClick={handleBuyClick}>{buttonText}</button>
-            <button className={styles.detailsButton} onClick={() => navigate('/detalhesProduto', { state: { title, imageSrc, price, description } })}>Detalhes</button>
+            <p className={styles.stockInfo}>Em estoque: {stock}</p>
+            <button 
+                className={`${styles.productButton} ${stock === 0 ? styles.disabledButton : ''}`} 
+                onClick={handleBuyClick} 
+                disabled={stock === 0}
+            >
+                {buttonText}
+            </button>
+            <button 
+                className={styles.detailsButton} 
+                onClick={() => navigate('/detalhesProduto', { state: { title, imageSrc, price, description } })}
+            >
+                Detalhes
+            </button>
         </div>
     );
 }

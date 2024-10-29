@@ -1,34 +1,45 @@
-// src/components/carrinho.js
 import React, { useContext } from 'react';
-import { CartContext } from '../CartContext'; // Importar contexto
+import { CartContext } from '../CartContext';
+import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 import NavbarComponent from './navbar';
 import Footer from './footer';
 import styles from './carrinho.module.css';
 
 function Carrinho() {
     const { cartItems, removeFromCart } = useContext(CartContext);
+    const navigate = useNavigate(); // Inicializar useNavigate
 
-    console.log("Itens no carrinho:", cartItems); // Log para verificar os itens no carrinho
+    console.log("Itens no carrinho:", cartItems);
+
+    const handleCheckout = () => {
+        // Redirecionar para a página de checkout
+        navigate('/checkout');
+    };
 
     return (
         <div className={styles.carrinhoPage}>
             <NavbarComponent />
-            <h1 className={styles.title}>Seu Carrinho</h1> {/* Adicionada classe CSS */}
+            <h1 className={styles.title}>Seu Carrinho</h1>
             {cartItems.length === 0 ? (
                 <div className={styles.emptyCart}>
                     <p>Seu carrinho está vazio.</p>
                 </div>
             ) : (
-                cartItems.map((item, index) => (
-                    <div key={index} className={styles.cartItem}>
-                        <img src={item.imageSrc} alt={item.title} className={styles.cartImage} />
-                        <div className={styles.cartDetails}>
-                            <h3>{item.title}</h3>
-                            <p>{item.price}</p>
-                            <button onClick={() => removeFromCart(item.title)}>Remover</button>
+                <>
+                    {cartItems.map((item, index) => (
+                        <div key={index} className={styles.cartItem}>
+                            <img src={item.imageSrc} alt={item.title} className={styles.cartImage} />
+                            <div className={styles.cartDetails}>
+                                <h3>{item.title}</h3>
+                                <p>{item.price}</p>
+                                <button onClick={() => removeFromCart(item.title)}>Remover</button>
+                            </div>
                         </div>
-                    </div>
-                ))
+                    ))}
+                    <button className={styles.checkoutButton} onClick={handleCheckout}>
+                        Fechar Compra
+                    </button>
+                </>
             )}
             <Footer />
         </div>

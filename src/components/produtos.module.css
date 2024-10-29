@@ -5,7 +5,7 @@
 
 .productList {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   padding: 20px;
   padding-top: 15%;
@@ -14,14 +14,16 @@
 /* Responsividade */
 @media (max-width: 1200px) {
   .productList {
-    grid-template-columns: repeat(2, 1fr); /* Duas colunas em telas menores */
+    grid-template-columns: repeat(2, 1fr);
+    /* Duas colunas em telas menores */
     padding-top: 40%;
   }
 }
 
 @media (max-width: 768px) {
   .productList {
-    grid-template-columns: repeat(1, 1fr); /* Uma coluna em telas pequenas */
+    grid-template-columns: repeat(1, 1fr);
+    /* Uma coluna em telas pequenas */
     padding-top: 75%;
   }
 }
@@ -59,29 +61,42 @@
   outline: none;
   padding: 12px;
   color: white;
-  background-color: #663300; 
+  background-color: #663300;
   text-align: center;
   cursor: pointer;
   width: 100%;
-  font-size: 18px; 
+  font-size: 18px;
 }
 
 .productButton:hover {
-    background-color: #27a417; 
+  background-color: #27a417;
 }
 
 .detailsButton {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .detailsButton:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 
 .stockInfo {
-  color: #333; /* Cor do texto */
-  opacity: 0.8; /* Opacidade do texto */
-  font-size: 14px; /* Tamanho da fonte */
-  margin-bottom: 10px; /* Espaçamento abaixo do texto */
+  color: #333;
+  /* Cor do texto */
+  opacity: 0.8;
+  /* Opacidade do texto */
+  font-size: 14px;
+  /* Tamanho da fonte */
+  margin-bottom: 10px;
+  /* Espaçamento abaixo do texto */
+}
+
+.disabledButton {
+  background-color: gray; /* Cor cinza para indicar que está desabilitado */
+  cursor: not-allowed; /* Cursor de não permitido */
+}
+
+.disabledButton:hover {
+  background-color: gray; /* Cor cinza para indicar que está desabilitado */
 }
