@@ -70,13 +70,13 @@ function Produtos() {
             <div className={styles.productList}>
                 {produtos.map((produto) => (
                     <CardProduto
-                        key={produto.id}
-                        imageSrc={produto.imagem}
-                        title={produto.titulo}
-                        price={`R$${produto.preco.toFixed(2)}`}
+                        key={produto._doc.id}
+                        imageSrc={produto._doc.imagem}
+                        title={produto._doc.titulo}
+                        price={`R$${produto._doc.preco.toFixed(2)}`}
                         buttonText="Comprar"
-                        description={produto.descricao}
-                        stock={produto.quantidadeEstoque}
+                        description={produto._doc.descricao}
+                        stock={produto._doc.quantidadeEstoque}
                     />
                 ))}
             </div>
