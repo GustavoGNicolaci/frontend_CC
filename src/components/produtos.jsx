@@ -1,24 +1,19 @@
-// src/components/produtos.js
-import React, { useContext } from 'react';
-/* eslint-disable react/prop-types */
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { CartContext } from '../CartContext'; // Importar o CartContext
-import Footer from './footer';
-import NavbarComponent from './navbar';
 import styles from './produtos.module.css';
+import NavbarComponent from './navbar';
+import Footer from './footer';
+import { useNavigate } from 'react-router-dom';
+import { CartContext } from '../CartContext';
 
-function CardProduto({ imageSrc, title, price, buttonText, description }) {
+function CardProduto({ imageSrc, title, price, buttonText, description, stock }) {
     const navigate = useNavigate();
-    const { addToCart, stock } = useContext(CartContext);
+    const { addToCart } = useContext(CartContext);
 
     const handleBuyClick = () => {
-        if (stock[title] > 0) {
+        if (stock > 0) {
             addToCart({ title, imageSrc, price });
             alert(`${title} adicionado ao carrinho!`);
-        } else {
-            alert(`Desculpe, ${title} está fora de estoque.`);
         }
     };
 
@@ -27,9 +22,20 @@ function CardProduto({ imageSrc, title, price, buttonText, description }) {
             <img className={styles.productImage} src={imageSrc} alt={title} />
             <h3 className={styles.productTitle}>{title}</h3>
             <p className={styles.productPrice}>{price}</p>
-            <p className={styles.stockInfo}>Em estoque: {stock[title]}</p>
-            <button className={styles.productButton} onClick={handleBuyClick}>{buttonText}</button>
-            <button className={styles.detailsButton} onClick={() => navigate('/detalhesProduto', { state: { title, imageSrc, price, description } })}>Detalhes</button>
+            <p className={styles.stockInfo}>Em estoque: {stock}</p>
+            <button 
+                className={`${styles.productButton} ${stock === 0 ? styles.disabledButton : ''}`} 
+                onClick={handleBuyClick} 
+                disabled={stock === 0}
+            >
+                {buttonText}
+            </button>
+            <button 
+                className={styles.detailsButton} 
+                onClick={() => navigate('/detalhesProduto', { state: { title, imageSrc, price, description } })}
+            >
+                Detalhes
+            </button>
         </div>
     );
 }
@@ -44,7 +50,6 @@ function Produtos() {
             try {
                 const response = await axios.get('http://localhost:8080/product');
                 setProdutos(response.data);
-                console.log(response.data);
             } catch (error) {
                 console.error('Erro ao buscar produtos:', error);
                 setError('Erro ao carregar produtos');
@@ -65,13 +70,13 @@ function Produtos() {
             <div className={styles.productList}>
                 {produtos.map((produto) => (
                     <CardProduto
-                        key={produto.id}
-                        imageSrc={produto.imageSrc}
-                        title={produto.title}
-                        price={produto.price}
-                        buttonText={produto.buttonText}
-                        description={produto.description}
-                        stock={produto.stock} // Passando a quantidade em estoque
+                        key={produto._doc.id}
+                        imageSrc={produto._doc.imagem}
+                        title={produto._doc.titulo}
+                        price={`R$${produto._doc.preco.toFixed(2)}`}
+                        buttonText="Comprar"
+                        description={produto._doc.descricao}
+                        stock={produto._doc.quantidadeEstoque}
                     />
                 ))}
             </div>
