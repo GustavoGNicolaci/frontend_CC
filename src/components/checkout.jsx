@@ -13,14 +13,13 @@ function Checkout() {
     const handlePaymentChange = (event) => {
         const paymentMethod = event.target.value;
         setSelectedPayment(paymentMethod);
-        setShowCardDetails(paymentMethod === 'creditCard'); // Mostra o formulário se Cartão de Crédito for selecionado
+        setShowCardDetails(paymentMethod === 'creditCard');
     };
 
-    // Exemplo de valores - substitua pelos valores reais conforme necessário
-    const productPrice = 17.00; // Preço do produto
-    const shippingCost = 0.00; // Custo de frete
-    const totalPrice = productPrice + shippingCost; // Total a pagar
-
+    const productPrice = 17.00; 
+    const shippingCost = 0.00;
+    const totalPrice = productPrice + shippingCost; 
+    
     return (
         <div className={styles.checkoutPage}>
             <NavbarComponent />

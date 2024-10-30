@@ -10,10 +10,18 @@ function CardProduto({ imageSrc, title, price, buttonText, description, stock })
     const navigate = useNavigate();
     const { addToCart } = useContext(CartContext);
 
-    const handleBuyClick = () => {
+    const handleBuyClick = async () => {
         if (stock > 0) {
-            addToCart({ title, imageSrc, price });
-            alert(`${title} adicionado ao carrinho!`);
+            try {
+                addToCart({ title, imageSrc, price });
+
+                await axios.put(`http://localhost:8080/product/${title}`, { quantidadeEstoque: stock - 1 });
+
+                alert(`${title} adicionado ao carrinho!`);
+            } catch (error) {
+                console.error('Erro ao atualizar estoque:', error);
+                alert('Erro ao adicionar produto ao carrinho. Tente novamente.');
+            }
         }
     };
 
@@ -23,15 +31,15 @@ function CardProduto({ imageSrc, title, price, buttonText, description, stock })
             <h3 className={styles.productTitle}>{title}</h3>
             <p className={styles.productPrice}>{price}</p>
             <p className={styles.stockInfo}>Em estoque: {stock}</p>
-            <button 
-                className={`${styles.productButton} ${stock === 0 ? styles.disabledButton : ''}`} 
-                onClick={handleBuyClick} 
+            <button
+                className={`${styles.productButton} ${stock === 0 ? styles.disabledButton : ''}`}
+                onClick={handleBuyClick}
                 disabled={stock === 0}
             >
                 {buttonText}
             </button>
-            <button 
-                className={styles.detailsButton} 
+            <button
+                className={styles.detailsButton}
                 onClick={() => navigate('/detalhesProduto', { state: { title, imageSrc, price, description } })}
             >
                 Detalhes

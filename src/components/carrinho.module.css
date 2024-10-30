@@ -40,7 +40,7 @@
 }
 
 .checkoutButton {
-    background-color: #28a745; /* Cor verde */
+    background-color: #27a417; /* Cor verde */
     color: white; /* Texto branco */
     border: none; /* Sem borda */
     padding: 10px 20px; /* Espaçamento interno */
@@ -53,5 +53,5 @@
 }
 
 .checkoutButton:hover {
-    background-color: #218838; /* Cor verde mais escura ao passar o mouse */
+    opacity: 0.8;
 }
