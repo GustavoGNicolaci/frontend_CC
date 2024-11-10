@@ -90,3 +90,7 @@ body {
 .confirmar-senha {
   display: flex;
 }
+
+.registerForm {
+  max-width: 460px !important;
+}
