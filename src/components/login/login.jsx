@@ -66,7 +66,7 @@ const Login = () => {
     return (
         <div className={styles.loginPage}>
             <NavbarComponent />
-            <div className={styles.form}>
+            <div className={`${styles.form} ${isRegistering ? styles.registerForm : ''}`}>
                 {isRegistering ? (
                     <Cadastro
                         email={email}

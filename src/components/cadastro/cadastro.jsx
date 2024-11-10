@@ -12,7 +12,7 @@ const Cadastro = ({
     toggleForm
 }) => {
     return (
-        <div  className={styles.container}>
+        <div>
             <h2 className={styles.welcomeMessage}>Cadastre-se</h2>
             <form className={styles.registerForm} onSubmit={handleRegister}>
                 <div className={styles.informacoesPessoais}>
@@ -35,6 +35,8 @@ const Cadastro = ({
                         type="text"
                         placeholder="CPF"
                         className={styles.input}
+                        mask="999.999.999-99"
+                        pattern="(\d{3}\.?\d{3}\.?\d{3}-?\d{2})|(\d{2}\.?\d{3}\.?\d{3}/?\d{4}-?\d{2})"
                         value={cpf}
                         onChange={(e) => setCpf(e.target.value)}
                     />
@@ -72,7 +74,7 @@ const Cadastro = ({
 
                 <button type="submit" className={styles.button}>Cadastrar</button>
                 <p className={styles.message}>
-                    Já tem uma conta? <a href="#" onClick={toggleForm}>Login</a>
+                    Já tem uma conta? <a href="#" className={styles.link} onClick={toggleForm}>Login</a>
                 </p>
             </form>
         </div>
