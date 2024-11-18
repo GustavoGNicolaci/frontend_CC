@@ -1,20 +1,40 @@
 // Cadastro.jsx
-import React from 'react';
+import React, { useState } from 'react';
+import InputMask from 'react-input-mask';
+import { registro } from '../../services/loginService'; // Importe o serviço de registro
 import styles from './cadastro.module.css';
 
-const Cadastro = ({
-    email, setEmail,
-    cpf, setCpf,
-    phone, setPhone,
-    password, setPassword,
-    confirmPassword, setConfirmPassword,
-    fieldErrors, handleRegister,
-    toggleForm
-}) => {
+const Cadastro = () => {
+    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [phone, setPhone] = useState('');
+    const [fieldErrors] = useState({});
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await registro(email, name, password, cpf, phone, confirmPassword);
+            console.log('Registro bem-sucedido:', response);
+            setIsModalOpen(true); // Abre a modal
+        } catch (error) {
+            console.error('Erro ao fazer registro:', error);
+        }
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const toggleForm = () => {};
+
     return (
         <div>
             <h2 className={styles.welcomeMessage}>Cadastre-se</h2>
-            <form className={styles.registerForm} onSubmit={handleRegister}>
+            <form className={styles.registerForm} onSubmit={handleSubmit}>
                 <div className={styles.informacoesPessoais}>
                     <input
                         type="text"
@@ -27,19 +47,20 @@ const Cadastro = ({
                     
                     <input
                         type="text"
-                        placeholder="Nome de usuário"
+                        placeholder="Nome"
                         className={styles.input}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                     />
+                    {fieldErrors.name && <p className={styles.error}>{fieldErrors.name}</p>}
 
-                    <input
-                        type="text"
-                        placeholder="CPF"
-                        className={styles.input}
+                    <InputMask
                         mask="999.999.999-99"
-                        pattern="(\d{3}\.?\d{3}\.?\d{3}-?\d{2})|(\d{2}\.?\d{3}\.?\d{3}/?\d{4}-?\d{2})"
                         value={cpf}
                         onChange={(e) => setCpf(e.target.value)}
-                    />
+                    >
+                        {(inputProps) => <input {...inputProps} type="text" placeholder="CPF" className={styles.input} />}
+                    </InputMask>
                     {fieldErrors.cpf && <p className={styles.error}>{fieldErrors.cpf}</p>}
                             
                     <input
@@ -77,6 +98,17 @@ const Cadastro = ({
                     Já tem uma conta? <a href="#" className={styles.link} onClick={toggleForm}>Login</a>
                 </p>
             </form>
+
+            {isModalOpen && (
+                <div className={styles.modal}>
+                    <div className={styles.modalContent}>
+                        <span className={styles.close} onClick={closeModal}>&times;</span>
+                        <p>Usuário criado com sucesso!</p>
+                    </div>
+                </div>
+            )}
+
+
         </div>
     );
 };
