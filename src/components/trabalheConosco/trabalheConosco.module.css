@@ -1,0 +1,88 @@
+.trabalheConoscoPage {
+    padding: 20px;
+    margin-top: 5%;
+}
+
+.container {
+    display: flex; 
+}
+
+.servicosWrapper {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-right: 20px; 
+    flex-basis: 30%; 
+}
+
+.servicosList {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.servicoItem {
+    margin-bottom: 10px;
+}
+
+.formWrapper {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex-basis: 65%;
+}
+
+.formWrapper h2 {
+    color: #663300;
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.formContainer {
+    display: flex; 
+    flex-wrap: wrap; 
+}
+
+.column {
+    flex: 1;
+    min-width: 300px; 
+    margin-right: 20px; 
+}
+
+.column:last-child {
+    margin-right: 0;
+}
+
+.formGroup {
+    margin-bottom: 15px; 
+}
+
+label {
+    display: block;
+    margin-bottom: 5px; 
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.submitButton {
+    background-color: #663300; 
+    color: white;
+    border: none;
+    padding: 10px; 
+    border-radius: 5px;
+    cursor: pointer;
+    width: 150px; 
+    height: 40px; 
+    font-size: 16px; 
+}
+
+.submitButton:hover {
+    opacity: 0.8; 
+}

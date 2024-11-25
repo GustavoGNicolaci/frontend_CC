@@ -1,0 +1,35 @@
+.sobreCafeConnectPage {
+    padding: 20px;
+}
+
+.contentWrapper {
+    background-color: white; 
+    padding: 20px;
+    border-radius: 5px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 800px; 
+    margin: 20px auto; 
+    margin-top: 75%; 
+}
+
+
+h1 {
+    color: #663300;
+    font-size: 24px; 
+    margin-bottom: 15px;
+}
+
+h2 {
+    color: #663300;
+    font-size: 20px;
+    margin-top: 20px; 
+}
+
+p {
+    font-size: 16px; 
+    line-height: 1.5; 
+}
+
+ul {
+    margin-left: 20px;
+}

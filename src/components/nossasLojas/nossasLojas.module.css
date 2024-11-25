@@ -1,0 +1,52 @@
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.nossasLojasPage {
+    padding: 20px;
+}
+
+.cardsWrapper {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+.cardsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    background-color: #DFDCCA;
+    border-radius: 5px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    flex: 1 1 calc(25% - 20px); 
+    min-width: 250px; 
+}
+
+.card h2 {
+    font-size: 18px;
+}
+
+.card p {
+    margin-bottom: 15px;
+}
+
+.verMaisButton {
+    background-color: #663300; 
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.verMaisButton:hover {
+    opacity: 0.8;
+}

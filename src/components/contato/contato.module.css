@@ -1,0 +1,62 @@
+.contatoPage {
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20%;
+}
+
+.formContainer {
+    flex: 1;
+    margin-right: 20px;
+    background-color: white; 
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 20px; 
+}
+
+.formContainer h1 {
+    margin-bottom: 20px;
+}
+
+.infoContainer {
+    flex: 0.3;
+    background-color: #f8f9fa; 
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px; 
+}
+
+.formGroup {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.submitButton {
+    background-color: #663300;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    opacity: 0.8;
+}
