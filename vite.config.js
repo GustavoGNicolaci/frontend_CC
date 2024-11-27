@@ -6,7 +6,7 @@ export default defineConfig({
     server: {
         proxy: {
             '/auth': {
-                target: 'http://localhost:8080',
+                target: 'http://localhost:5002',
                 changeOrigin: true,
                 secure: false,
             },

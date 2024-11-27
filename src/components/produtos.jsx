@@ -15,7 +15,7 @@ function CardProduto({ imageSrc, title, price, buttonText, description, stock })
             try {
                 addToCart({ title, imageSrc, price });
 
-                await axios.put(`http://localhost:8080/product/${title}`, { quantidadeEstoque: stock - 1 });
+                await axios.put(`http://localhost:5002/product/${title}`, { quantidadeEstoque: stock - 1 });
 
                 alert(`${title} adicionado ao carrinho!`);
             } catch (error) {
@@ -58,7 +58,7 @@ function Produtos() {
     useEffect(() => {
         const fetchProdutos = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/product');
+                const response = await axios.get('http://localhost:5002/product');
                 setProdutos(response.data);
             } catch (error) {
                 console.error('Erro ao buscar produtos:', error);
