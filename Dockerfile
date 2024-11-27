@@ -1,20 +1,26 @@
-FROM node:latest
+# Fase 1: Construindo a aplicação
+FROM node:18-alpine AS build
 
-WORKDIR /tmp/react
+WORKDIR /app
 
-COPY . .
+#Copiando o arquivo package.json e o package-lock.json para instalar as dependências
+COPY package.json package-lock.json ./
 
-RUN rm -rf node_modules
+#Instalando dependências
 RUN npm install
 
+#Copiando todos os arquivos do projeto
+COPY . .
+
+#Construindo a aplicação para produção
 RUN npm run build
 
-RUN mkdir -p /var/www/html
+#Fase 2: Servindo a aplicação com Nginx
+FROM nginx:alpine
 
-RUN mv dist/* /var/www/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
-VOLUME /var/www/html
+#Expondo a porta usada pelo Nginx
+EXPOSE 80
 
-WORKDIR /
-
-RUN rm -rf /tmp/react
+CMD ["nginx", "-g", "daemon off;"]
