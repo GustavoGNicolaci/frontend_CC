@@ -4,70 +4,69 @@
 }
 
 .title {
-    color: white; 
+    color: white;
     text-align: center;
 }
 
 .checkoutContainer {
     display: flex;
     justify-content: space-between;
-    gap: 20px; /* Espaçamento entre as seções */
+    gap: 20px;
 }
 
 .addressSection,
 .paymentSection {
     flex: 1;
-    background-color: white; /* Fundo branco */
-    padding: 20px; /* Espaçamento interno */
-    border-radius: 8px; /* Bordas arredondadas */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* ... outros estilos permanecem inalterados ... */
 .inputGroup {
     margin-bottom: 15px;
-    display: flex; /* Usar flexbox para alinhar rótulos e campos */
-    flex-direction: column; /* Colocar rótulo acima do campo */
+    display: flex;
+    flex-direction: column;
 }
 
 .inputGroup label {
-    margin-bottom: 5px; /* Espaçamento entre o rótulo e o campo */
+    margin-bottom: 5px;
 }
 
 .paymentOptions {
     display: flex;
-    flex-direction: column; /* Alinha as opções de pagamento verticalmente */
+    flex-direction: column;
 }
 
 .paymentOption {
-    margin-bottom: 20px; /* Aumenta o espaço entre as opções */
-    cursor: pointer; /* Muda o cursor para indicar que é clicável */
-    padding: 10px; /* Espaçamento interno para melhorar a área clicável */
-    border-radius: 5px; /* Bordas arredondadas para um efeito visual melhor */
-    transition: background-color 0.2s; /* Transição suave para a mudança de cor */
+    margin-bottom: 20px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
 }
 
 .paymentOption:hover {
-    background-color: #f0f0f0; /* Cor de fundo ao passar o mouse */
+    background-color: #f0f0f0;
 }
 
 .selected {
-    background-color: #e0e0e0; /* Cor de fundo quando selecionado */
+    background-color: #e0e0e0;
 }
 
 .buttonContainer {
     display: flex;
-    justify-content: space-between; /* Espaça os botões */
-    margin-top: 20px; /* Espaçamento acima dos botões */
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
 .submitButton {
-    padding: 15px 30px; /* Aumenta o tamanho do botão */
-    background-color: #27a417; /* Verde */
+    padding: 15px 30px;
+    background-color: #27a417;
     color: white;
     border: none;
     cursor: pointer;
-    font-size: 16px; /* Aumenta o tamanho da fonte */
+    font-size: 16px;
 }
 
 .submitButton:hover {
@@ -75,12 +74,12 @@
 }
 
 .backButton {
-    padding: 15px 30px; /* Aumenta o tamanho do botão Voltar */
+    padding: 15px 30px;
     background-color: #663300;
     color: white;
     border: none;
     cursor: pointer;
-    font-size: 16px; /* Aumenta o tamanho da fonte */
+    font-size: 16px;
 }
 
 .backButton:hover {
@@ -88,52 +87,46 @@
 }
 
 .cardDetailsForm {
-    margin-top: 20px; /* Espaço acima do formulário de detalhes do cartão */
+    margin-top: 20px;
 }
 
 .expiryDate {
-    display: flex; /* Usar flexbox para alinhar mês e ano lado a lado */
-    align-items: center; /* Alinha verticalmente os elementos */
-}
-
-.paymentOptions {
     display: flex;
-    flex-direction: column; /* Alinha as opções de pagamento verticalmente */
-}
-
-.paymentOption {
-    margin-bottom: 20px; /* Aumenta o espaço entre as opções */
-    cursor: pointer; /* Muda o cursor para indicar que é clicável */
-    padding: 10px; /* Espaçamento interno para melhorar a área clicável */
-    border-radius: 5px; /* Bordas arredondadas para um efeito visual melhor */
-    transition: background-color 0.2s; /* Transição suave para a mudança de cor */
-}
-
-.paymentOption:hover {
-    background-color: #f0f0f0; /* Cor de fundo ao passar o mouse */
-}
-
-.selected {
-    background-color: #e0e0e0; /* Cor de fundo quando selecionado */
+    align-items: center;
 }
 
 .totalSection {
-    flex: 0.75; /* Aumenta a largura para 75% das outras seções */
-    background-color: white; /* Fundo branco */
-    padding: 20px; /* Espaçamento interno */
-    border-radius: 8px; /* Bordas arredondadas */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-    display: flex; /* Usar flexbox para centralizar conteúdo */
-    flex-direction: column; /* Alinha os itens verticalmente */
-    align-items: center; /* Centraliza horizontalmente */
+    flex: 0.75;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     height: 15%;
 }
 
 .totalSection h2 {
-    margin-bottom: 10px; /* Espaçamento abaixo do título */
+    margin-bottom: 10px;
 }
 
 .totalSection p {
-    margin: 5px 0; /* Espaçamento entre os parágrafos */
-    font-size: 16px; /* Diminui o tamanho da fonte dos preços */
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.disabled {
+    background-color: #f0f0f0;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.disabledButton {
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+.disabledButton:hover {
+    opacity: 1;
 }
