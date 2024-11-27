@@ -1,4 +1,3 @@
-// src/CartContext.js
 import React, { createContext, useState } from 'react';
 
 export const CartContext = createContext();
@@ -13,9 +12,23 @@ export const CartProvider = ({ children }) => {
     });
 
     const addToCart = (item) => {
-        setCartItems((prevItems) => [...prevItems, item]);
-        // Diminui o estoque
-        setStock((prevStock) => ({
+        console.log("Adicionando ao carrinho:", item);
+
+        const existingItem = cartItems.find(cartItem => cartItem.title === item.title);
+
+        if (existingItem) {
+            setCartItems(prevItems =>
+                prevItems.map(cartItem =>
+                    cartItem.title === item.title
+                        ? { ...cartItem, quantity: cartItem.quantity + 1 }
+                        : cartItem
+                )
+            );
+        } else {
+            setCartItems(prevItems => [...prevItems, { ...item, quantity: 1 }]);
+        }
+
+        setStock(prevStock => ({
             ...prevStock,
             [item.title]: prevStock[item.title] > 0 ? prevStock[item.title] - 1 : 0,
         }));

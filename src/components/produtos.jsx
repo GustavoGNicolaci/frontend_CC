@@ -22,6 +22,8 @@ function CardProduto({ imageSrc, title, price, buttonText, description, stock })
                 console.error('Erro ao atualizar estoque:', error);
                 alert('Erro ao adicionar produto ao carrinho. Tente novamente.');
             }
+        } else {
+            alert('Produto esgotado!');
         }
     };
 
