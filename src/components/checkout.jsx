@@ -25,7 +25,7 @@ function Checkout() {
         setIsAddressComplete(cep && city && street && number);
     };
 
-    const productPrice = 0.00;
+    const productPrice = item.totalPrice;
     const shippingCost = 0.00;
     const totalPrice = productPrice + shippingCost;
 
