@@ -1,8 +1,20 @@
-# React + Vite
+# SPA CafeConnect
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bem-vindo ao repositório da imagem do front-end da aplicação CafeConnect! Este é o front-end do projeto **CafeConnect**, um e-commerce voltado para apaixonados por café.
 
-Currently, two official plugins are available:
+## Sobre a Aplicação
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+O SPA (Single Page Application) CafeConnect oferece uma interface moderna e interativa para os usuários navegarem, aprenderem sobre cafés e comprarem produtos relacionados.
+
+## Repositório da Imagem Docker
+
+A imagem do front-end está disponível no Docker Hub e pode ser acessada pelo link abaixo:
+
+👉 [gehfernandes/spa-cafe-connect](https://hub.docker.com/repository/docker/gehfernandes/spa-cafe-connect/general)
+
+## Como Usar
+
+1. Certifique-se de ter o Docker instalado em sua máquina.
+2. Puxe a imagem do Docker Hub utilizando o comando:
+   ```bash
+   docker pull gehfernandes/spa-cafe-connect:latest
