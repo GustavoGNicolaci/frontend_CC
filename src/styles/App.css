@@ -38,9 +38,11 @@
 }
 
 .btn-veja {
-  color: #663300 !important;
-  font-family: 'Roboto', sans-serif;
-  font-size: 18px;
+  a {
+    color: #663300 !important;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+  }
 }
 
 .content {
