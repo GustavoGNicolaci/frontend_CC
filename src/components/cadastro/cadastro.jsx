@@ -37,11 +37,12 @@ const Cadastro = () => {
             <form className={styles.registerForm} onSubmit={handleSubmit}>
                 <div className={styles.informacoesPessoais}>
                     <input
-                        type="text"
+                        type="email"
                         placeholder="E-mail"
-                        className={styles.input}
+                        className={`${styles.input} ${fieldErrors.email ? styles.errorInput : ''}`}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        required
                     />
                     {fieldErrors.email && <p className={styles.error}>{fieldErrors.email}</p>}
                     
@@ -63,13 +64,13 @@ const Cadastro = () => {
                     </InputMask>
                     {fieldErrors.cpf && <p className={styles.error}>{fieldErrors.cpf}</p>}
                             
-                    <input
-                        type="text"
-                        placeholder="Telefone"
-                        className={styles.input}
+                    <InputMask
+                        mask="(99) 99999-9999"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                    />
+                    >
+                        {(inputProps) => <input {...inputProps} type="text" placeholder="Telefone" className={styles.input} />}
+                    </InputMask>
                     {fieldErrors.phone && <p className={styles.error}>{fieldErrors.phone}</p>}
                 </div>
 
@@ -107,8 +108,6 @@ const Cadastro = () => {
                     </div>
                 </div>
             )}
-
-
         </div>
     );
 };
