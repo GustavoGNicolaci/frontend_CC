@@ -96,7 +96,7 @@ const Cadastro = () => {
 
                 <button type="submit" className={styles.button}>Cadastrar</button>
                 <p className={styles.message}>
-                    Já tem uma conta? <a href="#" className={styles.link} onClick={toggleForm}>Login</a>
+                    Já tem uma conta? <a href="/login" className={styles.link} onClick={toggleForm}>Login</a>
                 </p>
             </form>
 
@@ -105,6 +105,7 @@ const Cadastro = () => {
                     <div className={styles.modalContent}>
                         <span className={styles.close} onClick={closeModal}>&times;</span>
                         <p>Usuário criado com sucesso!</p>
+                        <button className={styles.button} href="/login" onClick={toggleForm}>Login</button>
                     </div>
                 </div>
             )}
