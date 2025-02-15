@@ -1,8 +1,12 @@
 // Cadastro.jsx
 import React, { useState } from 'react';
 import InputMask from 'react-input-mask';
-import { registro } from '../../services/loginService'; // Importe o serviço de registro
+import { registro } from '../../services/loginService';
+import MessageModal from '../shared/messageModal/messageModal';
+import LoadingModal from '../shared/loadingModal/loadingModal';
 import styles from './cadastro.module.css';
+import SucessoIcon from '../../assets/images/sucesso.svg';
+import { useNavigate } from 'react-router-dom';
 
 const Cadastro = () => {
     const [email, setEmail] = useState('');
@@ -13,20 +17,27 @@ const Cadastro = () => {
     const [phone, setPhone] = useState('');
     const [fieldErrors] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         try {
             const response = await registro(email, name, password, cpf, phone, confirmPassword);
             console.log('Registro bem-sucedido:', response);
-            setIsModalOpen(true); // Abre a modal
+            setIsLoading(false);
+            setIsModalOpen(true); 
         } catch (error) {
             console.error('Erro ao fazer registro:', error);
+            setIsLoading(false);
         }
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
+        navigate('/login');
+
     };
 
     const toggleForm = () => {};
@@ -100,15 +111,15 @@ const Cadastro = () => {
                 </p>
             </form>
 
+            {isLoading && <LoadingModal />}
             {isModalOpen && (
-                <div className={styles.modal}>
-                    <div className={styles.modalContent}>
-                        <span className={styles.close} onClick={closeModal}>&times;</span>
-                        <p>Usuário criado com sucesso!</p>
-                        <button className={styles.button} href="/login" onClick={toggleForm}>Login</button>
-                    </div>
-                </div>
+                <MessageModal
+                    icon={<img src={SucessoIcon} alt="Sucesso" />} // Exemplo de ícone, pode ser substituído por qualquer ícone desejado
+                    message="Cadastro realizado com sucesso"
+                    onClose={closeModal}
+                />
             )}
+
         </div>
     );
 };
