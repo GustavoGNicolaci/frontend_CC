@@ -4,26 +4,20 @@ import { login } from '../../services/loginService';
 import Cadastro from '../cadastro/cadastro';
 import Footer from '../footer';
 import NavbarComponent from '../navbar';
+import LoadingModal from '../shared/loadingModal/loadingModal';
 import styles from './login.module.css';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [cpf, setCpf] = useState('');
-    const [phone, setPhone] = useState('');
     const [fieldErrors, setFieldErrors] = useState({});
     const [error, setError] = useState('');
     const [isRegistering, setIsRegistering] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const validateFields = () => {
         const errors = {};
-        if (isRegistering) {
-            if (password !== confirmPassword) errors.confirmPassword = 'As senhas não coincidem';
-            if (!cpf) errors.cpf = 'CPF é obrigatório';
-            if (!phone) errors.phone = 'Telefone é obrigatório';
-        }
         return errors;
     };
 
@@ -34,28 +28,15 @@ const Login = () => {
             setFieldErrors(errors);
             return;
         }
+        setIsLoading(true);
         try {
             const data = await login(email, password);
             console.log('Login bem-sucedido:', data);
             navigate('/produtos');
         } catch (error) {
             setError('Nome de usuário ou senha incorretos');
-        }
-    };
-
-    const handleRegister = async (e) => {
-        e.preventDefault();
-        const errors = validateFields();
-        if (Object.keys(errors).length > 0) {
-            setFieldErrors(errors);
-            return;
-        }
-        try {
-            const data = await login.registro(email, password, cpf, phone);
-            console.log('Cadastro bem-sucedido:', data);
-            navigate('/produtos');
-        } catch (error) {
-            setError('Erro no cadastro');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -68,21 +49,7 @@ const Login = () => {
             <NavbarComponent />
             <div className={`${styles.form} ${isRegistering ? styles.registerForm : ''}`}>
                 {isRegistering ? (
-                    <Cadastro
-                        email={email}
-                        setEmail={setEmail}
-                        cpf={cpf}
-                        setCpf={setCpf}
-                        phone={phone}
-                        setPhone={setPhone}
-                        password={password}
-                        setPassword={setPassword}
-                        confirmPassword={confirmPassword}
-                        setConfirmPassword={setConfirmPassword}
-                        fieldErrors={fieldErrors}
-                        handleRegister={handleRegister}
-                        toggleForm={toggleForm}
-                    />
+                    <Cadastro />
                 ) : (
                     <div>
                         <h2 className={styles.welcomeMessage}>Seja Bem-vindo(a)!</h2>
@@ -113,6 +80,7 @@ const Login = () => {
                 )}
             </div>
             <Footer />
+            {isLoading && <LoadingModal />}
         </div>
     );
 };
