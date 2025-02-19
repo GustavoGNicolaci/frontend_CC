@@ -5,10 +5,13 @@ import { registro } from '../../services/loginService';
 import MessageModal from '../shared/messageModal/messageModal';
 import LoadingModal from '../shared/loadingModal/loadingModal';
 import styles from './cadastro.module.css';
-import SucessoIcon from '../../assets/images/sucesso.svg';
+import sucessoIcon from '../../assets/images/sucesso.svg';
+import errorIcon from '../../assets/images/error.svg';
 import { useNavigate } from 'react-router-dom';
 
 const Cadastro = () => {
+    const [errorMessage, setErrorMessage] = useState('');
+
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
@@ -23,13 +26,13 @@ const Cadastro = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
+        setErrorMessage('');
         try {
-            const response = await registro(email, name, password, cpf, phone, confirmPassword);
-            console.log('Registro bem-sucedido:', response);
-            setIsLoading(false);
+            await registro(email, name, password, cpf, phone, confirmPassword);
             setIsModalOpen(true); 
         } catch (error) {
-            console.error('Erro ao fazer registro:', error);
+            setErrorMessage('Erro ao fazer registro. Por favor, tente novamente.');
+        } finally {
             setIsLoading(false);
         }
     };
@@ -112,11 +115,20 @@ const Cadastro = () => {
             </form>
 
             {isLoading && <LoadingModal />}
-            {isModalOpen && (
+
+            {isModalOpen && !errorMessage && (
                 <MessageModal
-                    icon={<img src={SucessoIcon} alt="Sucesso" />} // Exemplo de ícone, pode ser substituído por qualquer ícone desejado
+                    icon={<img src={sucessoIcon} alt="Sucesso" />}
                     message="Cadastro realizado com sucesso"
                     onClose={closeModal}
+                />
+            )}
+
+            {errorMessage && (
+                <MessageModal
+                    icon={<img src={errorIcon} alt="Erro" />}
+                    message={errorMessage}
+                    onClose={() => setErrorMessage('')}
                 />
             )}
 
