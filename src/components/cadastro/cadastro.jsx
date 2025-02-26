@@ -129,14 +129,6 @@ const Cadastro = () => {
                     />
                     {fieldErrors.cidade && <p className={styles.error}>{fieldErrors.cidade}</p>}
 
-                    <input
-                        type="text"
-                        placeholder="Bairro"
-                        className={styles.input}
-                        value={bairro}
-                        onChange={(e) => setBairro(e.target.value)}
-                    />
-                    {fieldErrors.bairro && <p className={styles.error}>{fieldErrors.bairro}</p>}
                 </div>
 
                 <div className={styles.confirmarSenha}>
