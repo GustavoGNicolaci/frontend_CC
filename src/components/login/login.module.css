@@ -92,5 +92,7 @@ body {
 }
 
 .registerForm {
-  max-width: 460px !important;
+  max-width: 740px !important;
+  padding-top: 1px;
+  margin-top: 11rem;
 }
