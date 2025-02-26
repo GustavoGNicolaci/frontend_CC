@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
 .container {
-  max-height: 27rem;
+  max-height: 28rem;
 }
 
 .input {
@@ -22,7 +22,7 @@
   text-transform: uppercase;
   outline: 0;
   background: #663300;
-  width: 95%;
+  width: 71%;
   border: 0;
   padding: 15px;
   color: #FFFFFF;
@@ -30,6 +30,7 @@
   -webkit-transition: all 0.3 ease;
   transition: all 0.3 ease;
   cursor: pointer;
+  height: 3rem;
 }
 
 .button:hover,
@@ -50,7 +51,7 @@
   color: #333;
 }
 
-.informacoesPessoais {
+.informacoesPessoais, .endereco {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -58,7 +59,7 @@
 }
 
 .endereco {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 .confirmarSenha {
@@ -66,8 +67,8 @@
   margin-left: 0.5rem;
   display: flex;
   -ms-grid-row-span: 10px;
-  margin-bottom: 20px;
   gap: 10px;
+  margin-left: 6.05rem;
 }
 
 .message {
