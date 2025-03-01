@@ -4,6 +4,29 @@
   max-height: 28rem;
 }
 
+.welcomeMessage {
+  font-size: 24px;
+  font-family: 'Dancing Script', cursive;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.registerForm {
+  max-height: 334px;
+  overflow: auto;
+}
+
+.informacoesPessoais, .endereco {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+}
+
+.endereco {
+  margin-bottom: 0px;
+}
+
 .input {
   font-family: "Roboto", sans-serif;
   outline: 0;
@@ -15,6 +38,19 @@
   box-sizing: border-box;
   font-size: 14px;
   gap: 10px;
+}
+
+.errorInput {
+  border: 2px solid red;
+}
+
+.confirmarSenha {
+  max-width: 95%;
+  margin-left: 0.5rem;
+  display: flex;
+  -ms-grid-row-span: 10px;
+  gap: 10px;
+  margin-left: 6.05rem;
 }
 
 .button {
@@ -37,38 +73,6 @@
 .button:active,
 .button:focus {
   opacity: 0.6;
-}
-
-.error {
-  color: red;
-  font-size: 12px;
-}
-
-.welcomeMessage {
-  font-size: 24px;
-  font-family: 'Dancing Script', cursive;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.informacoesPessoais, .endereco {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  margin-bottom: 20px;
-}
-
-.endereco {
-  margin-bottom: 0px;
-}
-
-.confirmarSenha {
-  max-width: 95%;
-  margin-left: 0.5rem;
-  display: flex;
-  -ms-grid-row-span: 10px;
-  gap: 10px;
-  margin-left: 6.05rem;
 }
 
 .message {
@@ -119,4 +123,9 @@
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
 }
