@@ -1,8 +1,8 @@
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 
-const SECRET_KEY = process.env.REACT_APP_SECRET_KEY || 'default-secret-key';
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5002';
+const SECRET_KEY = 'default-secret-key';
+const API_URL = 'http://localhost:5002';
 
 const encryptData = (data: string) => {
     return CryptoJS.AES.encrypt(data, SECRET_KEY).toString();
