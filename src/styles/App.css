@@ -11,8 +11,10 @@
 .navbar {
   position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 1030;
 }
 
 .nav-color {
@@ -37,20 +39,18 @@
   background-color: #663300 !important;
 }
 
-.btn-veja {
-  a {
-    color: #663300 !important;
-    font-family: 'Roboto', sans-serif;
-    font-size: 18px;
-  }
+.btn-veja a {
+  color: #663300 !important;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
 }
 
 .content {
-  padding-top: 80px;
+  padding-top: 20px;
 }
 
 body {
-    padding-top: 12%;
+  padding-top: 76px;
 }
 
 html {
@@ -67,27 +67,47 @@ html {
   opacity: 0.5 !important; 
 }
 
-
 .mx-auto {
-    flex: 1; 
-    display: flex; 
-    justify-content: center;
+  flex: 1; 
+  display: flex; 
+  justify-content: center;
 }
 
-
 .form-control {
-    width: 100%; 
-    max-width: 300px;
+  width: 100%; 
+  max-width: 300px;
 }
 
 .btn-pesquisa {
-    background-color: #663300; 
-    color: #DFDCCA; 
-    border: none;
-    height: 100%;
+  background-color: #663300; 
+  color: #DFDCCA; 
+  border: none;
+  height: 100%;
 }
 
 .btn-pesquisa:hover {
-    background-color: #663300 !important;
-    opacity: 0.6 !important; 
+  background-color: #663300 !important;
+  opacity: 0.6 !important; 
+}
+
+@media (max-width: 991px) {
+  .navbar-collapse {
+    background-color: #DFDCCA;
+    padding: 10px;
+  }
+
+  .nav-font, .btn-veja a {
+    text-align: center;
+  }
+
+  .mx-auto {
+    margin-top: 10px;
+  }
+
+  .d-flex.align-items-center {
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+
 }
