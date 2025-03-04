@@ -101,21 +101,27 @@
   }
 }
 
+@media (max-height: 680px) {
+  .productList {
+    padding-top: 15%;
+  }
+}
+
 @media (max-height: 580px) {
   .productList {
-    padding-top: 30%;
+    padding-top: 25%;
   }
 }
 
 @media (max-height: 480px) {
   .productList {
-    padding-top: 40%;
+    padding-top: 35%;
   }
 }
 
 @media (max-height: 380px) {
   .productList {
-    padding-top: 50%;
+    padding-top: 45%;
   }
 }
 
