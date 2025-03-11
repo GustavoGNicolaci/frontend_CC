@@ -1,13 +1,15 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import InputMask from 'react-input-mask';
-import { registro } from '../../services/loginService';
-import MessageModal from '../shared/messageModal/messageModal';
-import LoadingModal from '../shared/loadingModal/loadingModal';
-import RequisitoSenhaModal from '../cadastro/requisitoSenha/requisitoSenha';
-import styles from './cadastro.module.css';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import InputMask from 'react-input-mask';
+import { useNavigate } from 'react-router-dom';
+import invisivel from '../../assets/images/invisivel.png';
+import visivel from '../../assets/images/visivel.png';
+import { registro } from '../../services/loginService';
+import RequisitoSenhaModal from '../cadastro/requisitoSenha/requisitoSenha';
+import LoadingModal from '../shared/loadingModal/loadingModal';
+import MessageModal from '../shared/messageModal/messageModal';
+import styles from './cadastro.module.css';
 
 const Cadastro = () => {
     const [errorMessage, setErrorMessage] = useState('');
@@ -29,6 +31,8 @@ const Cadastro = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [passwordStrength, setPasswordStrength] = useState('');
     const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -42,6 +46,14 @@ const Cadastro = () => {
                     setBairro(data.bairro);
                     setCidade(data.localidade);
                     setEstado(data.uf);
+                    setFieldErrors((prevErrors) => {
+                        const newErrors = { ...prevErrors };
+                        delete newErrors.rua;
+                        delete newErrors.bairro;
+                        delete newErrors.cidade;
+                        delete newErrors.estado;
+                        return newErrors;
+                    });
                 } catch (error) {
                     console.error('Erro ao buscar endereço:', error);
                 }
@@ -97,6 +109,11 @@ const Cadastro = () => {
 
     const handleCepChange = (e) => {
         setCep(e.target.value);
+        setFieldErrors((prevErrors) => {
+            const newErrors = { ...prevErrors };
+            delete newErrors.cep;
+            return newErrors;
+        });
     };
 
     const handleInputChange = (setter, field) => (e) => {
@@ -220,25 +237,43 @@ const Cadastro = () => {
                 </div>
 
                 <div className={styles.confirmarSenha}>
-                    <input
-                        type="password"
-                        placeholder="Senha"
-                        className={`${styles.input} ${fieldErrors.password ? styles.errorInput : ''}`}
-                        value={password}
-                        onFocus={() => setShowPasswordRequirements(true)}
-                        onBlur={() => setShowPasswordRequirements(false)}
-                        onChange={handlePasswordChange}
-                        aria-invalid={fieldErrors.password ? "true" : "false"}
-                    />
+                    <div className={styles.passwordWrapper}>
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Senha"
+                            className={`${styles.input} ${fieldErrors.password ? styles.errorInput : ''}`}
+                            value={password}
+                            onFocus={() => setShowPasswordRequirements(true)}
+                            onBlur={() => setShowPasswordRequirements(false)}
+                            onChange={handlePasswordChange}
+                            aria-invalid={fieldErrors.password ? "true" : "false"}
+                        />
+                        <button
+                            type="button"
+                            className={styles.togglePassword}
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            <img src={showPassword ? invisivel : visivel} alt="Toggle Password Visibility" />
+                        </button>
+                    </div>
                     <RequisitoSenhaModal isVisible={showPasswordRequirements} requirements={passwordRequirements} />
-                    <input
-                        type="password"
-                        placeholder="Confirmar Senha"
-                        className={`${styles.input} ${fieldErrors.confirmPassword ? styles.errorInput : ''}`}
-                        value={confirmPassword}
-                        onChange={handleInputChange(setConfirmPassword, 'confirmPassword')}
-                        aria-invalid={fieldErrors.confirmPassword ? "true" : "false"}
-                    />
+                    <div className={styles.passwordWrapper}>
+                        <input
+                            type={showConfirmPassword ? "text" : "password"}
+                            placeholder="Confirmar Senha"
+                            className={`${styles.input} ${fieldErrors.confirmPassword ? styles.errorInput : ''}`}
+                            value={confirmPassword}
+                            onChange={handleInputChange(setConfirmPassword, 'confirmPassword')}
+                            aria-invalid={fieldErrors.confirmPassword ? "true" : "false"}
+                        />
+                        <button
+                            type="button"
+                            className={styles.togglePassword}
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        >
+                            <img src={showConfirmPassword ? invisivel : visivel} alt="Toggle Password Visibility" />
+                        </button>
+                    </div>
                 </div>
 
                 <button type="submit" className={styles.button} disabled={isLoading}>

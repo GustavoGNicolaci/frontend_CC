@@ -45,7 +45,7 @@
 }
 
 .confirmarSenha {
-  max-width: 95%;
+  max-width: 70%;
   margin-left: 0.5rem;
   display: flex;
   -ms-grid-row-span: 10px;
@@ -128,4 +128,31 @@
 .error {
   color: red;
   font-size: 12px;
+}
+
+.passwordWrapper {
+  width: 95%;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  input {
+    width: 95%;
+  }
+}
+
+.togglePassword {
+  margin: 0rem 0.5rem 0.9rem 0rem;
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.togglePassword img {
+  width: 20px;
+  height: 20px;
 }
