@@ -1,6 +1,7 @@
 .trabalheConoscoPage {
     padding: 20px;
     margin-top: 5%;
+    padding-top: 10%;
 }
 
 .container {
@@ -78,11 +79,133 @@ select {
     padding: 10px; 
     border-radius: 5px;
     cursor: pointer;
-    width: 150px; 
+    width: 97%; 
     height: 40px; 
     font-size: 16px; 
+
 }
 
 .submitButton:hover {
     opacity: 0.8; 
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+    .trabalheConoscoPage {
+        padding-top: 40%;
+    }
+}
+
+@media (max-width: 1100px) {
+    .trabalheConoscoPage {
+        padding-top: 50%;
+    }
+}
+
+@media (max-width: 950px) {
+    .trabalheConoscoPage {
+        padding-top: 60%;
+    }
+}
+
+@media (max-width: 900px) {
+    .trabalheConoscoPage {
+        padding-top: 70%;
+    }
+}
+
+@media (max-height: 680px) {
+    .trabalheConoscoPage {
+        padding-top: 10%;
+    }
+}
+
+@media (max-height: 580px) {
+    .trabalheConoscoPage {
+        padding-top: 20%;
+    }
+}
+
+@media (max-height: 480px) {
+    .trabalheConoscoPage {
+        padding-top: 30%;
+    }
+}
+
+@media (max-height: 380px) {
+    .trabalheConoscoPage {
+        padding-top: 40%;
+    }
+}
+
+@media (max-width: 1200px) and (max-height: 680px) {
+    .trabalheConoscoPage {
+        padding-top: 50%;
+    }
+}
+
+@media (max-width: 1200px) and (max-height: 580px) {
+    .trabalheConoscoPage {
+        padding-top: 60%;
+    }
+}
+
+@media (max-width: 1200px) and (max-height: 480px) {
+    .trabalheConoscoPage {
+        padding-top: 70%;
+    }
+}
+
+@media (max-width: 1200px) and (max-height: 380px) {
+    .trabalheConoscoPage {
+        padding-top: 80%;
+    }
+}
+
+@media (max-width: 1100px) and (max-height: 680px) {
+    .trabalheConoscoPage {
+        padding-top: 60%;
+    }
+}
+
+@media (max-width: 1100px) and (max-height: 580px) {
+    .trabalheConoscoPage {
+        padding-top: 50%;
+    }
+}
+
+@media (max-width: 1100px) and (max-height: 480px) {
+    .trabalheConoscoPage {
+        padding-top: 60%;
+    }
+}
+
+@media (max-width: 1100px) and (max-height: 380px) {
+    .trabalheConoscoPage {
+        padding-top: 80%;
+    }
+}
+
+@media (max-width: 950px) and (max-height: 480px) {
+    .trabalheConoscoPage {
+        padding-top: 70%;
+    }
+}
+
+@media (max-width: 950px) and (max-height: 380px) {
+    .trabalheConoscoPage {
+        padding-top: 70%;
+    }
+}
+
+@media (max-width: 900px) and (max-height: 480px) {
+    .trabalheConoscoPage {
+        padding-top: 80%;
+    }
+}
+
+@media (max-width: 900px) and (max-height: 380px) {
+    .trabalheConoscoPage {
+        padding-top: 90%;
+    }
 }
