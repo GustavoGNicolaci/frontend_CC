@@ -1,74 +1,105 @@
 .paginaInicial {
-    padding: 0; 
-    margin-top: 40%;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+  width: 100%;
+  padding-top: 40%;
 }
 
-.carousel {
-    width: 100vw; 
-    position: relative; 
-    overflow: hidden; 
-    display: flex; 
+.carouselContainer {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
 }
 
-.carousel-inner {
-    width: 100%; 
+.carouselImage {
+  width: 100%;
+  height: 70vh;
+  object-fit: cover;
 }
 
-.carousel-item img {
-    width: 100%; 
-    height: auto; 
+.carouselCaption {
+  position: absolute;
+  right: 15%;
+  bottom: 20px;
+  left: 15%;
+  z-index: 10;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.carouselCaption {
+  display: block !important;
 }
 
 .bottomContainer {
-    display: flex; 
-    flex-wrap: wrap; 
-    justify-content: space-between; 
-    padding: 20px; 
-    background-color: #DFDCCA;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #dfdcca;
+  margin: 0;
+  width: 100%;
 }
 
-.sobreDiv, .loginDiv {
-    flex: 1; 
-    margin: 10px; 
-    border-radius: 5px; 
-    padding: 20px; 
-    text-align: center; 
-    text-decoration: none; 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
+.sobreDiv,
+.loginDiv {
+  flex: 1;
+  margin: 10px;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.sobreDiv img, .loginDiv img {
-    width: 100%; 
-    height: auto; 
-    object-fit: cover; 
-    border-radius: 5px; 
+.sobreDiv img,
+.loginDiv img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 5px;
 }
 
 .loginDiv {
-    color: white; 
+  color: white;
 }
 
 .promocoesDiv {
-    flex: 1; 
-    margin: 10px; 
-    border-radius: 5px; 
-    padding: 20px; 
-    background-color: #f8f9fa; 
-    text-align: center; 
+  flex: 1;
+  margin: 10px;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  text-align: center;
 }
 
 .promocoesDiv h3 {
-    margin-bottom: 15px; 
-    color: #663300;
+  margin-bottom: 15px;
+  color: #663300;
 }
 
 .promocoesDiv ul {
-    list-style-type: none; 
-    padding: 0; 
+  list-style-type: none;
+  padding: 0;
 }
 
 .promocoesDiv li {
-    margin: 10px 0; 
+  margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+  .carouselImage {
+    height: 50vh;
+  }
 }

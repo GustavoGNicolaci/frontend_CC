@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1030;
+}
+
+.navColor {
+    background-color: #DFDCCA;
+}
+
+.titleFont {
+    font-family: 'Dancing Script', cursive;
+    color: #6e6754 !important;
+    text-align: left;
+    font-size: 30px;
+}
+
+.navFont {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    color: #663300 !important;
+}
+
+.navFont:hover {
+    color: #DFDCCA !important;
+    background-color: #663300 !important;
+}
+
+.navIcon {
+    color: #663300 !important;
+    margin-left: 15px;
+    font-size: 24px;
+}
+
+.navIcon:hover {
+    opacity: 0.5 !important;
+}
+
+.btnVeja a {
+    color: #663300 !important;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+}
+
+.formControl {
+    width: 100%;
+    max-width: 300px;
+}
+
+.btnPesquisa {
+    background-color: #663300;
+    color: #DFDCCA;
+    border: none;
+    height: 100%;
+}
+
+.btnPesquisa:hover {
+    background-color: #663300 !important;
+    opacity: 0.6 !important;
+}
+
+.mxAuto {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background-color: #DFDCCA;
+        padding: 10px;
+    }
+
+    .navFont,
+    .btnVeja a {
+        text-align: center;
+    }
+
+    .mxAuto {
+        margin-top: 10px;
+    }
+
+    .d-flex.align-items-center {
+        justify-content: center;
+        margin-top: 10px;
+    }
+}

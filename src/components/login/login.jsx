@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/loginService';
 import Cadastro from '../cadastro/cadastro';
 import Footer from '../footer';
-import NavbarComponent from '../navbar';
+import NavbarComponent from '../navbar/navbar';
 import LoadingModal from '../shared/loadingModal/loadingModal';
 import styles from './login.module.css';
 

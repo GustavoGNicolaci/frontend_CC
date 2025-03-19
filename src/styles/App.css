@@ -1,113 +1,43 @@
-/* Importando fonte do Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
-
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 3rem;
-  text-align: center;
-}
-
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  z-index: 1030;
-}
-
-.nav-color {
-  background-color: #DFDCCA; 
-}
-
-.title-font {
-  font-family: 'Dancing Script', cursive;
-  color: #6e6754 !important;
-  text-align: left;
-  font-size: 30px;
-}
-
-.nav-font {
-  font-family: 'Roboto', sans-serif;
-  font-size: 18px;
-  color: #663300 !important; 
-}
-
-.nav-font:hover {
-  color: #DFDCCA !important; 
-  background-color: #663300 !important;
-}
-
-.btn-veja a {
-  color: #663300 !important;
-  font-family: 'Roboto', sans-serif;
-  font-size: 18px;
-}
-
-.content {
-  padding-top: 20px;
-}
-
-body {
-  padding-top: 76px;
-}
-
+/* Resets globais para garantir que não haja margens ou paddings indesejados */
+body,
 html {
-  scroll-padding-top: 10%;  
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
 }
 
-.nav-icon {
-  color: #663300 !important;
-  margin-left: 15px;
-  font-size: 24px;
+/* Remover padding padrão do container do Bootstrap */
+.container-fluid {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
-.nav-icon:hover {
-  opacity: 0.5 !important; 
+/* Remover padding padrão das rows do Bootstrap */
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
-.mx-auto {
-  flex: 1; 
-  display: flex; 
-  justify-content: center;
+/* Remover padding padrão das colunas do Bootstrap */
+.col,
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12,
+.col-sm,
+.col-md,
+.col-lg,
+.col-xl {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
-.form-control {
-  width: 100%; 
-  max-width: 300px;
-}
-
-.btn-pesquisa {
-  background-color: #663300; 
-  color: #DFDCCA; 
-  border: none;
-  height: 100%;
-}
-
-.btn-pesquisa:hover {
-  background-color: #663300 !important;
-  opacity: 0.6 !important; 
-}
-
-@media (max-width: 991px) {
-  .navbar-collapse {
-    background-color: #DFDCCA;
-    padding: 10px;
-  }
-
-  .nav-font, .btn-veja a {
-    text-align: center;
-  }
-
-  .mx-auto {
-    margin-top: 10px;
-  }
-
-  .d-flex.align-items-center {
-    justify-content: center;
-    margin-top: 10px;
-  }
-
-
-}

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../CartContext';
 import { useNavigate } from 'react-router-dom'; // Importar useNavigate
-import NavbarComponent from './navbar';
+import NavbarComponent from './navbar/navbar';
 import Footer from './footer';
 import styles from './carrinho.module.css';
 
