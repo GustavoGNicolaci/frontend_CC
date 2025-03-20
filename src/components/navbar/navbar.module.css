@@ -7,6 +7,8 @@
     right: 0;
     width: 100%;
     z-index: 1030;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 .navColor {
@@ -33,7 +35,7 @@
 
 .navIcon {
     color: #663300 !important;
-    margin-left: 15px;
+    margin-left: 20px;
     font-size: 24px;
 }
 

@@ -12,7 +12,6 @@ import styles from './navbar.module.css';
 function NavbarComponent() {
   return (
     <Navbar expand="lg" className={`${styles.navbar} ${styles.navColor} fixed-top`}>
-      <Container>
         <Navbar.Brand href="/" className={styles.titleFont}>Café Connect</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -49,7 +48,6 @@ function NavbarComponent() {
             </Nav.Link>
           </div>
         </Navbar.Collapse>
-      </Container>
     </Navbar>
   );
 }

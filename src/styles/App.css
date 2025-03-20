@@ -5,6 +5,7 @@ html {
   padding: 0;
   width: 100%;
   overflow-x: hidden;
+
 }
 
 /* Remover padding padrão do container do Bootstrap */
@@ -40,4 +41,20 @@ html {
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
+
+/* Ocultar scrollbar em navegadores modernos */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ocultar scrollbar no Firefox */
+body {
+  scrollbar-width: none;
+}
+
+/* Ocultar scrollbar no Internet Explorer e Edge antigo */
+body {
+  -ms-overflow-style: none;
+}
+
 
