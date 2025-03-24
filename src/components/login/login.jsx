@@ -31,14 +31,19 @@ const Login = () => {
         setIsLoading(true);
         try {
             const data = await login(email, password);
-            console.log('Login bem-sucedido:', data);
-            navigate('/produtos');
+            if (data?.token) {
+                localStorage.setItem("token", data.token);
+                navigate('/produtos');
+            } else {
+                setError("Erro ao autenticar. Tente novamente.");
+            }
         } catch (error) {
             setError('Nome de usuário ou senha incorretos');
         } finally {
             setIsLoading(false);
         }
     };
+    
 
     const toggleForm = () => {
         setIsRegistering(!isRegistering);

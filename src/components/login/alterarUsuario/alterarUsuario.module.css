@@ -1,0 +1,158 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+.container {
+  max-height: 28rem;
+}
+
+.welcomeMessage {
+  font-size: 24px;
+  font-family: 'Dancing Script', cursive;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.registerForm {
+  max-height: 334px;
+  overflow: auto;
+}
+
+.informacoesPessoais, .endereco {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+}
+
+.endereco {
+  margin-bottom: 0px;
+}
+
+.input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 40%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+  gap: 10px;
+}
+
+.errorInput {
+  border: 2px solid red;
+}
+
+.confirmarSenha {
+  max-width: 70%;
+  margin-left: 0.5rem;
+  display: flex;
+  -ms-grid-row-span: 10px;
+  gap: 10px;
+  margin-left: 6.05rem;
+}
+
+.button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #663300;
+  width: 71%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+  height: 3rem;
+}
+
+.button:hover,
+.button:active,
+.button:focus {
+  opacity: 0.6;
+}
+
+.message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+
+.link {
+  color: #d7c88e;
+  text-decoration: none;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modalContent {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 300px;
+  text-align: center;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
+
+.passwordWrapper {
+  width: 95%;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  input {
+    width: 95%;
+  }
+}
+
+.togglePassword {
+  margin: 0rem 0.5rem 0.9rem 0rem;
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.togglePassword img {
+  width: 20px;
+  height: 20px;
+}
