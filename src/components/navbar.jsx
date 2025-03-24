@@ -1,15 +1,26 @@
-import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { FaShoppingCart, FaUser } from 'react-icons/fa';
+import OpcoesUsuarioModal from '../components/login/opcoesUsuario/opcoesUsuarioModal';
 import '../styles/App.css';
 
 function NavbarComponent() {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleMouseEnter = () => {
+    setShowModal(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowModal(false);
+  };
+
   return (
     <Navbar expand="lg" className="nav-color fixed-top">
       <Container>
@@ -44,8 +55,22 @@ function NavbarComponent() {
             <Nav.Link href="/carrinho" className="nav-icon">
               <FaShoppingCart size={24} />
             </Nav.Link>
+            
             <Nav.Link href="/login" className="nav-icon">
+            <div
+              className="nav-icon"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
               <FaUser size={24} />
+              {showModal && (
+                <OpcoesUsuarioModal
+                  onClose={() => setShowModal(false)}
+                  onAlterarConta={() => console.log('Alterar Conta')} // Teste
+                  onSair={() => console.log('Sair')}
+                />
+              )}
+            </div>
             </Nav.Link>
           </div>
         </Navbar.Collapse>
