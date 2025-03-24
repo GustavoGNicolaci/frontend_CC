@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300");
+@import url("https://fonts.googleapis.com/css?family=Dancing+Script");
+
 /* Resets globais para garantir que não haja margens ou paddings indesejados */
 body,
 html {
@@ -58,3 +61,15 @@ body {
 }
 
 
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #d7c88e;
+  background: rgb(195, 184, 124);
+  background: linear-gradient(90deg, rgb(196, 194, 150) 0%, rgb(137, 103, 75) 50%);
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
