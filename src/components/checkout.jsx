@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import NavbarComponent from './navbar';
+import NavbarComponent from './navbar/navbar';
 import Footer from './footer';
 import styles from './checkout.module.css';
 

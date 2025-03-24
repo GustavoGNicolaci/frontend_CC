@@ -1,35 +1,150 @@
 .sobreCafeConnectPage {
     padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 1000px;
 }
 
 .contentWrapper {
-    background-color: white; 
-    padding: 20px;
-    border-radius: 5px; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    max-width: 800px; 
-    margin: 20px auto; 
-    margin-top: 75%; 
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+    text-align: justify;
 }
 
-
-h1 {
+.contentWrapper h1 {
     color: #663300;
-    font-size: 24px; 
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
+}
+
+.contentWrapper h2 {
+    color: #663300;
+    font-size: 22px;
+    margin-top: 30px;
     margin-bottom: 15px;
 }
 
-h2 {
-    color: #663300;
-    font-size: 20px;
-    margin-top: 20px; 
+.contentWrapper p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #333;
 }
 
-p {
-    font-size: 16px; 
-    line-height: 1.5; 
+.contentWrapper ul {
+    margin: 0 0 20px 20px;
+    padding-left: 15px;
 }
 
-ul {
-    margin-left: 20px;
+.contentWrapper li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.contentWrapper strong {
+    color: #4d2600;
+}
+
+/* Tablets e dispositivos médios */
+@media (max-width: 1024px) {
+    .sobreCafeConnectPage {
+        padding: 15px;
+        padding-top: 950px;
+    }
+
+    .contentWrapper {
+        padding: 25px;
+        margin: 15px auto;
+    }
+
+    .contentWrapper h1 {
+        font-size: 26px;
+    }
+
+    .contentWrapper h2 {
+        font-size: 20px;
+    }
+}
+
+@media (max-height: 600px) {
+    .sobreCafeConnectPage {
+        padding-top: 1150px;
+    }
+}
+
+@media (max-height: 400px) {
+    .sobreCafeConnectPage {
+        padding-top: 1350px;
+    }
+}
+
+/* Dispositivos pequenos e tablets em modo retrato */
+@media (max-width: 768px) {
+    .contentWrapper {
+        padding: 20px;
+        margin: 10px auto;
+    }
+
+    .contentWrapper h1 {
+        font-size: 24px;
+        padding-bottom: 12px;
+    }
+
+    .contentWrapper h2 {
+        font-size: 18px;
+        margin-top: 25px;
+    }
+
+    .contentWrapper p,
+    .contentWrapper li {
+        font-size: 15px;
+    }
+}
+
+/* Dispositivos móveis */
+@media (max-width: 480px) {
+    .sobreCafeConnectPage {
+        padding: 10px;
+        padding-top: 60px;
+    }
+
+    .contentWrapper {
+        padding: 15px;
+        border-radius: 6px;
+        text-align: left;
+    }
+
+    .contentWrapper h1 {
+        font-size: 22px;
+        padding-bottom: 10px;
+        text-align: left;
+    }
+
+    .contentWrapper h2 {
+        font-size: 18px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .contentWrapper p {
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 15px;
+    }
+
+    .contentWrapper ul {
+        margin-left: 10px;
+    }
+
+    .contentWrapper li {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
 }

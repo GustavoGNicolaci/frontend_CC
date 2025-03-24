@@ -1,52 +1,160 @@
-h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
 .nossasLojasPage {
     padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 650px;
 }
 
 .cardsWrapper {
     background-color: white;
-    padding: 20px;
-    border-radius: 5px; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cardsWrapper h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #333;
 }
 
 .cardsContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
     margin-top: 20px;
 }
 
 .card {
-    background-color: #DFDCCA;
-    border-radius: 5px; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    flex: 1 1 calc(25% - 20px); 
-    min-width: 250px; 
+    background-color: #dfdcca;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .card h2 {
-    font-size: 18px;
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
 }
 
 .card p {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    flex-grow: 1;
 }
 
 .verMaisButton {
-    background-color: #663300; 
+    background-color: #663300;
     color: white;
     border: none;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 12px 16px;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
 }
 
 .verMaisButton:hover {
-    opacity: 0.8;
+    background-color: #4d2600;
+}
+
+/* Tablets e dispositivos médios */
+@media (max-width: 1024px) {
+    .nossasLojasPage {
+        padding: 15px;
+        padding-top: 550px;
+    }
+
+    .cardsWrapper {
+        padding: 25px;
+    }
+
+    .cardsWrapper h1 {
+        font-size: 24px;
+        margin-bottom: 25px;
+    }
+
+    .cardsContainer {
+        gap: 20px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+}
+
+@media (max-height: 600px) {
+    .nossasLojasPage {
+        padding-top: 800px;
+    }
+}
+
+@media (max-height: 400px) {
+    .nossasLojasPage {
+        padding-top: 1000px;
+    }
+}
+
+/* Tablets pequenos e dispositivos médios */
+@media (max-width: 768px) {
+    .cardsWrapper h1 {
+        font-size: 22px;
+    }
+
+    .cardsContainer {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+
+    .card h2 {
+        font-size: 18px;
+    }
+}
+
+/* Dispositivos móveis */
+@media (max-width: 480px) {
+    .nossasLojasPage {
+        padding: 10px;
+        padding-top: 60px;
+    }
+
+    .cardsWrapper {
+        padding: 15px;
+    }
+
+    .cardsWrapper h1 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .cardsContainer {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .card h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .verMaisButton {
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+    }
 }

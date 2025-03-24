@@ -9,6 +9,8 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import OpcoesUsuarioModal from '../components/login/opcoesUsuario/opcoesUsuarioModal';
 import '../styles/App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import styles from './navbar.module.css';
 
 function NavbarComponent() {
   const [showModal, setShowModal] = useState(false);
@@ -22,37 +24,36 @@ function NavbarComponent() {
   };
 
   return (
-    <Navbar expand="lg" className="nav-color fixed-top">
-      <Container>
-        <Navbar.Brand href="/" className="title-font">Café Connect</Navbar.Brand>
+    <Navbar expand="lg" className={`${styles.navbar} ${styles.navColor} fixed-top`}>
+        <Navbar.Brand href="/" className={styles.titleFont}>Café Connect</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/" className="nav-font">Página Inicial</Nav.Link>
-            <Nav.Link href="/produtos" className="nav-font">Produtos</Nav.Link>
-            <NavDropdown className="btn-veja" title="Veja Mais" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/contato" className="nav-font">Contato</NavDropdown.Item>
-              <NavDropdown.Item href="/nossas-lojas" className="nav-font">Nossas lojas</NavDropdown.Item>
-              <NavDropdown.Item href="/trabalhe-conosco" className="nav-font">Trabalhe conosco</NavDropdown.Item>
+            <Nav.Link href="/" className={styles.navFont}>Página Inicial</Nav.Link>
+            <Nav.Link href="/produtos" className={styles.navFont}>Produtos</Nav.Link>
+            <NavDropdown className="btnVeja" title="Veja Mais" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/contato" className={styles.navFont}>Contato</NavDropdown.Item>
+              <NavDropdown.Item href="/nossas-lojas" className={styles.navFont}>Nossas lojas</NavDropdown.Item>
+              <NavDropdown.Item href="/trabalhe-conosco" className={styles.navFont}>Trabalhe conosco</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/sobre-cafe-connect" className="nav-font">Sobre Café Connect</NavDropdown.Item>
+              <NavDropdown.Item href="/sobre-cafe-connect" className={styles.navFont}>Sobre Café Connect</NavDropdown.Item>
             </NavDropdown>
           </Nav>
 
-          <div className="mx-auto">
+          <div className={styles.mxAuto}>
             <Form className="d-flex">
               <Form.Control
                 type="search"
                 placeholder="Pesquisar"
-                className="me-2"
+                className="me-2 formControl"
                 aria-label="Search"
               />
-              <Button className="btn-pesquisa">Pesquisar</Button>
+              <Button className={styles.btnPesquisa}>Pesquisar</Button>
             </Form>
           </div>
 
           <div className="d-flex align-items-center">
-            <Nav.Link href="/carrinho" className="nav-icon">
+            <Nav.Link href="/carrinho" className={styles.navIcon}>
               <FaShoppingCart size={24} />
             </Nav.Link>
             
@@ -74,7 +75,6 @@ function NavbarComponent() {
             </Nav.Link>
           </div>
         </Navbar.Collapse>
-      </Container>
     </Navbar>
   );
 }

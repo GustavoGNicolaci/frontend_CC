@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import styles from './detalhesProduto.module.css'; 
-import NavbarComponent from './navbar';
+import NavbarComponent from './navbar/navbar';
 import Footer from './footer';
 import { CartContext } from '../CartContext';
 

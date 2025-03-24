@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './produtos.module.css';
-import NavbarComponent from './navbar';
+import NavbarComponent from './navbar/navbar';
 import Footer from './footer';
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../CartContext';

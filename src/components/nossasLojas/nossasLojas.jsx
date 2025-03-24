@@ -1,5 +1,5 @@
 import React from 'react';
-import NavbarComponent from '../navbar';
+import NavbarComponent from '../navbar/navbar';
 import Footer from '../footer';
 import styles from './nossasLojas.module.css';
 

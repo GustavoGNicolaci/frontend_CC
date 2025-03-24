@@ -1,31 +1,16 @@
 .produtosPage {
   width: 100%;
-  padding-top: 25%;
+  padding-top: 700px;
 }
 
 .productList {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
   padding: 20px;
-  padding-top: 15%;
-}
-
-/* Responsividade */
-@media (max-width: 1200px) {
-  .productList {
-    grid-template-columns: repeat(2, 1fr);
-    /* Duas colunas em telas menores */
-    padding-top: 40%;
-  }
-}
-
-@media (max-width: 768px) {
-  .productList {
-    grid-template-columns: repeat(1, 1fr);
-    /* Uma coluna em telas pequenas */
-    padding-top: 75%;
-  }
+  padding-top: 60px; 
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .productCard {
@@ -36,23 +21,32 @@
   background-color: white;
   border: 1px solid #ccc;
   border-radius: 5px;
-  padding: 10px;
+  padding: 15px;
+  transition: transform 0.3s ease;
+}
+
+.productCard:hover {
+  transform: translateY(-5px);
 }
 
 .productImage {
   width: 100%;
-  max-height: 200px;
+  height: 200px;
   object-fit: contain;
+  margin-bottom: 10px;
 }
 
 .productTitle {
   font-size: 18px;
   font-weight: bold;
+  text-align: center;
+  margin: 8px 0;
 }
 
 .productPrice {
   color: grey;
   font-size: 22px;
+  margin: 8px 0;
 }
 
 .productButton,
@@ -65,7 +59,9 @@
   text-align: center;
   cursor: pointer;
   width: 100%;
-  font-size: 18px;
+  font-size: 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
 .productButton:hover {
@@ -73,30 +69,74 @@
 }
 
 .detailsButton {
-  margin-top: 5px;
+  margin-top: 8px;
+  background-color: #4a2500;
 }
 
 .detailsButton:hover {
   opacity: 0.8;
+  background-color: #331a00;
 }
-
 
 .stockInfo {
   color: #333;
-  /* Cor do texto */
   opacity: 0.8;
-  /* Opacidade do texto */
   font-size: 14px;
-  /* Tamanho da fonte */
-  margin-bottom: 10px;
-  /* Espaçamento abaixo do texto */
+  margin: 8px 0;
+  text-align: center;
+  width: 100%;
 }
 
 .disabledButton {
-  background-color: gray; /* Cor cinza para indicar que está desabilitado */
-  cursor: not-allowed; /* Cursor de não permitido */
+  background-color: gray;
+  cursor: not-allowed;
 }
 
 .disabledButton:hover {
-  background-color: gray; /* Cor cinza para indicar que está desabilitado */
+  background-color: gray;
 }
+
+/* Media queries para responsividade */
+@media (max-width: 768px) {
+  .productList {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 15px;
+    padding-top: 5px;
+    gap: 15px;
+  }
+
+  .productTitle {
+    font-size: 16px;
+  }
+
+  .productPrice {
+    font-size: 18px;
+  }
+
+  .productButton,
+  .detailsButton {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .produtosPage {
+    padding-top: 50px;
+  }
+
+  .productList {
+    grid-template-columns: 1fr;
+    padding: 10px;
+    padding-top: 40px;
+  }
+
+  .productCard {
+    padding: 10px;
+  }
+
+  .productImage {
+    height: 180px;
+  }
+}
+
