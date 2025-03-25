@@ -2,7 +2,7 @@
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
-    padding-top: 650px;
+    padding-top: 1850px;
 }
 
 .cardsWrapper {
@@ -21,7 +21,7 @@
 
 .cardsContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: 25px;
     margin-top: 20px;
 }
@@ -41,6 +41,10 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+.cardContent {
+    margin-bottom: 15px;
+}
+
 .card h2 {
     font-size: 20px;
     margin-bottom: 15px;
@@ -50,31 +54,20 @@
 .card p {
     margin-bottom: 20px;
     line-height: 1.5;
-    flex-grow: 1;
 }
 
-.verMaisButton {
-    background-color: #663300;
-    color: white;
-    border: none;
-    padding: 12px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
-    align-self: flex-start;
-}
-
-.verMaisButton:hover {
-    background-color: #4d2600;
+.mapWrapper {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 /* Tablets e dispositivos médios */
 @media (max-width: 1024px) {
     .nossasLojasPage {
         padding: 15px;
-        padding-top: 550px;
+        padding-top: 1800px;
     }
 
     .cardsWrapper {
@@ -97,13 +90,13 @@
 
 @media (max-height: 600px) {
     .nossasLojasPage {
-        padding-top: 800px;
+        padding-top: 2000px;
     }
 }
 
 @media (max-height: 400px) {
     .nossasLojasPage {
-        padding-top: 1000px;
+        padding-top: 2200px;
     }
 }
 
@@ -114,7 +107,7 @@
     }
 
     .cardsContainer {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     }
 
     .card h2 {
@@ -152,9 +145,4 @@
         margin-bottom: 10px;
     }
 
-    .verMaisButton {
-        width: 100%;
-        padding: 10px;
-        text-align: center;
-    }
 }
