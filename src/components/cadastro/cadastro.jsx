@@ -3,7 +3,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import InputMask from 'react-input-mask';
 import { useNavigate } from 'react-router-dom';
+import iconeErro from '../../assets/images/error.svg';
 import invisivel from '../../assets/images/invisivel.png';
+import iconeSucesso from '../../assets/images/sucesso.svg';
 import visivel from '../../assets/images/visivel.png';
 import { registro } from '../../services/loginService';
 import RequisitoSenhaModal from '../cadastro/requisitoSenha/requisitoSenha';
@@ -136,9 +138,11 @@ const Cadastro = () => {
     };
 
     const passwordRequirements = [
-        { text: 'Pelo menos 6 caracteres', isValid: password.length >= 6 },
-        { text: 'Pelo menos 1 número', isValid: /\d/.test(password) },
-        { text: 'Pelo menos 1 letra', isValid: /[a-zA-Z]/.test(password) },
+        { text: 'Uma letra maiúscula', isValid: /[A-Z]/.test(password) },
+        { text: 'Um número', isValid: /\d/.test(password) },
+        { text: 'Um caractere especial ($*&@#)', isValid: /[$*&@#]/.test(password) },
+        { text: 'Sem caracteres repetidos', isValid: !/(.)\1/.test(password) },
+        { text: 'Mínimo 5 caracteres', isValid: password.length >= 5 },
     ];
 
     return (
@@ -290,6 +294,7 @@ const Cadastro = () => {
                 <MessageModal
                     message="Cadastro realizado com sucesso"
                     onClose={closeModal}
+                    icon={<img src={iconeSucesso} alt="Sucesso" />}
                 />
             )}
 
@@ -297,6 +302,7 @@ const Cadastro = () => {
                 <MessageModal
                     message={errorMessage}
                     onClose={() => setErrorMessage('')}
+                    icon={<img src={iconeErro} alt="Erro" />}
                 />
             )}
         </div>

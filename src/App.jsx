@@ -6,6 +6,7 @@ import Checkout from './components/checkout';
 import Contato from './components/contato/contato';
 import DetalhesProduto from './components/detalhesProduto';
 import Login from './components/login/login';
+import Cadastro from './components/cadastro/cadastro';
 import NossasLojas from './components/nossasLojas/nossasLojas';
 import PaginaInicial from './components/paginaInicial/paginaInicial';
 import UserProfile from './components/perfil/UserProfile';
@@ -21,6 +22,7 @@ function App() {
         {/* Rotas públicas */}
         <Route path="/" element={<PaginaInicial />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/produtos" element={<Produtos />} />
         <Route path="/detalhesProduto" element={<DetalhesProduto />} />
         <Route path="/contato" element={<Contato />} />
