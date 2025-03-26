@@ -2,8 +2,7 @@
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
-    padding-top: 350px;
-    /* Espaço para a navbar em vez de margin-top grande */
+    padding-top: 400px;
 }
 
 .container {
@@ -14,7 +13,6 @@
 
 .formContainer {
     flex: 2;
-    /* Proporção maior para o formulário */
     background-color: white;
     padding: 25px;
     border-radius: 8px;

@@ -7,6 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import OpcoesUsuarioModal from '../login/opcoesUsuario/opcoesUsuarioModal';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './navbar.module.css';
 
 function NavbarComponent() {
