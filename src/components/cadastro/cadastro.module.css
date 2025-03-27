@@ -1,7 +1,15 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
+/* Estilos gerais */
 .container {
-  max-height: 28rem;
+  width: 100%;
+  min-height: 100vh;
+  margin-top: 13%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 110px 40px 25px;
 }
 
 .welcomeMessage {
@@ -11,9 +19,20 @@
   color: #333;
 }
 
+/* Formulário de cadastro */
 .registerForm {
-  max-height: 334px;
-  overflow: auto;
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  width: 100%;
+  max-width: 60%;
+  max-height: 30rem;
+  margin: 20px auto;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  border-radius: 8px;
+  overflow-y: auto;
 }
 
 .informacoesPessoais, .endereco {
@@ -82,7 +101,10 @@
 }
 
 .link {
-  color: #d7c88e;
+  background: none;
+  border: none;
+  color: #663300;
+  cursor: pointer;
   text-decoration: none;
 }
 

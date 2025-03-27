@@ -9,6 +9,8 @@ import iconeSucesso from '../../assets/images/sucesso.svg';
 import visivel from '../../assets/images/visivel.png';
 import { registro } from '../../services/loginService';
 import RequisitoSenhaModal from '../cadastro/requisitoSenha/requisitoSenha';
+import Footer from '../footer';
+import NavbarComponent from '../navbar/navbar';
 import LoadingModal from '../shared/loadingModal/loadingModal';
 import MessageModal from '../shared/messageModal/messageModal';
 import styles from './cadastro.module.css';
@@ -147,8 +149,9 @@ const Cadastro = () => {
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.welcomeMessage}>Cadastre-se</h2>
+            <NavbarComponent />
             <form className={styles.registerForm} onSubmit={handleSubmit}>
+                <h2 className={styles.welcomeMessage}>Cadastre-se</h2>
                 <div className={styles.informacoesPessoais}>
                     <input
                         type="text"
@@ -283,10 +286,11 @@ const Cadastro = () => {
                 <button type="submit" className={styles.button} disabled={isLoading}>
                     {isLoading ? 'Cadastrando...' : 'Cadastrar'}
                 </button>
-            </form>
-            <p className={styles.message}>
+
+                <p className={styles.message}>
                 Já tem uma conta? <a href="/login" className={styles.link} onClick={toggleForm}>Login</a>
-            </p>
+                </p>    
+            </form>
 
             {isLoading && <LoadingModal />}
 
@@ -305,6 +309,7 @@ const Cadastro = () => {
                     icon={<img src={iconeErro} alt="Erro" />}
                 />
             )}
+            <Footer />
         </div>
     );
 };
