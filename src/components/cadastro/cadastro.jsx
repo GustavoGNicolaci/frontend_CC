@@ -263,7 +263,7 @@ const Cadastro = () => {
                             <img src={showPassword ? invisivel : visivel} alt="Toggle Password Visibility" />
                         </button>
                     </div>
-                    <RequisitoSenhaModal isVisible={showPasswordRequirements} requirements={passwordRequirements} />
+                    <RequisitoSenhaModal className={styles.requisitoSenha} isVisible={showPasswordRequirements} requirements={passwordRequirements} />
                     <div className={styles.passwordWrapper}>
                         <input
                             type={showConfirmPassword ? "text" : "password"}
