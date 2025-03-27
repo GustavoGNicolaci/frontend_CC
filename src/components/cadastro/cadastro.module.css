@@ -1,7 +1,16 @@
+/* Importação de fontes */
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
+/* Estilos gerais */
 .container {
-  max-height: 28rem;
+  width: 100%;
+  min-height: 100vh;
+  margin-top: 13%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 110px 40px 25px;
 }
 
 .welcomeMessage {
@@ -11,12 +20,25 @@
   color: #333;
 }
 
+/* Formulário de cadastro */
 .registerForm {
-  max-height: 334px;
-  overflow: auto;
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  width: 100%;
+  max-width: 60%;
+  max-height: 30rem;
+  margin: 20px auto;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  border-radius: 8px;
+  overflow-y: auto;
 }
 
-.informacoesPessoais, .endereco {
+/* Estilos para seções do formulário */
+.informacoesPessoais,
+.endereco {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -27,6 +49,7 @@
   margin-bottom: 0px;
 }
 
+/* Campos de entrada */
 .input {
   font-family: "Roboto", sans-serif;
   outline: 0;
@@ -44,15 +67,7 @@
   border: 2px solid red;
 }
 
-.confirmarSenha {
-  max-width: 70%;
-  margin-left: 0.5rem;
-  display: flex;
-  -ms-grid-row-span: 10px;
-  gap: 10px;
-  margin-left: 6.05rem;
-}
-
+/* Botão de cadastro */
 .button {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
@@ -63,8 +78,7 @@
   padding: 15px;
   color: #FFFFFF;
   font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
+  transition: all 0.3s ease;
   cursor: pointer;
   height: 3rem;
 }
@@ -75,6 +89,7 @@
   opacity: 0.6;
 }
 
+/* Mensagens e links */
 .message {
   margin: 15px 0 0;
   color: #b3b3b3;
@@ -82,10 +97,14 @@
 }
 
 .link {
-  color: #d7c88e;
+  background: none;
+  border: none;
+  color: #663300;
+  cursor: pointer;
   text-decoration: none;
 }
 
+/* Modal */
 .modal {
   display: flex;
   justify-content: center;
@@ -97,8 +116,7 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modalContent {
@@ -125,22 +143,27 @@
   cursor: pointer;
 }
 
+/* Mensagens de erro */
 .error {
   color: red;
   font-size: 12px;
 }
-
-.passwordWrapper {
-  width: 95%;
-  position: relative;
+.confirmarSenha {
   display: flex;
-  align-items: center;
+  flex-wrap: nowrap;
 
-  input {
+  .passwordWrapper {
+    width: 95%;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input {
     width: 95%;
   }
-}
 
+  /* Botão para alternar visibilidade da senha */
 .togglePassword {
   margin: 0rem 0.5rem 0.9rem 0rem;
   position: absolute;
@@ -155,4 +178,6 @@
 .togglePassword img {
   width: 20px;
   height: 20px;
+}
+
 }
