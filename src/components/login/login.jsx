@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/loginService';
-import Cadastro from '../cadastro/cadastro';
 import Footer from '../footer';
 import NavbarComponent from '../navbar/navbar';
 import LoadingModal from '../shared/loadingModal/loadingModal';
@@ -12,7 +11,6 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [fieldErrors, setFieldErrors] = useState({});
     const [error, setError] = useState('');
-    const [isRegistering, setIsRegistering] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -43,19 +41,11 @@ const Login = () => {
             setIsLoading(false);
         }
     };
-    
-
-    const toggleForm = () => {
-        setIsRegistering(!isRegistering);
-    };
 
     return (
         <div className={styles.loginPage}>
             <NavbarComponent />
-            <div className={`${styles.form} ${isRegistering ? styles.registerForm : ''}`}>
-                {isRegistering ? (
-                    <Cadastro />
-                ) : (
+            <div className={styles.form}>
                     <div>
                         <h2 className={styles.welcomeMessage}>Seja Bem-vindo(a)!</h2>
                         <form className={styles.loginForm} onSubmit={handleLogin}>
@@ -78,11 +68,10 @@ const Login = () => {
                             <button type="submit" className={styles.button}>Login</button>
                             {error && <p className={styles.error}>{error}</p>}
                             <p className={styles.message}>
-                                Não tem uma conta? <a href="#" onClick={toggleForm}>Crie uma agora</a>
+                            Não tem uma conta? <button onClick={() => navigate('/cadastro')} className={styles.linkButton}>Cadastre-se</button>
                             </p>
                         </form>
                     </div>
-                )}
             </div>
             <Footer />
             {isLoading && <LoadingModal />}

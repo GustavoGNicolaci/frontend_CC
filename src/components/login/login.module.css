@@ -6,53 +6,71 @@
   align-items: center;
   justify-content: center;
   padding: 110px 40px 25px;
-}
 
-.form {
-  position: relative;
-  z-index: 1;
-  background: #ffffff;
-  width: 100%;
-  max-width: 400px;
-  margin: 20px auto;
-  padding: 30px;
-  text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-  border-radius: 8px;
-}
+  .form {
+    position: relative;
+    z-index: 1;
+    background: #ffffff;
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 8px;
+  }
 
-.registerForm {
-  max-width: 740px !important;
-  padding: 30px;
-  margin-top: 40px;
-}
+  .welcomeMessage {
+    font-size: 24px;
+    font-family: "Dancing Script", cursive;
+    margin-bottom: 20px;
+    color: #333;
+  }
 
-.input {
-  font-family: "Roboto", sans-serif;
-  outline: 0;
-  background: #f2f2f2;
-  width: 100%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
-  box-sizing: border-box;
-  font-size: 14px;
-  border-radius: 4px;
-}
+  .input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+    border-radius: 4px;
+  }
 
-.button {
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  background: #663300;
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #ffffff;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  border-radius: 4px;
+  .error {
+    color: red;
+    font-size: 12px;
+    text-align: left;
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
+
+  .button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #663300;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #ffffff;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .linkButton {
+    background: none;
+    border: none;
+    color: #663300;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
 }
 
 .button:hover,
@@ -76,25 +94,6 @@
 
 .message a:hover {
   text-decoration: underline;
-}
-
-.welcomeMessage {
-  font-size: 24px;
-  font-family: "Dancing Script", cursive;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.error {
-  color: red;
-  font-size: 12px;
-  text-align: left;
-  margin-top: -10px;
-  margin-bottom: 10px;
-}
-
-.confirmarSenha {
-  display: flex;
 }
 
 /* Tablets e dispositivos médios */
