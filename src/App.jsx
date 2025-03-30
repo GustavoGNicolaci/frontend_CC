@@ -2,7 +2,6 @@ import { Route, Routes } from 'react-router-dom';
 import { CartProvider } from './CartContext';
 import PrivateRoute from './authenticate/privateRoute';
 import Carrinho from './components/carrinho';
-import Checkout from './components/checkout';
 import Contato from './components/contato/contato';
 import DetalhesProduto from './components/detalhesProduto';
 import Login from './components/login/login';
@@ -33,7 +32,6 @@ function App() {
         {/* Rotas protegidas */}
         <Route element={<PrivateRoute />}>
           <Route path="/carrinho" element={<Carrinho />} />
-          <Route path="/checkout" element={<Checkout />} />
           <Route path="/perfil" element={<UserProfile />} />
         </Route>
       </Routes>
