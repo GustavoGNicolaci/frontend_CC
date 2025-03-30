@@ -2,12 +2,12 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import InputMask from 'react-input-mask';
 import { useNavigate } from 'react-router-dom';
-import invisivel from '../../assets/images/invisivel.png';
-import visivel from '../../assets/images/visivel.png';
-import { atualizarUsuario } from '../../services/usuarioService';
-import RequisitoSenhaModal from '../cadastro/requisitoSenha/requisitoSenha';
-import LoadingModal from '../shared/loadingModal/loadingModal';
-import MessageModal from '../shared/messageModal/messageModal';
+import invisivel from '../../../assets/images/invisivel.png';
+import visivel from '../../../assets/images/visivel.png';
+// import { atualizarUsuario } from '../../services/usuarioService';
+import RequisitoSenhaModal from '../../cadastro/requisitoSenha/requisitoSenha';
+import LoadingModal from '../../shared/loadingModal/loadingModal';
+import MessageModal from '../../shared/messageModal/messageModal';
 import styles from './alterarUsuario.module.css';
 
 const AlterarUsuario = () => {
@@ -86,7 +86,7 @@ const AlterarUsuario = () => {
         setIsLoading(true);
         setErrorMessage('');
         try {
-            await atualizarUsuario(email, password, phone, confirmPassword, cep, rua, estado, cidade, bairro, numero, complemento);
+            // await atualizarUsuario(email, password, phone, confirmPassword, cep, rua, estado, cidade, bairro, numero, complemento);
             setIsModalOpen(true);
         } catch (error) {
             setErrorMessage('Erro ao atualizar informações. Por favor, tente novamente.');
