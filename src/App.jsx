@@ -8,7 +8,7 @@ import Login from './components/login/login';
 import Cadastro from './components/cadastro/cadastro';
 import NossasLojas from './components/nossasLojas/nossasLojas';
 import PaginaInicial from './components/paginaInicial/paginaInicial';
-import UserProfile from './components/perfil/UserProfile';
+import AlterarUsuario from './components/login/alterarUsuario/alterarUsuario';
 import Produtos from './components/produtos';
 import SobreCafeConnect from './components/sobreCafeConnect/sobreCafeConnect';
 import TrabalheConosco from './components/trabalheConosco/trabalheConosco';
@@ -32,7 +32,7 @@ function App() {
         {/* Rotas protegidas */}
         <Route element={<PrivateRoute />}>
           <Route path="/carrinho" element={<Carrinho />} />
-          <Route path="/perfil" element={<UserProfile />} />
+          <Route path="/perfil" element={<AlterarUsuario />} />
         </Route>
       </Routes>
     </CartProvider>
