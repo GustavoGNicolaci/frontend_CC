@@ -6,12 +6,14 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
+import { useAuth } from '../../authenticate/authContext'; // Importa o contexto de autenticação
 import OpcoesUsuarioModal from '../login/opcoesUsuario/opcoesUsuarioModal';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './navbar.module.css';
+
 
 function NavbarComponent() {
   const [showModal, setShowModal] = useState(false);
+  const { token, logout } = useAuth(); // Obtém o estado do usuário e a função de logout
 
   const handleMouseEnter = () => {
     setShowModal(true);
@@ -55,7 +57,7 @@ function NavbarComponent() {
               <FaShoppingCart size={24} />
             </Nav.Link>
             
-            <Nav.Link href="/login" className="nav-icon">
+            {token ? ( // Verifica se o usuário está logado
             <div
               className="nav-icon"
               onMouseEnter={handleMouseEnter}
@@ -65,12 +67,16 @@ function NavbarComponent() {
               {showModal && (
                 <OpcoesUsuarioModal
                   onClose={() => setShowModal(false)}
-                  onAlterarConta={() => console.log('Alterar Conta')} // Teste
-                  onSair={() => console.log('Sair')}
+                  onAlterarConta={() => console.log('Alterar Conta')} // Substitua pela lógica de alteração de conta
+                  onSair={logout} // Chama a função de logout do contexto
                 />
               )}
             </div>
+          ) : (
+            <Nav.Link href="/login" className={styles.navIcon}>
+              <FaUser size={24} />
             </Nav.Link>
+          )}
           </div>
         </Navbar.Collapse>
     </Navbar>
