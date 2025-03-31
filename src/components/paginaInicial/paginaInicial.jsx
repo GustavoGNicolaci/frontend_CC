@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -7,8 +9,8 @@ import styles from "./paginaInicial.module.css"
 import banner1 from "./banner1.png"
 import banner2 from "./banner2.png"
 import banner3 from "./banner3.jpg"
-import cafe1 from "./cafe01.png"
-import cafe2 from "./cafe02.png"
+import cafe1 from "./cafe1.png"
+import cafe2 from "./cafe2.png"
 
 const PaginaInicial = () => {
   useEffect(() => {
@@ -62,13 +64,19 @@ const PaginaInicial = () => {
       <div className={`row ${styles.bottomContainer}`}>
         <div className={`col-12 col-md-4 ${styles.sobreDiv}`}>
           <Link to="/sobre-cafe-connect">
-            <img src={cafe1 || "/placeholder.svg"} alt="Sobre Café Connect" />
+            <div className={styles.imageOverlayContainer}>
+              <img src={cafe1 || "/placeholder.svg"} alt="Sobre Café Connect" />
+              <div className={styles.imageOverlayText}>Sobre o Café Connect</div>
+            </div>
           </Link>
         </div>
 
         <div className={`col-12 col-md-4 ${styles.loginDiv}`}>
           <Link to="/login">
-            <img src={cafe2 || "/placeholder.svg"} alt="Acesse sua Conta" />
+            <div className={styles.imageOverlayContainer}>
+              <img src={cafe2 || "/placeholder.svg"} alt="Acesse sua Conta" />
+              <div className={styles.imageOverlayText}>Acesse sua Conta</div>
+            </div>
           </Link>
         </div>
 
@@ -79,6 +87,9 @@ const PaginaInicial = () => {
             <li>Compre 1, leve 2 em cafés selecionados!</li>
             <li>Frete grátis para pedidos acima de R$50!</li>
           </ul>
+          <Link to="/produtos" className={styles.verProdutosBtn}>
+            VEJA NOSSOS PRODUTOS
+          </Link>
         </div>
       </div>
 
@@ -88,3 +99,4 @@ const PaginaInicial = () => {
 }
 
 export default PaginaInicial
+
