@@ -9,6 +9,7 @@ import RequisitoSenhaModal from '../../cadastro/requisitoSenha/requisitoSenha';
 import LoadingModal from '../../shared/loadingModal/loadingModal';
 import MessageModal from '../../shared/messageModal/messageModal';
 import styles from './alterarUsuario.module.css';
+import NavbarComponent from '../../navbar/navbar';
 
 const AlterarUsuario = () => {
     const [errorMessage, setErrorMessage] = useState('');
@@ -141,6 +142,7 @@ const AlterarUsuario = () => {
 
     return (
         <div className={styles.container}>
+            <NavbarComponent />
             <h2 className={styles.welcomeMessage}>Alterar Informações</h2>
             <form className={styles.registerForm} onSubmit={handleSubmit}>
                 <div className={styles.informacoesPessoais}>

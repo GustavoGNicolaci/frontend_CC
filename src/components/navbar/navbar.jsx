@@ -25,50 +25,52 @@ function NavbarComponent() {
 
   return (
     <Navbar expand="lg" className={`${styles.navbar} ${styles.navColor} fixed-top`}>
-        <Navbar.Brand href="/" className={styles.titleFont}>Café Connect</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/" className={styles.navFont}>Página Inicial</Nav.Link>
-            <Nav.Link href="/produtos" className={styles.navFont}>Produtos</Nav.Link>
-            <NavDropdown className="btnVeja" title="Veja Mais" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/contato" className={styles.navFont}>Contato</NavDropdown.Item>
-              <NavDropdown.Item href="/nossas-lojas" className={styles.navFont}>Nossas lojas</NavDropdown.Item>
-              <NavDropdown.Item href="/trabalhe-conosco" className={styles.navFont}>Trabalhe conosco</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="/sobre-cafe-connect" className={styles.navFont}>Sobre Café Connect</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
+      <Navbar.Brand href="/" className={styles.titleFont}>Café Connect</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="me-auto">
+          <Nav.Link href="/" className={styles.navFont}>Página Inicial</Nav.Link>
+          <Nav.Link href="/produtos" className={styles.navFont}>Produtos</Nav.Link>
+          <NavDropdown className="btnVeja" title="Veja Mais" id="basic-nav-dropdown">
+            <NavDropdown.Item href="/contato" className={styles.navFont}>Contato</NavDropdown.Item>
+            <NavDropdown.Item href="/nossas-lojas" className={styles.navFont}>Nossas lojas</NavDropdown.Item>
+            <NavDropdown.Item href="/trabalhe-conosco" className={styles.navFont}>Trabalhe conosco</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="/sobre-cafe-connect" className={styles.navFont}>Sobre Café Connect</NavDropdown.Item>
+          </NavDropdown>
+        </Nav>
 
-          <div className={styles.mxAuto}>
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Pesquisar"
-                className="me-2 formControl"
-                aria-label="Search"
-              />
-              <Button className={styles.btnPesquisa}>Pesquisar</Button>
-            </Form>
-          </div>
+        <div className={styles.mxAuto}>
+          <Form className="d-flex">
+            <Form.Control
+              type="search"
+              placeholder="Pesquisar"
+              className="me-2 formControl"
+              aria-label="Search"
+            />
+            <Button className={styles.btnPesquisa}>Pesquisar</Button>
+          </Form>
+        </div>
 
-          <div className="d-flex align-items-center">
-            <Nav.Link href="/carrinho" className={styles.navIcon}>
-              <FaShoppingCart size={24} />
-            </Nav.Link>
-            
-            {token ? ( // Verifica se o usuário está logado
+        <div className="d-flex align-items-center">
+          <Nav.Link href="/carrinho" className={styles.navIcon}>
+            <FaShoppingCart size={24} />
+          </Nav.Link>
+
+          {token ? (
             <div
-              className="nav-icon"
+              className={styles.userContainer}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
-              <FaUser size={24} />
+              <div className={styles.navIcon}>
+                <FaUser size={24} />
+              </div>
               {showModal && (
                 <OpcoesUsuarioModal
                   onClose={() => setShowModal(false)}
-                  onAlterarConta={() => console.log('Alterar Conta')} // Substitua pela lógica de alteração de conta
-                  onSair={logout} // Chama a função de logout do contexto
+                  onAlterarConta={() => console.log('Alterar Conta')}
+                  onSair={logout}
                 />
               )}
             </div>
@@ -77,8 +79,8 @@ function NavbarComponent() {
               <FaUser size={24} />
             </Nav.Link>
           )}
-          </div>
-        </Navbar.Collapse>
+        </div>
+      </Navbar.Collapse>
     </Navbar>
   );
 }

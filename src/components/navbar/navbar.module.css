@@ -66,6 +66,13 @@
     opacity: 0.6 !important;
 }
 
+.userContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .mxAuto {
     flex: 1;
     display: flex;
