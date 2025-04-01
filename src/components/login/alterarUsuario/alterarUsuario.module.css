@@ -1,89 +1,167 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-.container {
-  max-height: 28rem;
-}
-
-.welcomeMessage {
-  font-size: 24px;
-  font-family: 'Dancing Script', cursive;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.registerForm {
-  max-height: 334px;
-  overflow: auto;
-}
-
-.informacoesPessoais, .endereco {
+.registerPage {
+  width: 100%;
+  min-height: 100vh;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  margin-bottom: 20px;
-}
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 240px 40px 25px;
 
-.endereco {
-  margin-bottom: 0px;
-}
+  .container {
+    max-height: 32rem;
+  }
 
-.input {
-  font-family: "Roboto", sans-serif;
-  outline: 0;
-  background: #f2f2f2;
-  width: 40%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
-  box-sizing: border-box;
-  font-size: 14px;
-  gap: 10px;
-}
+  .form {
+    position: relative;
+    z-index: 1;
+    background: #ffffff;
+    width: 100%;
+    max-width: 550px;
+    margin: 20px auto;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 8px;
+  }
 
-.errorInput {
-  border: 2px solid red;
-}
+  .registerForm {
+    max-height: 400px;
+    overflow: auto;
+    padding: 10px;
+  }
 
-.confirmarSenha {
-  max-width: 70%;
-  margin-left: 0.5rem;
-  display: flex;
-  -ms-grid-row-span: 10px;
-  gap: 10px;
-  margin-left: 6.05rem;
-}
+  .welcomeMessage {
+    font-size: 28px;
+    font-family: 'Dancing Script', cursive;
+    margin-bottom: 25px;
+    color: #333;
+  }
 
-.button {
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  background: #663300;
-  width: 71%;
-  border: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
-  cursor: pointer;
-  height: 3rem;
+  .informacoesPessoais,
+  .endereco {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    gap: 15px;
+  }
+
+  .endereco {
+    margin-bottom: 10px;
+  }
+
+  .input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 45%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+    gap: 10px;
+    border-radius: 4px;
+  }
+
+  .errorInput {
+    border: 2px solid red;
+  }
+
+  .error {
+    color: red;
+    font-size: 12px;
+    text-align: left;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    width: 45%;
+  }
+
+  .confirmarSenha {
+    max-width: 80%;
+    margin: 0 auto 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .passwordWrapper {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    input {
+      width: 100%;
+    }
+  }
+
+  .button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #663300;
+    width: 80%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    height: 3.5rem;
+    border-radius: 4px;
+    margin: 10px auto;
+  }
+
+  .linkButton {
+    background: none;
+    border: none;
+    color: #663300;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .message {
+    margin: 20px 0 0;
+    color: #b3b3b3;
+    font-size: 14px;
+  }
+
+  .link {
+    color: #d7c88e;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .link:hover {
+    text-decoration: underline;
+  }
+
+  .togglePassword {
+    margin: 0rem 0.5rem 0.9rem 0rem;
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+  }
+
+  .togglePassword img {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .button:hover,
 .button:active,
 .button:focus {
-  opacity: 0.6;
-}
-
-.message {
-  margin: 15px 0 0;
-  color: #b3b3b3;
-  font-size: 12px;
-}
-
-.link {
-  color: #d7c88e;
-  text-decoration: none;
+  opacity: 0.8;
+  background: #663300;
 }
 
 .modal {
@@ -97,8 +175,8 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modalContent {
@@ -125,34 +203,93 @@
   cursor: pointer;
 }
 
-.error {
-  color: red;
-  font-size: 12px;
-}
+@media (max-width: 992px) {
+  .registerPage .form {
+    max-width: 90%;
+    padding: 25px;
+  }
 
-.passwordWrapper {
-  width: 95%;
-  position: relative;
-  display: flex;
-  align-items: center;
-
-  input {
-    width: 95%;
+  .registerPage .registerForm {
+    max-width: 90% !important;
   }
 }
 
-.togglePassword {
-  margin: 0rem 0.5rem 0.9rem 0rem;
-  position: absolute;
-  right: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  color: #333;
+@media (max-height: 600px) {
+  .registerPage {
+    padding-top: 400px;
+  }
 }
 
-.togglePassword img {
-  width: 20px;
-  height: 20px;
+@media (max-height: 400px) {
+  .registerPage {
+    padding-top: 600px;
+  }
+}
+
+@media (max-width: 768px) {
+  .registerPage .form {
+    padding: 20px;
+  }
+
+  .registerPage .registerForm {
+    padding: 20px;
+  }
+
+  .registerPage .welcomeMessage {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+
+  .registerPage .input,
+  .registerPage .button {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .registerPage {
+    padding: 15px;
+    padding-top: 60px;
+  }
+
+  .registerPage .form {
+    margin: 10px auto;
+    padding: 20px 15px;
+  }
+
+  .registerPage .registerForm {
+    margin-top: 20px;
+  }
+
+  .registerPage .welcomeMessage {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .registerPage .input,
+  .registerPage .button {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .registerPage .message {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 375px) {
+  .registerPage .form {
+    padding: 15px 10px;
+  }
+
+  .registerPage .input,
+  .registerPage .button {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+
+  .registerPage .welcomeMessage {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
 }
