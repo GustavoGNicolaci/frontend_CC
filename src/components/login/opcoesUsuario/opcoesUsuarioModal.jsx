@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa o hook de navegação
+import { useNavigate } from 'react-router-dom';
 import styles from './OpcoesUsuarioModal.module.css';
 
 const OpcoesUsuarioModal = ({ onClose, onSair }) => {
-    const navigate = useNavigate(); // Inicializa o hook de navegação
+    const navigate = useNavigate();
 
     const handleAlterarConta = () => {
-        onClose(); // Fecha a modal
-        navigate('/perfil'); // Redireciona para a página de perfil
+        onClose();
+        navigate('/perfil');
     };
 
     return (
