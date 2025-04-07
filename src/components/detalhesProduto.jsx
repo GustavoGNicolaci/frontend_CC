@@ -9,16 +9,29 @@ import { CartContext } from '../CartContext';
 function DetalhesProduto() {
     const location = useLocation();
     const { title, imageSrc, price, description } = location.state || {};
-    const { addToCart, stock } = useContext(CartContext);
+    const { addToCart, stock = {} } = useContext(CartContext);
+
+    // Verifique se os dados do produto estão disponíveis
+    if (!title || !imageSrc || !price || !description) {
+        return <div>Erro: Detalhes do produto não encontrados.</div>;
+    }
 
     const handleAddToCart = () => {
-        if (stock[title] > 0) {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Você precisa estar logado para comprar!');
+            return;
+        }
+
+        if ((stock[title] || 0) > 0) {
             addToCart({ title, imageSrc, price });
             alert(`${title} adicionado ao carrinho!`);
+        } else {
+            alert('Produto esgotado!');
         }
     };
 
-    const isOutOfStock = stock[title] <= 0;
+    const isOutOfStock = (stock[title] || 0) <= 0;
 
     return (
         <div className={styles.detalhesPage}>
@@ -30,11 +43,11 @@ function DetalhesProduto() {
                 <div className={styles.detailsContainer}>
                     <h2>{title}</h2>
                     <p className={styles.detalhesPrice}>{price}</p>
-                    <p className={styles.productDetails}>{description}</p> 
-                    <p className={styles.stockInfo}>Em estoque: {stock[title]}</p> 
-                    <button 
-                        className={`${styles.buyButton} ${isOutOfStock ? styles.outOfStock : ''}`} 
-                        onClick={handleAddToCart} 
+                    <p className={styles.productDetails}>{description}</p>
+                    <p className={styles.stockInfo}>Em estoque: {stock[title] || 0}</p>
+                    <button
+                        className={`${styles.buyButton} ${isOutOfStock ? styles.outOfStock : ''}`}
+                        onClick={handleAddToCart}
                         disabled={isOutOfStock}
                     >
                         Comprar
