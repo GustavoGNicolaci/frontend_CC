@@ -12,6 +12,13 @@ function CardProduto({ id, imageSrc, title, price, buttonText, description, stoc
     const { addToCart } = useContext(CartContext);
 
     const handleBuyClick = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Você precisa estar logado para comprar!');
+            navigate('/login'); // Redireciona para a página de login
+            return;
+        }
+
         if (stock > 0) {
             try {
                 addToCart({ id, title, imageSrc, price });
