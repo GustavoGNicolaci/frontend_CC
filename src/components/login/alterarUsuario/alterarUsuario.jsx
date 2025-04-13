@@ -4,13 +4,14 @@ import InputMask from 'react-input-mask';
 import { useNavigate } from 'react-router-dom';
 import invisivel from '../../../assets/images/invisivel.png';
 import visivel from '../../../assets/images/visivel.png';
-// import { atualizarUsuario } from '../../services/usuarioService';
+import { jwtDecode } from "jwt-decode";
+import { getinfoUsuario } from '../../../services/loginService';
 import RequisitoSenhaModal from '../../cadastro/requisitoSenha/requisitoSenha';
+import Footer from '../../footer';
+import NavbarComponent from '../../navbar/navbar';
 import LoadingModal from '../../shared/loadingModal/loadingModal';
 import MessageModal from '../../shared/messageModal/messageModal';
 import styles from './alterarUsuario.module.css';
-import NavbarComponent from '../../navbar/navbar';
-import Footer from '../../footer';
 
 const AlterarUsuario = () => {
     const [errorMessage, setErrorMessage] = useState('');
@@ -35,6 +36,41 @@ const AlterarUsuario = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                // Recupere o token do localStorage
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    console.error('Token não encontrado. Redirecionando para login.');
+                    navigate('/login'); // Redirecione para login se o token não existir
+                    return;
+                }
+    
+                // Decodifique o token para obter o ID do usuário
+                const decodedToken = jwtDecode(token);
+                const userId = decodedToken.id; // Certifique-se de que o token contém o campo `id`
+    
+                // Busque as informações do usuário
+                const usuario = await getinfoUsuario(userId);
+    
+                // Atualize os estados com os dados do usuário
+                setEmail(usuario.email || '');
+                setPhone(usuario.telefone || '');
+                setCep(usuario.endereco.cep || '');
+                setRua(usuario.endereco.rua || '');
+                setBairro(usuario.endereco.bairro || '');
+                setCidade(usuario.endereco.cidade || '');
+                setEstado(usuario.endereco.estado || '');
+                setNumero(usuario.endereco.numero || '');
+                setComplemento(usuario.complemento || '');
+                setPassword(usuario.senha || '')
+            } catch (error) {
+                console.error("Erro ao buscar informações do usuário:", error);
+            }
+        };
+    
+        fetchUserData();
+
         let timeoutId;
         if (cep.length === 9) {
             timeoutId = setTimeout(async () => {
