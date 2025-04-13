@@ -201,13 +201,13 @@ function Produtos() {
                     {filteredProdutos.length > 0 ? (
                         filteredProdutos.map((produto) => (
                             <CardProduto
-                                key={produto._doc.id}
-                                imageSrc={produto._doc.imagem}
-                                title={produto._doc.titulo}
-                                price={`R$${produto._doc.preco.toFixed(2)}`}
+                                key={produto.id}
+                                imageSrc={produto.imagem}
+                                title={produto.titulo}
+                                price={`R$${produto.preco.toFixed(2)}`}
                                 buttonText="Comprar"
-                                description={produto._doc.descricao}
-                                stock={produto._doc.quantidadeEstoque}
+                                description={produto.descricao}
+                                stock={produto.quantidadeEstoque}
                             />
                         ))
                     ) : (

@@ -8,6 +8,11 @@ const encryptData = (data: string) => {
     return CryptoJS.AES.encrypt(data, SECRET_KEY).toString();
 };
 
+const decryptData = (encryptedData: string) => {
+    const bytes = CryptoJS.AES.decrypt(encryptedData, SECRET_KEY);
+    return bytes.toString(CryptoJS.enc.Utf8);
+};
+
 const handleError = (error: any) => {
     if (axios.isAxiosError(error)) {
         if (error.response) {
@@ -73,3 +78,44 @@ export const registro = async (
         handleError(error);
     }
 };
+
+export const getinfoUsuario = async (userId: string) => {
+    try {
+        // Recupere o token do localStorage
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error('Token não encontrado. Faça login novamente.');
+        }
+
+        // Faça a requisição com o cabeçalho Authorization
+        const response = await axios.get(`${API_URL}/user/${userId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`, // Adicione o token no cabeçalho
+            },
+        });
+
+        const usuario = response.data.usuario;
+
+        return {
+            email: usuario.email,
+            telefone: usuario.telefone,
+            endereco: {
+                ...usuario.endereco,    
+                cep: decryptData(usuario.endereco.cep),
+                rua: decryptData(usuario.endereco.rua),
+                estado: decryptData(usuario.endereco.estado),
+                cidade: decryptData(usuario.endereco.cidade),
+                bairro: decryptData(usuario.endereco.bairro),
+                numero: decryptData(usuario.endereco.numero),
+                complemento: usuario.complemento ? decryptData(usuario.complemento) : '',
+            },
+            senha: usuario.senha,
+        };
+    } catch (error) {
+        handleError(error);
+    }
+};
+
+export const alterarInformacoes = async () => {
+
+}
