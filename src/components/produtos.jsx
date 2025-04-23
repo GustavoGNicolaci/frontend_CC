@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 "use client"
 
 import { useContext, useEffect, useState } from "react"
@@ -8,10 +9,15 @@ import Footer from "./footer"
 import { useNavigate } from "react-router-dom"
 import { CartContext } from "../CartContext"
 import { Search, SlidersHorizontal, Coffee, DollarSign, Package } from "lucide-react"
+import MessageModal from "./shared/messageModal/messageModal"
+
 
 function CardProduto({ imageSrc, title, price, buttonText, description, stock }) {
     const navigate = useNavigate()
     const { addToCart } = useContext(CartContext)
+
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [modalMessage, setModalMessage] = useState("") 
 
     const handleBuyClick = async () => {
         if (stock > 0) {
@@ -20,14 +26,21 @@ function CardProduto({ imageSrc, title, price, buttonText, description, stock })
 
                 await axios.put(`http://localhost:5002/product/${title}`, { quantidadeEstoque: stock - 1 })
 
-                alert(`${title} adicionado ao carrinho!`)
+                setModalMessage(`${title} adicionado ao carrinho!`) // Define a mensagem de sucesso
+                setIsModalOpen(true)
             } catch (error) {
                 console.error("Erro ao atualizar estoque:", error)
-                alert("Erro ao adicionar produto ao carrinho. Tente novamente.")
+                setModalMessage("Erro ao adicionar produto ao carrinho. Tente novamente.") // Define a mensagem de erro
+                setIsModalOpen(true) 
             }
         } else {
-            alert("Produto esgotado!")
+            setModalMessage("Produto esgotado!") // Define a mensagem de produto esgotado
+            setIsModalOpen(true)
         }
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false) // Fecha a modal
     }
 
     return (
@@ -49,6 +62,15 @@ function CardProduto({ imageSrc, title, price, buttonText, description, stock })
             >
                 Detalhes
             </button>
+
+            {isModalOpen && (
+                <MessageModal
+                    icon={<span>✔️</span>}
+                    message={modalMessage}
+                    onClose={closeModal}
+                />
+            )}
+
         </div>
     )
 }

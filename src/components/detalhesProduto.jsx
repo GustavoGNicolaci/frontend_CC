@@ -1,21 +1,29 @@
 // src/components/detalhesProduto.js
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styles from './detalhesProduto.module.css'; 
 import NavbarComponent from './navbar/navbar';
 import Footer from './footer';
 import { CartContext } from '../CartContext';
+import MessageModal from '../components/shared/messageModal/messageModal';
+import iconeSucesso from '../assets/images/sucesso.svg';
 
 function DetalhesProduto() {
     const location = useLocation();
     const { title, imageSrc, price, description } = location.state || {};
     const { addToCart, stock } = useContext(CartContext);
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const handleAddToCart = () => {
         if (stock[title] > 0) {
             addToCart({ title, imageSrc, price });
-            alert(`${title} adicionado ao carrinho!`);
+            setIsModalOpen(true); // Exibe a modal
         }
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false); // Fecha a modal
     };
 
     const isOutOfStock = stock[title] <= 0;
@@ -42,6 +50,15 @@ function DetalhesProduto() {
                 </div>
             </div>
             <Footer />
+
+            {isModalOpen && (
+                <MessageModal 
+                    icon={<img src={iconeSucesso} alt="Sucesso" />} 
+                    message={`${title} adicionado ao carrinho!`} 
+                    onClose={closeModal} 
+                />
+            )}
+   
         </div>
     );
 }
