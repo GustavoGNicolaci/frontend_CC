@@ -1,20 +1,49 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../CartContext';
-import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 import NavbarComponent from './navbar/navbar';
 import Footer from './footer';
+import LoadingModal from './shared/loadingModal/loadingModal';
 import styles from './carrinho.module.css';
+import { fetchCart } from '../services/carrinhoService';
 
 function Carrinho() {
-    const { cartItems, removeFromCart } = useContext(CartContext);
-    const navigate = useNavigate(); // Inicializar useNavigate
+    const { cartItems, setCartItems, removeFromCart } = useContext(CartContext);
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
-    console.log("Itens no carrinho:", cartItems);
+    useEffect(() => {
+        const loadCart = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    console.error('Token não encontrado');
+                    return;
+                }
+
+                const data = await fetchCart(token);
+                if (data.success) {
+                    setCartItems(data.data);
+                } else {
+                    console.error(data.message);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar o carrinho:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadCart();
+    }, [setCartItems]);
 
     const handleCheckout = () => {
-        // Redirecionar para a página de checkout
         navigate('/checkout');
     };
+
+    if (loading) {
+        return <LoadingModal />;
+    }
 
     return (
         <div className={styles.carrinhoPage}>
