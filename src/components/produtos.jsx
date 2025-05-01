@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 "use client"
 
 import { useContext, useEffect, useState } from "react"
@@ -10,34 +9,37 @@ import { useNavigate } from "react-router-dom"
 import { CartContext } from "../CartContext"
 import { Search, SlidersHorizontal, Coffee, DollarSign, Package } from "lucide-react"
 import MessageModal from "./shared/messageModal/messageModal"
+import { addProductToCart } from "../services/carrinhoService"
 
 
-function CardProduto({ imageSrc, title, price, buttonText, description, stock }) {
+function CardProduto({ id,  imageSrc, title, price, buttonText, description, stock }) {
     const navigate = useNavigate()
     const { addToCart } = useContext(CartContext)
 
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [modalMessage, setModalMessage] = useState("") 
+    const token = localStorage.getItem('token');
 
     const handleBuyClick = async () => {
         if (stock > 0) {
             try {
-                addToCart({ title, imageSrc, price })
-
-                await axios.put(`http://localhost:5002/product/${title}`, { quantidadeEstoque: stock - 1 })
-
-                setModalMessage(`${title} adicionado ao carrinho!`) // Define a mensagem de sucesso
-                setIsModalOpen(true)
+                const response = await addProductToCart(token, id, 1); // Chamada ao serviço
+                if (response.success) {
+                    setModalMessage(`${title} adicionado ao carrinho!`);
+                } else {
+                    setModalMessage('Erro ao adicionar produto ao carrinho.');
+                }
             } catch (error) {
-                console.error("Erro ao atualizar estoque:", error)
-                setModalMessage("Erro ao adicionar produto ao carrinho. Tente novamente.") // Define a mensagem de erro
-                setIsModalOpen(true) 
+                console.error('Erro ao adicionar produto ao carrinho:', error);
+                setModalMessage('Erro ao adicionar produto ao carrinho. Tente novamente.');
+            } finally {
+                setIsModalOpen(true);
             }
         } else {
-            setModalMessage("Produto esgotado!") // Define a mensagem de produto esgotado
-            setIsModalOpen(true)
+            setModalMessage('Produto esgotado!');
+            setIsModalOpen(true);
         }
-    }
+    };
 
     const closeModal = () => {
         setIsModalOpen(false) // Fecha a modal
@@ -224,6 +226,7 @@ function Produtos() {
                         filteredProdutos.map((produto) => (
                             <CardProduto
                                 key={produto.id}
+                                id={produto.id}
                                 imageSrc={produto.imagem}
                                 title={produto.titulo}
                                 price={`R$${produto.preco.toFixed(2)}`}
