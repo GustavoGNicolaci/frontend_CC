@@ -18,12 +18,11 @@ function CardProduto({ id,  imageSrc, title, price, buttonText, description, sto
 
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [modalMessage, setModalMessage] = useState("") 
-    const token = localStorage.getItem('token');
 
     const handleBuyClick = async () => {
         if (stock > 0) {
             try {
-                const response = await addProductToCart(token, id, 1); // Chamada ao serviço
+                const response = await addProductToCart(id, 1); // Chamada ao serviço
                 if (response.success) {
                     setModalMessage(`${title} adicionado ao carrinho!`);
                 } else {
