@@ -5,7 +5,7 @@ import NavbarComponent from './navbar/navbar';
 import Footer from './footer';
 import LoadingModal from './shared/loadingModal/loadingModal';
 import styles from './carrinho.module.css';
-import { fetchCart } from '../services/carrinhoService';
+import { fetchCart, removeProductFromCart } from '../services/carrinhoService';
 
 function Carrinho() {
     const { cartItems, setCartItems, removeFromCart } = useContext(CartContext);
@@ -37,6 +37,26 @@ function Carrinho() {
         loadCart();
     }, [setCartItems]);
 
+
+    const handleRemoveItem = async (idProduto) => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                return;
+            }
+
+            const response = await removeProductFromCart(idProduto);
+            if (response.success) {
+                // Atualize o estado do carrinho localmente
+                setCartItems((prevItems) =>
+                    prevItems.filter((item) => item.id !== idProduto)
+                );
+            }
+        } catch (error) {
+            console.error('Erro ao remover o produto do carrinho:', error);
+        }
+    };
+
     const handleCheckout = () => {
         navigate('/checkout');
     };
@@ -61,7 +81,7 @@ function Carrinho() {
                             <div className={styles.cartDetails}>
                                 <h3>{item.title}</h3>
                                 <p>{item.price}</p>
-                                <button onClick={() => removeFromCart(item.title)}>Remover</button>
+                                <button onClick={() => handleRemoveItem(item.id)}>Remover</button>
                             </div>
                         </div>
                     ))}
