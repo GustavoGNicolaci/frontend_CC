@@ -16,18 +16,18 @@ function Checkout() {
         setShowCardDetails(paymentMethod === 'creditCard');
     };
 
-    const validateAddress = () => {
-        const cep = document.getElementById('cep').value;
-        const city = document.getElementById('city').value;
-        const street = document.getElementById('street').value;
-        const number = document.getElementById('number').value;
+    // const validateAddress = () => {
+    //     const cep = document.getElementById('cep').value;
+    //     const city = document.getElementById('city').value;
+    //     const street = document.getElementById('street').value;
+    //     const number = document.getElementById('number').value;
 
-        setIsAddressComplete(cep && city && street && number);
-    };
+    //     setIsAddressComplete(cep && city && street && number);
+    // };
 
-    const productPrice = item.totalPrice;
+    // const productPrice = item.totalPrice;
     const shippingCost = 0.00;
-    const totalPrice = productPrice + shippingCost;
+    // const totalPrice = productPrice + shippingCost;
 
     return (
         <div className={styles.checkoutPage}>
@@ -46,17 +46,17 @@ function Checkout() {
                                 onChange={(e) => {
                                     const value = e.target.value.replace(/[^0-9]/g, '');
                                     e.target.value = value;
-                                    validateAddress();
+                                    // validateAddress();
                                 }}
                             />
                         </div>
                         <div className={styles.inputGroup}>
                             <label htmlFor="city">Cidade:</label>
-                            <input type="text" id="city" required onChange={validateAddress} />
+                            <input type="text" id="city" required  />
                         </div>
                         <div className={styles.inputGroup}>
                             <label htmlFor="street">Rua:</label>
-                            <input type="text" id="street" required onChange={validateAddress} />
+                            <input type="text" id="street" required />
                         </div>
                         <div className={styles.inputGroup}>
                             <label htmlFor="number">Número:</label>
@@ -67,7 +67,7 @@ function Checkout() {
                                 onChange={(e) => {
                                     const value = e.target.value.replace(/[^0-9]/g, '');
                                     e.target.value = value;
-                                    validateAddress();
+                                   
                                 }}
                             />
                         </div>
@@ -134,9 +134,9 @@ function Checkout() {
 
                 <div className={styles.totalSection}>
                     <h2>Total a Pagar</h2>
-                    <p>Preço dos Produtos: R$ {productPrice.toFixed(2)}</p>
+                    {/* <p>Preço dos Produtos: R$ {productPrice.toFixed(2)}</p> */}
                     <p>Preço de Frete: R$ {shippingCost.toFixed(2)}</p>
-                    <p style={{ fontSize: '24px', fontWeight: 'bold' }}>Total: R$ {totalPrice.toFixed(2)}</p>
+                    {/* <p style={{ fontSize: '24px', fontWeight: 'bold' }}>Total: R$ {totalPrice.toFixed(2)}</p> */}
                 </div>
 
             </div>
