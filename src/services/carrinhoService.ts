@@ -71,3 +71,25 @@ export const removeProductFromCart = async (idProduto: string) => {
         throw error;
     }
 };
+
+/**
+ * Atualiza a quantidade de um produto no carrinho do usuário autenticado.
+ * @param idProduto ID do produto a ser atualizado.
+ * @param quantidade Nova quantidade do produto.
+ * @returns Resposta da API.
+ */
+export const updateCartItemQuantity = async (idProduto: string, quantidade: number) => {
+    try {
+        const response = await api.put(
+            '/atualizar-quantidade',
+            { idProduto, quantidade },
+            {
+                headers: getAuthHeaders(),
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao atualizar quantidade do produto no carrinho:', error);
+        throw error;
+    }
+};
