@@ -16,8 +16,9 @@ const OpcoesUsuarioModal = ({ onClose, onSair }) => {
             <div className={styles.arrow}></div>
             <div className={styles.content}>
                 <button className={styles.option} onClick={handleAlterarConta}>Alterar Conta</button>
-                <button className={styles.option} onClick={onSair}>Sair</button>
-            </div>
+                <button className={styles.option} onClick={handleAlterarConta}>Pedidos</button>
+                <hr/>
+                <button className={`${styles.option} ${styles.optionSair}`} onClick={onSair}>Sair</button>            </div>
         </div>
     );
 };
