@@ -138,6 +138,11 @@
     margin-left: auto;
 }
 
+.helloUser {
+    font-size: 20px;
+    margin-left: 0.25rem;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
