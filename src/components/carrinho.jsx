@@ -134,9 +134,9 @@ function Carrinho() {
         if (typeof item.price === "string") {
             // Se for uma string como "R$99.99"
             return Number.parseFloat(item.price.replace(/[^\d.,]/g, "").replace(",", "."))
-        } else if (item.preco) {
+        } else if (item.price) {
             // Se for um número direto
-            return item.preco
+            return item.price
         }
         return 0
     }
