@@ -11,11 +11,11 @@ import { ShoppingBag, CreditCard, Truck, MapPin, ArrowLeft } from "lucide-react"
 function Checkout() {
     const [selectedPayment, setSelectedPayment] = useState("")
     const [showCardDetails, setShowCardDetails] = useState(false)
-    const [isAddressComplete, setIsAddressComplete] = useState(true) // Alterado para true para facilitar testes
+    const [isAddressComplete, setIsAddressComplete] = useState(true)
     const [formData, setFormData] = useState({
         cep: "",
         city: "",
-        neighborhood: "", // Novo campo para bairro
+        neighborhood: "",
         street: "",
         number: "",
         complement: "",
@@ -37,7 +37,6 @@ function Checkout() {
         const { id, value } = e.target
         let processedValue = value
 
-        // Processamento específico para campos numéricos
         if (id === "cep" || id === "number") {
             processedValue = value.replace(/[^0-9]/g, "")
         }
@@ -47,7 +46,6 @@ function Checkout() {
             [id]: processedValue,
         })
 
-        // Validar endereço
         if (["cep", "city", "neighborhood", "street", "number"].includes(id)) {
             validateAddress()
         }
@@ -77,16 +75,15 @@ function Checkout() {
     }
 
     const subtotal = calculateSubtotal()
-    const shippingCost = 15.0 // Valor fixo de frete para exemplo
+    const shippingCost = 15.0
     const totalPrice = subtotal + shippingCost
 
-    // Determina a classe de padding com base na quantidade de itens
     const getContainerClass = () => {
         return styles.mainContainer
     }
 
     return (
-        <div className={getContainerClass()}>
+        <div className={getContainerClass()} data-payment={selectedPayment}>
             <NavbarComponent />
             <div className={styles.checkoutPage}>
                 <div className={styles.headerContainer}>

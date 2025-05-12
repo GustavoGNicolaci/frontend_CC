@@ -372,22 +372,16 @@
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1000px) {
     .mainContainer {
-        padding-top: 850px !important;
+        padding-top: 1100px !important;
     }
 
-    .checkoutContent {
-        grid-template-columns: 1fr 1fr;
+    .mainContainer[data-payment="pix"] {
+        padding-top: 1100px !important;
     }
 
-    .orderSummary {
-        grid-column: span 2;
-    }
-}
-
-@media (max-width: 768px) {
-    .mainContainer {
+    .mainContainer[data-payment="creditCard"] {
         padding-top: 1500px !important;
     }
 
@@ -419,6 +413,14 @@
 @media (max-width: 576px) {
     .mainContainer {
         padding-top: 80px;
+    }
+
+    .mainContainer[data-payment="pix"] {
+        padding-top: 1100px !important;
+    }
+
+    .mainContainer[data-payment="creditCard"] {
+        padding-top: 1500px !important;
     }
 
     .actionButtons {
@@ -600,34 +602,45 @@
 }
 
 /* Media Queries combinados (height + width) */
-@media (max-width: 992px) and (max-height: 400px) {
-    .mainContainer {
-        padding-top: 950px !important;
-    }
-}
-
-@media (max-width: 992px) and (max-height: 300px) {
+@media (max-width: 1000px) and (max-height: 600px) {
     .mainContainer {
         padding-top: 1100px !important;
     }
-}
 
+    .mainContainer[data-payment="pix"] {
+        padding-top: 1100px !important;
+    }
 
-@media (max-width: 768px) and (max-height: 600px) {
-    .mainContainer {
+    .mainContainer[data-payment="creditCard"] {
         padding-top: 1400px !important;
     }
 }
 
-@media (max-width: 768px) and (max-height: 400px) {
+@media (max-width: 1000px) and (max-height: 500px) {
     .mainContainer {
-        padding-top: 1450px !important;
+        padding-top: 1200px !important;
+    }
+
+    .mainContainer[data-payment="pix"] {
+        padding-top: 1200px !important;
+    }
+
+    .mainContainer[data-payment="creditCard"] {
+        padding-top: 1500px !important;
     }
 }
 
-@media (max-width: 768px) and (max-height: 300px) {
+@media (max-width: 1000px) and (max-height: 300px) {
     .mainContainer {
-        padding-top: 1600px !important;
+        padding-top: 1300px !important;
+    }
+
+    .mainContainer[data-payment="pix"] {
+        padding-top: 1300px !important;
+    }
+
+    .mainContainer[data-payment="creditCard"] {
+        padding-top: 1650px !important;
     }
 }
 
@@ -635,10 +648,26 @@
     .mainContainer {
         padding-top: 700px;
     }
+
+    .mainContainer[data-payment="pix"] {
+        padding-top: 1100px !important;
+    }
+
+    .mainContainer[data-payment="creditCard"] {
+        padding-top: 1500px !important;
+    }
 }
 
 @media (max-width: 576px) and (max-height: 600px) {
     .mainContainer {
         padding-top: 600px;
+    }
+
+    .mainContainer[data-payment="pix"] {
+        padding-top: 1100px !important;
+    }
+
+    .mainContainer[data-payment="creditCard"] {
+        padding-top: 1500px !important;
     }
 }
