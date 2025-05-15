@@ -126,7 +126,16 @@ function Carrinho() {
   }
 
   const handleCheckout = () => {
-    navigate("/checkout")
+    navigate("/checkout", {
+      state: {
+        cartItems: cartItems.map(item => ({
+          ...item,
+          price: extractPrice(item),
+          quantity: itemQuantities[item.id || item._id] || 1
+        })),
+        subtotal: calculateSubtotal()
+      }
+    });
   }
 
   // Função para extrair o preço numérico de um item

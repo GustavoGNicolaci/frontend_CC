@@ -12,8 +12,6 @@ export const CartProvider = ({ children }) => {
     });
 
     const addToCart = (item) => {
-        console.log("Adicionando ao carrinho:", item);
-
         const existingItem = cartItems.find(cartItem => cartItem.title === item.title);
 
         if (existingItem) {
@@ -34,8 +32,23 @@ export const CartProvider = ({ children }) => {
         }));
     };
 
+    const calculateTotal = (shippingCost = 15.0) => {
+        const subtotal = cartItems.reduce((total, item) => {
+            const price = item.price || 0;
+            const quantity = item.quantity || 1;
+            return total + (price * quantity);
+        }, 0);
+        return subtotal + shippingCost;
+    };
+
     return (
-        <CartContext.Provider value={{ cartItems, setCartItems, addToCart, stock }}>
+        <CartContext.Provider value={{ 
+            cartItems, 
+            setCartItems, 
+            addToCart, 
+            stock,
+            calculateTotal
+        }}>
             {children}
         </CartContext.Provider>
     );

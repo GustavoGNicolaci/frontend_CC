@@ -63,20 +63,18 @@ function Checkout() {
     // Calcular preços
     const calculateSubtotal = () => {
         return cartItems.reduce((total, item) => {
-            let price = 0
-            if (typeof item.price === "string") {
-                price = Number.parseFloat(item.price.replace(/[^\d.,]/g, "").replace(",", "."))
-            } else if (item.preco) {
-                price = item.preco
-            }
-            const quantity = item.quantidade || item.quantity || 1
-            return total + (isNaN(price) ? 0 : price * quantity)
-        }, 0)
+            const price = item.price || 0; // Já extraído no carrinho
+            const quantity = item.quantity || 1;
+            return total + (price * quantity);
+        }, 0);
     }
 
-    const subtotal = calculateSubtotal()
-    const shippingCost = 15.0
-    const totalPrice = subtotal + shippingCost
+    // Estado para o frete
+    const [shippingCost, setShippingCost] = useState(15.0); // Valor padrão ou calculado
+
+    // Cálculo do total
+    const subtotal = calculateSubtotal();
+    const totalPrice = subtotal + shippingCost;
 
     const getContainerClass = () => {
         return styles.mainContainer
@@ -303,11 +301,8 @@ function Checkout() {
                             {cartItems.length > 0 ? (
                                 <div className={styles.itemsList}>
                                     {cartItems.map((item, index) => {
-                                        const price =
-                                            typeof item.price === "string"
-                                                ? Number.parseFloat(item.price.replace(/[^\d.,]/g, "").replace(",", "."))
-                                                : item.preco || 0
-                                        const quantity = item.quantidade || item.quantity || 1
+                                        const price = item.price || 0;
+                                        const quantity = item.quantity || 1;
 
                                         return (
                                             <div key={index} className={styles.orderItem}>
@@ -328,7 +323,7 @@ function Checkout() {
 
                         <div className={styles.orderSummaryDetails}>
                             <div className={styles.summaryRow}>
-                                <span>Subtotal</span>
+                                <span>Subtotal ({cartItems.length} {cartItems.length === 1 ? 'item' : 'itens'})</span>
                                 <span>R$ {subtotal.toFixed(2)}</span>
                             </div>
                             <div className={styles.summaryRow}>
