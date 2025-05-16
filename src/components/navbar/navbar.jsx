@@ -9,9 +9,16 @@ import { FaShoppingCart, FaUser, FaCoffee, FaMapMarkerAlt, FaBriefcase, FaInfoCi
 import { useAuth } from "../../authenticate/authContext"
 import OpcoesUsuarioModal from "../login/opcoesUsuario/opcoesUsuarioModal"
 import styles from "./navbar.module.css"
+import chevronDownBrown from '../../assets/images/chevron-down-brown.png'
+import chevronUpBrown from '../../assets/images/chevron-up-brown.png'
+import chevronDownLight from '../../assets/images/chevron-down-white.png'
+import chevronUpLight from '../../assets/images/chevron-up-white.png'
+
 
 function NavbarComponent() {
   const [showModal, setShowModal] = useState(false)
+  const [isUserHovered, setIsUserHovered] = useState(false)
+
   const { token, logout } = useAuth()
 
   const handleToggleModal = () => {
@@ -57,9 +64,27 @@ function NavbarComponent() {
           </Nav.Link>
 
           {token ? (
-            <div className={styles.userContainer} onClick={handleToggleModal} style={{ cursor: 'pointer' }}>
+            <div
+              className={styles.userContainer}
+              onClick={handleToggleModal}
+              onMouseEnter={() => setIsUserHovered(true)}
+              onMouseLeave={() => setIsUserHovered(false)}
+              style={{ cursor: 'pointer', position: 'relative' }}
+            >
               <div className={styles.navIcon}>
                 <FaUser size={24} />
+                <span className={styles.helloUser}>
+                  Olá, user
+                </span>
+                <img
+                  src={
+                    showModal
+                      ? (isUserHovered ? chevronUpLight : chevronUpBrown)
+                      : (isUserHovered ? chevronDownLight : chevronDownBrown)
+                  }
+                  alt="chevron"
+                  className={styles.arrowIcon}
+                />
               </div>
               {showModal && (
                 <OpcoesUsuarioModal
@@ -71,7 +96,8 @@ function NavbarComponent() {
             </div>
           ) : (
             <Nav.Link href="/login" className={styles.navIcon}>
-              <FaUser size={24} />
+              <FaUser/>
+              <span className={styles.helloUser}>Entrar/Cadastrar</span>
             </Nav.Link>
           )}
         </div>

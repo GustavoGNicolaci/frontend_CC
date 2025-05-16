@@ -114,13 +114,24 @@
 .navIcon {
     color: #663300 !important;
     margin-left: 20px;
-    font-size: 24px;
-    transition: all 0.3s ease;
+    font-size: 20px;
+    transition: background 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    padding: 6px 10px;
+    gap: 5px
 }
 
 .navIcon:hover {
-    opacity: 0.7 !important;
-    transform: scale(1.1);
+    background-color: #663300 !important;
+    color: #f0ede4 !important;
+}
+
+.navIcon:hover .helloUser,
+.navIcon:hover svg {
+    color: #f0ede4 !important;
+    background: none !important;
 }
 
 .userContainer {
@@ -128,6 +139,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.userContainer:hover {
+    background-color: #663300 !important;
+    margin-left: 10px;
+}
+
+.userContainer:hover .helloUser,
+.userContainer:hover .arrowIcon,
+.userContainer:hover .navIcon {
+    color: #f0ede4 !important;
+    background: none !important;
 }
 
 .iconContainer {
@@ -136,9 +162,12 @@
     margin-left: auto;
 }
 
-.helloUser {
-    font-size: 20px;
-    margin-left: 0.25rem;
+.arrowIcon {
+    margin-left: 6px;
+    width: 24px;
+    height: 24px;
+    transition: filter 0.2s;
+    vertical-align: middle;
 }
 
 @keyframes fadeIn {
