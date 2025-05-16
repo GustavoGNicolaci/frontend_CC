@@ -1,7 +1,5 @@
-/* Importação de fontes */
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-/* Estilos gerais */
 .container {
   width: 100%;
   min-height: 100vh;
@@ -15,28 +13,24 @@
 
 .welcomeMessage {
   font-size: 24px;
-  font-family: 'Dancing Script', cursive;
+  font-family: "Dancing Script", cursive;
   margin-bottom: 20px;
   color: #333;
 }
 
-/* Formulário de cadastro */
 .registerForm {
   position: relative;
   z-index: 1;
   background: #ffffff;
   width: 100%;
-  max-width: 60%;
-  max-height: 30rem;
+  max-width: 75%;
   margin: 20px auto;
-  padding: 30px;
+  padding: 25px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
   border-radius: 8px;
-  overflow-y: auto;
 }
 
-/* Estilos para seções do formulário */
 .informacoesPessoais,
 .endereco {
   display: flex;
@@ -49,15 +43,14 @@
   margin-bottom: 0px;
 }
 
-/* Campos de entrada */
 .input {
   font-family: "Roboto", sans-serif;
   outline: 0;
   background: #f2f2f2;
-  width: 40%;
+  width: 32%;
   border: 0;
   margin: 0 0 15px;
-  padding: 15px;
+  padding: 12px;
   box-sizing: border-box;
   font-size: 14px;
   gap: 10px;
@@ -67,20 +60,19 @@
   border: 2px solid red;
 }
 
-/* Botão de cadastro */
 .button {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
   background: #663300;
-  width: 71%;
+  width: 60%;
   border: 0;
-  padding: 15px;
-  color: #FFFFFF;
+  padding: 12px;
+  color: #ffffff;
   font-size: 14px;
   transition: all 0.3s ease;
   cursor: pointer;
-  height: 3rem;
+  height: 2.8rem;
 }
 
 .button:hover,
@@ -89,7 +81,6 @@
   opacity: 0.6;
 }
 
-/* Mensagens e links */
 .message {
   margin: 15px 0 0;
   color: #b3b3b3;
@@ -104,7 +95,6 @@
   text-decoration: none;
 }
 
-/* Modal */
 .modal {
   display: flex;
   justify-content: center;
@@ -143,28 +133,31 @@
   cursor: pointer;
 }
 
-/* Mensagens de erro */
 .error {
   color: red;
   font-size: 12px;
 }
+
 .confirmarSenha {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
 
-  .passwordWrapper {
-    width: 95%;
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
+.confirmarSenha .passwordWrapper {
+  width: 45%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+}
 
-  .input {
-    width: 95%;
-  }
+.confirmarSenha .input {
+  width: 100%;
+}
 
-  /* Botão para alternar visibilidade da senha */
-.togglePassword {
+.confirmarSenha .togglePassword {
   margin: 0rem 0.5rem 0.9rem 0rem;
   position: absolute;
   right: 10px;
@@ -175,9 +168,22 @@
   color: #333;
 }
 
-.togglePassword img {
+.confirmarSenha .togglePassword img {
   width: 20px;
   height: 20px;
 }
 
+@media (max-width: 1200px) {
+  .registerForm {
+    max-width: 90%;
+  }
+
+  .input {
+    width: 45%;
+  }
+
+  .confirmarSenha .passwordWrapper {
+    width: 100%;
+    margin: 0;
+  }
 }

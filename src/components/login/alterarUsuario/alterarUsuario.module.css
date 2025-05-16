@@ -7,154 +7,148 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 240px 40px 25px;
+  padding: 350px 30px 20px;
+}
 
-  .container {
-    max-height: 32rem;
-  }
+.form {
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  width: 100%;
+  max-width: 70%;
+  margin: 15px auto;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  border-radius: 8px;
+}
 
-  .form {
-    position: relative;
-    z-index: 1;
-    background: #ffffff;
-    width: 100%;
-    max-width: 550px;
-    margin: 20px auto;
-    padding: 40px;
-    text-align: center;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-    border-radius: 8px;
-  }
+.registerForm {
+  padding: 5px;
+}
 
-  .registerForm {
-    max-height: 400px;
-    overflow: auto;
-    padding: 10px;
-  }
+.welcomeMessage {
+  font-size: 22px;
+  font-family: "Dancing Script", cursive;
+  margin-bottom: 15px;
+  color: #333;
+}
 
-  .welcomeMessage {
-    font-size: 28px;
-    font-family: 'Dancing Script', cursive;
-    margin-bottom: 25px;
-    color: #333;
-  }
+.informacoesPessoais,
+.endereco {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  gap: 8px;
+}
 
-  .informacoesPessoais,
-  .endereco {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-bottom: 25px;
-    gap: 15px;
-  }
+.endereco {
+  margin-bottom: 8px;
+}
 
-  .endereco {
-    margin-bottom: 10px;
-  }
+.input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 45%;
+  border: 0;
+  margin: 0 0 12px;
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 13px;
+  gap: 8px;
+  border-radius: 4px;
+}
 
-  .input {
-    font-family: "Roboto", sans-serif;
-    outline: 0;
-    background: #f2f2f2;
-    width: 45%;
-    border: 0;
-    margin: 0 0 15px;
-    padding: 15px;
-    box-sizing: border-box;
-    font-size: 14px;
-    gap: 10px;
-    border-radius: 4px;
-  }
+.errorInput {
+  border: 2px solid red;
+}
 
-  .errorInput {
-    border: 2px solid red;
-  }
+.error {
+  color: red;
+  font-size: 11px;
+  text-align: left;
+  margin-top: -8px;
+  margin-bottom: 8px;
+  width: 45%;
+}
 
-  .error {
-    color: red;
-    font-size: 12px;
-    text-align: left;
-    margin-top: -10px;
-    margin-bottom: 10px;
-    width: 45%;
-  }
+.confirmarSenha {
+  max-width: 75%;
+  margin: 0 auto 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-  .confirmarSenha {
-    max-width: 80%;
-    margin: 0 auto 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
+.passwordWrapper {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
 
-  .passwordWrapper {
-    width: 100%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+.passwordWrapper input {
+  width: 100%;
+}
 
-    input {
-      width: 100%;
-    }
-  }
+.button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #663300;
+  width: 55%;
+  border: 0;
+  padding: 10px;
+  color: #ffffff;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: 2.7rem;
+  border-radius: 4px;
+  margin: 8px auto;
+}
 
-  .button {
-    font-family: "Roboto", sans-serif;
-    text-transform: uppercase;
-    outline: 0;
-    background: #663300;
-    width: 80%;
-    border: 0;
-    padding: 15px;
-    color: #FFFFFF;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    height: 3.5rem;
-    border-radius: 4px;
-    margin: 10px auto;
-  }
+.linkButton {
+  background: none;
+  border: none;
+  color: #663300;
+  cursor: pointer;
+  text-decoration: none;
+}
 
-  .linkButton {
-    background: none;
-    border: none;
-    color: #663300;
-    cursor: pointer;
-    text-decoration: none;
-  }
+.message {
+  margin: 12px 0 0;
+  color: #b3b3b3;
+  font-size: 13px;
+}
 
-  .message {
-    margin: 20px 0 0;
-    color: #b3b3b3;
-    font-size: 14px;
-  }
+.link {
+  color: #663300;
+  text-decoration: none;
+  font-weight: 600;
+}
 
-  .link {
-    color: #d7c88e;
-    text-decoration: none;
-    font-weight: 600;
-  }
+.link:hover {
+  text-decoration: underline;
+}
 
-  .link:hover {
-    text-decoration: underline;
-  }
+.togglePassword {
+  margin: 0rem 0.5rem 0.7rem 0rem;
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: #333;
+}
 
-  .togglePassword {
-    margin: 0rem 0.5rem 0.9rem 0rem;
-    position: absolute;
-    right: 10px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    color: #333;
-  }
-
-  .togglePassword img {
-    width: 20px;
-    height: 20px;
-  }
+.togglePassword img {
+  width: 18px;
+  height: 18px;
 }
 
 .button:hover,
@@ -175,7 +169,6 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
 }
 
@@ -204,92 +197,55 @@
 }
 
 @media (max-width: 992px) {
-  .registerPage .form {
-    max-width: 90%;
-    padding: 25px;
-  }
-
-  .registerPage .registerForm {
-    max-width: 90% !important;
-  }
-}
-
-@media (max-height: 600px) {
-  .registerPage {
-    padding-top: 400px;
-  }
-}
-
-@media (max-height: 400px) {
-  .registerPage {
-    padding-top: 600px;
+  .form {
+    max-width: 85%;
+    padding: 20px;
   }
 }
 
 @media (max-width: 768px) {
-  .registerPage .form {
-    padding: 20px;
+  .form {
+    padding: 18px;
   }
 
-  .registerPage .registerForm {
-    padding: 20px;
+  .registerForm {
+    padding: 8px;
   }
 
-  .registerPage .welcomeMessage {
-    font-size: 22px;
-    margin-bottom: 15px;
+  .welcomeMessage {
+    font-size: 20px;
+    margin-bottom: 12px;
   }
 
-  .registerPage .input,
-  .registerPage .button {
-    padding: 12px;
+  .input,
+  .button {
+    padding: 10px;
   }
 }
 
 @media (max-width: 576px) {
   .registerPage {
-    padding: 15px;
-    padding-top: 60px;
+    padding: 12px;
+    padding-top: 50px;
   }
 
-  .registerPage .form {
-    margin: 10px auto;
-    padding: 20px 15px;
+  .form {
+    margin: 8px auto;
+    padding: 15px 12px;
   }
 
-  .registerPage .registerForm {
-    margin-top: 20px;
-  }
-
-  .registerPage .welcomeMessage {
-    font-size: 20px;
-    margin-bottom: 15px;
-  }
-
-  .registerPage .input,
-  .registerPage .button {
-    padding: 10px;
-    font-size: 14px;
-  }
-
-  .registerPage .message {
-    font-size: 11px;
-  }
-}
-
-@media (max-width: 375px) {
-  .registerPage .form {
-    padding: 15px 10px;
-  }
-
-  .registerPage .input,
-  .registerPage .button {
-    padding: 8px;
-    margin-bottom: 10px;
-  }
-
-  .registerPage .welcomeMessage {
+  .welcomeMessage {
     font-size: 18px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+  }
+
+  .input,
+  .button {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .message {
+    font-size: 11px;
   }
 }
