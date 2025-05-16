@@ -4,11 +4,11 @@
   min-height: 100vh;
   width: 100%;
   position: relative;
-  padding-top: 800px;
+  padding-top: 830px;
 }
 
 .mainContainer.fewProducts {
-  padding-top: 290px;
+  padding-top: 320px;
 }
 
 .mainContainer.noProducts {
@@ -17,10 +17,9 @@
 
 .produtosPage {
   width: 100%;
-  margin-top: 0;
-  padding-top: 0;
   flex: 1;
   background-color: transparent;
+  padding: 20px 0;
 }
 
 .productList {
@@ -345,7 +344,7 @@
 
 @media (max-width: 768px) {
   .mainContainer {
-    padding-top: 750px;
+    padding-top: 1230px;
   }
 
   .mainContainer.fewProducts {
@@ -569,7 +568,26 @@
 /* Media Queries combinados (height + width) */
 @media (max-width: 768px) and (max-height: 600px) {
   .mainContainer {
-    padding-top: 750px;
+    padding-top: 1100px;
+  }
+
+  .mainContainer.fewProducts {
+    padding-top: 120px;
+  }
+
+  .mainContainer.noProducts {
+    padding-top: 30px;
+  }
+
+  .productList {
+    gap: 10px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) and (max-height: 500px) {
+  .mainContainer {
+    padding-top: 1150px;
   }
 
   .mainContainer.fewProducts {
@@ -588,7 +606,7 @@
 
 @media (max-width: 768px) and (max-height: 300px) {
   .mainContainer {
-    padding-top: 900px;
+    padding-top: 1270px;
   }
 
   .mainContainer.fewProducts {

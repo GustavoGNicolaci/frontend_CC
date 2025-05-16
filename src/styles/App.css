@@ -64,3 +64,7 @@ body {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
+body {
+  padding-top: 40px; /* Altura aproximada da navbar */
+}

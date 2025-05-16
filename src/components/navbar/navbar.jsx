@@ -19,7 +19,7 @@ function NavbarComponent() {
   }
 
   return (
-    <Navbar expand="lg" className={`${styles.navbar} ${styles.navColor} fixed-top`}>
+    <Navbar expand="lg" className={`${styles.navbar} fixed-top`}>
       <Navbar.Brand href="/" className={styles.titleFont}>
         Café Connect
       </Navbar.Brand>
