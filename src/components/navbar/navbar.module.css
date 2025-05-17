@@ -113,14 +113,18 @@
 
 .navIcon {
     color: #663300 !important;
-    margin-left: 20px;
     font-size: 20px;
     transition: background 0.2s, color 0.2s;
     display: flex;
     align-items: center;
     border-radius: 6px;
     padding: 6px 10px;
-    gap: 5px
+    gap: 5px;
+
+    .IconUser {
+        width: 24px;
+        height: 21.33px;
+    }
 }
 
 .navIcon:hover {
@@ -164,8 +168,8 @@
 
 .arrowIcon {
     margin-left: 6px;
-    width: 24px;
-    height: 24px;
+    width: 15px;
+    height: 15px;
     transition: filter 0.2s;
     vertical-align: middle;
 }
