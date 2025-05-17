@@ -2,11 +2,10 @@
 
 .modal {
     position: absolute;
-    top: 100%;
-    right: 50%;
+    top: 96%;
+    right: 35%;
     transform: translateX(50%);
     margin-top: 3px;
-    margin-right: 30px;
     background-color: #FFFFFF;
     border: none;
     border-radius: 8px;
