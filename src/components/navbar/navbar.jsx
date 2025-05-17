@@ -1,7 +1,7 @@
 "use client"
 
 import "bootstrap/dist/css/bootstrap.min.css"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
 import NavDropdown from "react-bootstrap/NavDropdown"
@@ -18,12 +18,34 @@ import chevronUpLight from '../../assets/images/chevron-up-white.png'
 function NavbarComponent() {
   const [showModal, setShowModal] = useState(false)
   const [isUserHovered, setIsUserHovered] = useState(false)
+  const modalRef = useRef(null);
 
   const { token, logout } = useAuth()
 
   const handleToggleModal = () => {
     setShowModal((prev) => !prev)
   }
+
+  const handleInteractionOutside = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      setShowModal(false);
+    }
+  };
+
+  useEffect(() => {
+    if (showModal) {
+      document.addEventListener("mousedown", handleInteractionOutside);
+      document.addEventListener("mousemove", handleInteractionOutside);
+    } else {
+      document.removeEventListener("mousedown", handleInteractionOutside);
+      document.removeEventListener("mousemove", handleInteractionOutside);
+    }
+  
+    return () => {
+      document.removeEventListener("mousedown", handleInteractionOutside);
+      document.removeEventListener("mousemove", handleInteractionOutside);
+    };
+  }, [showModal]);
 
   return (
     <Navbar expand="lg" className={`${styles.navbar} fixed-top`}>
@@ -70,11 +92,12 @@ function NavbarComponent() {
               onMouseEnter={() => setIsUserHovered(true)}
               onMouseLeave={() => setIsUserHovered(false)}
               style={{ cursor: 'pointer', position: 'relative' }}
+              ref={modalRef}
             >
               <div className={styles.navIcon}>
-                <FaUser size={24} />
+                <FaUser className={styles.IconUser}/>
                 <span className={styles.helloUser}>
-                  Olá, user
+                  Olá, Geovanna
                 </span>
                 <img
                   src={
@@ -96,7 +119,7 @@ function NavbarComponent() {
             </div>
           ) : (
             <Nav.Link href="/login" className={styles.navIcon}>
-              <FaUser/>
+              <FaUser className={styles.IconUser}/>
               <span className={styles.helloUser}>Entrar/Cadastrar</span>
             </Nav.Link>
           )}
