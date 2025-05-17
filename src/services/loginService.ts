@@ -99,6 +99,7 @@ export const getinfoUsuario = async (userId: string) => {
         return {
             email: usuario.email,
             telefone: usuario.telefone,
+            nome: decryptData(usuario.nome),
             endereco: {
                 ...usuario.endereco,    
                 cep: decryptData(usuario.endereco.cep),
