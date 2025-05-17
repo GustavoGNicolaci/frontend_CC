@@ -191,7 +191,7 @@ function Carrinho() {
         <div className={styles.headerContainer}>
           <h1 className={styles.title}>
             <ShoppingCart className={styles.titleIcon} size={28} />
-            Seu Carrinho {cartItems.length > 0 ? `(${cartItems.length})` : ""}
+            Seu Carrinho
           </h1>
         </div>
 
