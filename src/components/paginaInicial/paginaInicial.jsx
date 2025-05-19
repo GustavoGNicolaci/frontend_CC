@@ -11,8 +11,12 @@ import banner2 from "./banner2.png"
 import banner3 from "./banner3.jpg"
 import cafe1 from "./cafe1.png"
 import cafe2 from "./cafe2.png"
+import { useAuth } from "../../authenticate/authContext"
 
 const PaginaInicial = () => {
+  const { token } = useAuth()
+  const isLoggedIn = !!token
+
   useEffect(() => {
     if (window.jQuery && window.jQuery.fn.carousel) {
       window.jQuery("#carouselExample").carousel({
@@ -72,12 +76,21 @@ const PaginaInicial = () => {
         </div>
 
         <div className={`col-12 col-md-4 ${styles.loginDiv}`}>
-          <Link to="/login">
-            <div className={styles.imageOverlayContainer}>
-              <img src={cafe2 || "/placeholder.svg"} alt="Acesse sua Conta" />
-              <div className={styles.imageOverlayText}>Acesse sua Conta</div>
-            </div>
-          </Link>
+          {isLoggedIn ? (
+            <Link to="/nossas-lojas">
+              <div className={styles.imageOverlayContainer}>
+                <img src={cafe2 || "/placeholder.svg"} alt="Veja nossas lojas" />
+                <div className={styles.imageOverlayText}>Veja nossas lojas</div>
+              </div>
+            </Link>
+          ) : (
+            <Link to="/login">
+              <div className={styles.imageOverlayContainer}>
+                <img src={cafe2 || "/placeholder.svg"} alt="Acesse sua Conta" />
+                <div className={styles.imageOverlayText}>Acesse sua Conta</div>
+              </div>
+            </Link>
+          )}
         </div>
 
         <div className={`col-12 col-md-4 ${styles.promocoesDiv}`}>
@@ -99,4 +112,3 @@ const PaginaInicial = () => {
 }
 
 export default PaginaInicial
-
