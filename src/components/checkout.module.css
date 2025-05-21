@@ -303,6 +303,14 @@
     font-size: 18px;
 }
 
+.installmentRow {
+    color: #27a417;
+    font-weight: 500;
+    font-style: italic;
+    padding-top: 5px;
+    margin-bottom: 5px;
+}
+
 .actionButtons {
     display: flex;
     gap: 15px;
@@ -372,6 +380,12 @@
     }
 }
 
+@media (max-width: 2000px) {
+    .mainContainer[data-payment="creditCard"] {
+        padding-top: 566px !important;
+    }
+}
+
 @media (max-width: 1000px) {
     .mainContainer {
         padding-top: 1100px !important;
@@ -382,7 +396,7 @@
     }
 
     .mainContainer[data-payment="creditCard"] {
-        padding-top: 1500px !important;
+        padding-top: 1600px !important;
     }
 
     .checkoutContent {

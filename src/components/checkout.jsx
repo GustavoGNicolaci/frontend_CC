@@ -24,6 +24,7 @@ function Checkout() {
     expiryMonth: "1",
     expiryYear: new Date().getFullYear().toString(),
     cvv: "",
+    installments: "1",
   })
   const navigate = useNavigate()
   const { cartItems = [] } = useContext(CartContext)
@@ -316,6 +317,25 @@ function Checkout() {
                     />
                   </div>
                 </div>
+                <div className={styles.formRow}>
+                  <div className={styles.inputGroup}>
+                    <label htmlFor="installments">Parcelas</label>
+                    <select id="installments" value={formData.installments} onChange={handleInputChange} required>
+                      {Array.from({ length: 12 }, (_, i) => {
+                        const installmentNumber = i + 1
+                        const hasInterest = installmentNumber > 4
+                        const totalWithInterest = hasInterest ? totalPrice * 1.05 : totalPrice
+                        const installmentValue = (totalWithInterest / installmentNumber).toFixed(2)
+                        return (
+                          <option key={i} value={`${installmentNumber}`}>
+                            {installmentNumber}x de R$ {installmentValue}
+                            {!hasInterest ? " sem juros" : " com juros"}
+                          </option>
+                        )
+                      })}
+                    </select>
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -364,10 +384,32 @@ function Checkout() {
                 <span>Frete</span>
                 <span>R$ {shippingCost.toFixed(2)}</span>
               </div>
-              <div className={`${styles.summaryRow} ${styles.totalRow}`}>
-                <span>Total</span>
-                <span>R$ {totalPrice.toFixed(2)}</span>
-              </div>
+              {selectedPayment !== "creditCard" && (
+                <div className={`${styles.summaryRow} ${styles.totalRow}`}>
+                  <span>Total</span>
+                  <span>R$ {totalPrice.toFixed(2)}</span>
+                </div>
+              )}
+              {selectedPayment === "creditCard" && (
+                <>
+                  <div className={`${styles.summaryRow} ${styles.totalRow}`}>
+                    <span>Total</span>
+                    <span>
+                      {Number(formData.installments) > 4
+                        ? `R$ ${(totalPrice * 1.05).toFixed(2)}`
+                        : `R$ ${totalPrice.toFixed(2)}`}
+                    </span>
+                  </div>
+                  <div className={`${styles.summaryRow} ${styles.installmentRow}`}>
+                    <span>Pagamento em {formData.installments}x</span>
+                    <span>
+                      {Number(formData.installments) > 4
+                        ? `R$ ${((totalPrice * 1.05) / Number.parseInt(formData.installments)).toFixed(2)}/mês`
+                        : `R$ ${(totalPrice / Number.parseInt(formData.installments)).toFixed(2)}/mês`}
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
 
             <div className={styles.actionButtons}>
