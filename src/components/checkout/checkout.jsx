@@ -2,9 +2,9 @@
 
 import { useState, useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { CartContext } from "../CartContext"
-import NavbarComponent from "./navbar/navbar"
-import Footer from "./footer"
+import { CartContext } from "../../CartContext"
+import NavbarComponent from "../navbar/navbar"
+import Footer from "../footer"
 import styles from "./checkout.module.css"
 import { ShoppingBag, CreditCard, Truck, MapPin, ArrowLeft } from "lucide-react"
 

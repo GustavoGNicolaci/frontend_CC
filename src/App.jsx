@@ -12,7 +12,7 @@ import AlterarUsuario from './components/login/alterarUsuario/alterarUsuario';
 import Produtos from './components/produtos';
 import SobreCafeConnect from './components/sobreCafeConnect/sobreCafeConnect';
 import TrabalheConosco from './components/trabalheConosco/trabalheConosco';
-import Checkout from './components/checkout';
+import Checkout from './components/checkout/checkout';
 import './styles/App.css';
 
 function App() {
