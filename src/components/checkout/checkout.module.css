@@ -220,6 +220,76 @@
     color: #8c6d4f;
 }
 
+/* Estilos para o formulário PIX */
+.pixDetailsForm {
+  margin-top: 5px;
+  padding-top: 10px;
+  border-top: 1px dashed #e0d5c8;
+}
+
+.pixDetailsForm h3 {
+  margin: 0 0 15px 0;
+  font-size: 15px;
+  color: #4a2500;
+}
+
+.pixDetailsForm .formRow {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.pixDetailsForm .inputGroup {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.pixDetailsForm .inputGroup label {
+  font-size: 14px;
+  color: #4a2500;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.pixDetailsForm .inputGroup input,
+.pixDetailsForm .inputGroup select {
+  padding: 12px;
+  border: 1px solid #e0d5c8;
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: #fff;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.pixDetailsForm .inputGroup input:focus,
+.pixDetailsForm .inputGroup select:focus {
+  outline: none;
+  border-color: #663300;
+  box-shadow: 0 0 0 2px rgba(102, 51, 0, 0.1);
+}
+
+.pixDetailsForm .inputGroup input::placeholder {
+  color: #ccc;
+}
+
+/* Media queries para responsividade */
+@media (max-width: 576px) {
+  .pixDetailsForm .formRow {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .pixDetailsForm .inputGroup input,
+  .pixDetailsForm .inputGroup select {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+
+
 .cardDetailsForm {
     margin-top: 5px;
     padding-top: 10px;
@@ -386,13 +456,19 @@
     }
 }
 
+@media (max-width: 2000px) {
+    .mainContainer[data-payment="pix"] {
+        padding-top: 570px !important;
+    }
+}
+
 @media (max-width: 1000px) {
     .mainContainer {
         padding-top: 1100px !important;
     }
 
     .mainContainer[data-payment="pix"] {
-        padding-top: 1100px !important;
+        padding-top: 1560px !important;
     }
 
     .mainContainer[data-payment="creditCard"] {
@@ -445,6 +521,36 @@
     .checkoutButton {
         width: 100%;
     }
+}
+
+@media (max-width: 576px) {
+  .pixDetailsForm .formRow {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .pixDetailsForm .inputGroup input,
+  .pixDetailsForm .inputGroup select {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-height: 600px) {
+  .pixDetailsForm h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .pixDetailsForm .formRow {
+    margin-bottom: 10px;
+  }
+  
+  .pixDetailsForm .inputGroup input,
+  .pixDetailsForm .inputGroup select {
+    padding: 8px;
+    font-size: 14px;
+  }
 }
 
 @media (max-height: 800px) {

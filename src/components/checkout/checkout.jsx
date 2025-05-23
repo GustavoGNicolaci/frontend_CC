@@ -8,6 +8,11 @@ import Footer from "../footer"
 import styles from "./checkout.module.css"
 import { ShoppingBag, CreditCard, Truck, MapPin, ArrowLeft } from "lucide-react"
 
+import { loadMercadoPago } from "@mercadopago/sdk-js"
+
+await loadMercadoPago()
+const mp = new window.MercadoPago("YOUR_PUBLIC_KEY")
+
 function Checkout() {
   const [selectedPayment, setSelectedPayment] = useState("")
   const [showCardDetails, setShowCardDetails] = useState(false)
@@ -112,6 +117,45 @@ function Checkout() {
   const getContainerClass = () => {
     return styles.mainContainer
   }
+
+  // Adicionar as funções para obter tipos de documento
+  function createSelectOptions(elem, options, labelsAndKeys = { label: "name", value: "id" }) {
+    const { label, value } = labelsAndKeys
+
+    elem.options.length = 0
+
+    const tempOptions = document.createDocumentFragment()
+
+    options.forEach((option) => {
+      const optValue = option[value]
+      const optLabel = option[label]
+
+      const opt = document.createElement("option")
+      opt.value = optValue
+      opt.textContent = optLabel
+
+      tempOptions.appendChild(opt)
+    })
+
+    elem.appendChild(tempOptions)
+  }
+
+  useEffect(() => {
+    if (selectedPayment === "pix") {// Obter tipos de documento do Mercado Pago
+      ; (async function getIdentificationTypes() {
+        try {
+          const identificationTypes = await mp.getIdentificationTypes()
+          const identificationTypeElement = document.getElementById("form-checkout__identificationType")
+
+          if (identificationTypeElement) {
+            createSelectOptions(identificationTypeElement, identificationTypes)
+          }
+        } catch (e) {
+          console.error("Error getting identificationTypes: ", e)
+        }
+      })()
+    }
+  }, [selectedPayment])
 
   return (
     <div className={getContainerClass()} data-payment={selectedPayment}>
@@ -249,6 +293,45 @@ function Checkout() {
                 </div>
               </div>
             </div>
+            {selectedPayment === "pix" && (
+              <div className={styles.pixDetailsForm}>
+                <h3>Detalhes do Pagamento PIX</h3>
+                <form id="form-checkout" action="/process_payment" method="post">
+                  <div className={styles.formRow}>
+                    <div className={styles.inputGroup}>
+                      <label htmlFor="payerFirstName">Nome</label>
+                      <input id="form-checkout__payerFirstName" name="payerFirstName" type="text" />
+                    </div>
+                  </div>
+                  <div className={styles.formRow}>
+                    <div className={styles.inputGroup}>
+                      <label htmlFor="payerLastName">Sobrenome</label>
+                      <input id="form-checkout__payerLastName" name="payerLastName" type="text" />
+                    </div>
+                  </div>
+                  <div className={styles.formRow}>
+                    <div className={styles.inputGroup}>
+                      <label htmlFor="email">E-mail</label>
+                      <input id="form-checkout__email" name="email" type="text" />
+                    </div>
+                  </div>
+                  <div className={styles.formRow}>
+                    <div className={styles.inputGroup}>
+                      <label htmlFor="identificationType">Tipo de documento</label>
+                      <select id="form-checkout__identificationType" name="identificationType" type="text"></select>
+                    </div>
+                  </div>
+                  <div className={styles.formRow}>
+                    <div className={styles.inputGroup}>
+                      <label htmlFor="identificationNumber">Número do documento</label>
+                      <input id="form-checkout__identificationNumber" name="identificationNumber" type="text" />
+                    </div>
+                  </div>
+                  <input type="hidden" name="transactionAmount" id="transactionAmount" value={totalPrice.toFixed(2)} />
+                  <input type="hidden" name="description" id="description" value="Compra na Loja" />
+                </form>
+              </div>
+            )}
 
             {showCardDetails && (
               <div className={styles.cardDetailsForm}>
@@ -419,9 +502,18 @@ function Checkout() {
               </button>
 
               <button
-                type="submit"
+                type="button"
                 className={`${styles.checkoutButton} ${!selectedPayment || !isAddressComplete ? styles.disabledButton : ""}`}
                 disabled={!selectedPayment || !isAddressComplete}
+                onClick={() => {
+                  if (selectedPayment === "pix") {
+                    document.getElementById("form-checkout").submit()
+                  } else {
+                    // Handle credit card payment logic
+                    console.log("Processing credit card payment")
+                    // Add your credit card payment submission logic here
+                  }
+                }}
               >
                 Finalizar Compra
               </button>
