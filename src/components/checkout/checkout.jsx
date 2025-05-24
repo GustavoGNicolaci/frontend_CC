@@ -11,9 +11,11 @@ import { ShoppingBag, CreditCard, Truck, MapPin, ArrowLeft } from "lucide-react"
 import { loadMercadoPago } from "@mercadopago/sdk-js"
 
 await loadMercadoPago()
-const mp = new window.MercadoPago("YOUR_PUBLIC_KEY")
+const mp = new window.MercadoPago("TEST-87a3956a-bd8d-41fb-9054-4ff3582631f8")
 
 function Checkout() {
+  const [identificationType, setIdentificationType] = useState("");
+  const [identificationNumber, setIdentificationNumber] = useState("");
   const [selectedPayment, setSelectedPayment] = useState("")
   const [showCardDetails, setShowCardDetails] = useState(false)
   const [isAddressComplete, setIsAddressComplete] = useState(true)
@@ -117,6 +119,35 @@ function Checkout() {
   const getContainerClass = () => {
     return styles.mainContainer
   }
+
+  function maskCPF(value) {
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d{1,2})$/, "$1-$2")
+      .slice(0, 14);
+  }
+
+  function maskCNPJ(value) {
+    return value
+      .replace(/\D/g, "")
+      .replace(/^(\d{2})(\d)/, "$1.$2")
+      .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+      .replace(/\.(\d{3})(\d)/, ".$1/$2")
+      .replace(/(\d{4})(\d)/, "$1-$2")
+      .slice(0, 18);
+  }
+
+  const handleIdentificationNumberChange = (e) => {
+    let value = e.target.value;
+    if (identificationType === "CPF") {
+      value = maskCPF(value);
+    } else if (identificationType === "CNPJ") {
+      value = maskCNPJ(value);
+    }
+    setIdentificationNumber(value);
+  };
 
   // Adicionar as funções para obter tipos de documento
   function createSelectOptions(elem, options, labelsAndKeys = { label: "name", value: "id" }) {
@@ -318,13 +349,26 @@ function Checkout() {
                   <div className={styles.formRow}>
                     <div className={styles.inputGroup}>
                       <label htmlFor="identificationType">Tipo de documento</label>
-                      <select id="form-checkout__identificationType" name="identificationType" type="text"></select>
+                      <select
+                        id="form-checkout__identificationType" 
+                        name="identificationType" 
+                        type="text"
+                        onChange={e => setIdentificationType(e.target.value)}
+                      >
+                       </select>
                     </div>
                   </div>
                   <div className={styles.formRow}>
                     <div className={styles.inputGroup}>
                       <label htmlFor="identificationNumber">Número do documento</label>
-                      <input id="form-checkout__identificationNumber" name="identificationNumber" type="text" />
+                      <input 
+                        id="form-checkout__identificationNumber" 
+                        name="identificationNumber" 
+                        type="text"
+                        value={identificationNumber}
+                        onChange={handleIdentificationNumberChange}
+                        placeholder={identificationType === "CNPJ" ? "00.000.000/0000-00" : "000.000.000-00"}
+                        maxLength={identificationType === "CNPJ" ? 18 : 14} />
                     </div>
                   </div>
                   <input type="hidden" name="transactionAmount" id="transactionAmount" value={totalPrice.toFixed(2)} />
