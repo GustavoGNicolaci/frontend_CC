@@ -1,18 +1,26 @@
 "use client"
-import React from "react"
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 
 interface MapComponentProps {
-    address: string
+  address: string
 }
 
 const MapComponent: React.FC<MapComponentProps> = ({ address }) => {
-    const [mapUrl, setMapUrl] = useState("")
+  const [mapUrl, setMapUrl] = useState("")
 
-    useEffect(() => {
-        const encodedAddress = encodeURIComponent(address)
-        setMapUrl(`https://www.google.com/maps/embed/v1/place?key=AIzaSyBobXH5V-HQlseQ2OxFvlz3bj5zFUmg3ok&q=${encodedAddress}`)
-    }, [address])
+  useEffect(() => {
+    const encodedAddress = encodeURIComponent(address)
+    const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+    
+    if (!apiKey) {
+      console.error("Erro: Chave da API do Google Maps não encontrada!")
+      return
+    }
+
+    setMapUrl(
+      `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${encodedAddress}`
+    )
+  }, [address])
 
     return (
         <div
