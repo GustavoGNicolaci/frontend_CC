@@ -1,19 +1,23 @@
 "use client"
 
-import { useState, useContext, useEffect } from "react"
+import { ArrowLeft, CreditCard, MapPin, ShoppingBag, Truck } from "lucide-react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { CartContext } from "../../CartContext"
-import NavbarComponent from "../navbar/navbar"
 import Footer from "../footer"
+import NavbarComponent from "../navbar/navbar"
 import styles from "./checkout.module.css"
-import { ShoppingBag, CreditCard, Truck, MapPin, ArrowLeft } from "lucide-react"
 
 import { loadMercadoPago } from "@mercadopago/sdk-js"
+import { criarOrderPix } from "../../services/mercadoPagoService"
+import PixQrCodeModal from "./pix/pixQrCodeModal"
 
 await loadMercadoPago()
-const mp = new window.MercadoPago("YOUR_PUBLIC_KEY")
+const mp = new window.MercadoPago("TEST-87a3956a-bd8d-41fb-9054-4ff3582631f8")
 
 function Checkout() {
+  const [identificationType, setIdentificationType] = useState("");
+  const [identificationNumber, setIdentificationNumber] = useState("");
   const [selectedPayment, setSelectedPayment] = useState("")
   const [showCardDetails, setShowCardDetails] = useState(false)
   const [isAddressComplete, setIsAddressComplete] = useState(true)
@@ -31,6 +35,62 @@ function Checkout() {
     cvv: "",
     installments: "1",
   })
+
+  const [showPixModal, setShowPixModal] = useState(false);
+  const [pixQrCodeImage, setPixQrCodeImage] = useState("");
+  const [pixQrCodeText, setPixQrCodeText] = useState("");
+  const [loadingPix, setLoadingPix] = useState(false);
+
+  const handlePixCheckout = async () => {
+    setLoadingPix(true);
+    try {
+      const idempotencyKey = '82090445-5bb8-3b46-a226-b26c2e61f811-1748188399554';
+      const accessToken = "TEST-6498827097104807-052115-4edc6595b11307a3b98e549b5e2cc6c0-716666768"; // NUNCA deixe isso no frontend em produção real!
+      const externalReference = 'ext_ref_1234'
+      const payerEmail = document.getElementById("form-checkout__email").value;
+      const totalAmount = totalPrice.toFixed(2);
+
+      console.log("Dados do pagamento:", {
+        totalAmount,
+        payerEmail,
+        externalReference,
+        idempotencyKey,
+        accessToken
+      });
+
+      // Exemplo de chamada para o backend
+      const response = await fetch("http://localhost:5002/criar-order-pix", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Idempotency-Key": idempotencyKey
+        },
+        body: JSON.stringify({
+          totalAmount,
+          payerEmail,
+          externalReference
+        })
+      });
+      const order = await response.json();
+
+      // Pegue os dados do QR Code da resposta
+      const payment = order.transactions.payments[0];
+      const qrCodeImage = payment.point_of_interaction.transaction_data.qr_code_base64
+        ? `data:image/png;base64,${payment.point_of_interaction.transaction_data.qr_code_base64}`
+        : "";
+      const qrCodeText = payment.point_of_interaction.transaction_data.qr_code || "";
+
+      setPixQrCodeImage(qrCodeImage);
+      setPixQrCodeText(qrCodeText);
+      setShowPixModal(true);
+    } catch (err) {
+      alert("Erro ao criar pagamento Pix: " + err.message);
+    } finally {
+      setLoadingPix(false);
+    }
+  };
+
+
   const navigate = useNavigate()
   const { cartItems = [] } = useContext(CartContext)
 
@@ -117,6 +177,35 @@ function Checkout() {
   const getContainerClass = () => {
     return styles.mainContainer
   }
+
+  function maskCPF(value) {
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d{1,2})$/, "$1-$2")
+      .slice(0, 14);
+  }
+
+  function maskCNPJ(value) {
+    return value
+      .replace(/\D/g, "")
+      .replace(/^(\d{2})(\d)/, "$1.$2")
+      .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+      .replace(/\.(\d{3})(\d)/, ".$1/$2")
+      .replace(/(\d{4})(\d)/, "$1-$2")
+      .slice(0, 18);
+  }
+
+  const handleIdentificationNumberChange = (e) => {
+    let value = e.target.value;
+    if (identificationType === "CPF") {
+      value = maskCPF(value);
+    } else if (identificationType === "CNPJ") {
+      value = maskCNPJ(value);
+    }
+    setIdentificationNumber(value);
+  };
 
   // Adicionar as funções para obter tipos de documento
   function createSelectOptions(elem, options, labelsAndKeys = { label: "name", value: "id" }) {
@@ -296,7 +385,7 @@ function Checkout() {
             {selectedPayment === "pix" && (
               <div className={styles.pixDetailsForm}>
                 <h3>Detalhes do Pagamento PIX</h3>
-                <form id="form-checkout" action="/process_payment" method="post">
+                <form id="form-checkout">
                   <div className={styles.formRow}>
                     <div className={styles.inputGroup}>
                       <label htmlFor="payerFirstName">Nome</label>
@@ -318,13 +407,26 @@ function Checkout() {
                   <div className={styles.formRow}>
                     <div className={styles.inputGroup}>
                       <label htmlFor="identificationType">Tipo de documento</label>
-                      <select id="form-checkout__identificationType" name="identificationType" type="text"></select>
+                      <select
+                        id="form-checkout__identificationType" 
+                        name="identificationType" 
+                        type="text"
+                        onChange={e => setIdentificationType(e.target.value)}
+                      >
+                       </select>
                     </div>
                   </div>
                   <div className={styles.formRow}>
                     <div className={styles.inputGroup}>
                       <label htmlFor="identificationNumber">Número do documento</label>
-                      <input id="form-checkout__identificationNumber" name="identificationNumber" type="text" />
+                      <input 
+                        id="form-checkout__identificationNumber" 
+                        name="identificationNumber" 
+                        type="text"
+                        value={identificationNumber}
+                        onChange={handleIdentificationNumberChange}
+                        placeholder={identificationType === "CNPJ" ? "00.000.000/0000-00" : "000.000.000-00"}
+                        maxLength={identificationType === "CNPJ" ? 18 : 14} />
                     </div>
                   </div>
                   <input type="hidden" name="transactionAmount" id="transactionAmount" value={totalPrice.toFixed(2)} />
@@ -504,10 +606,10 @@ function Checkout() {
               <button
                 type="button"
                 className={`${styles.checkoutButton} ${!selectedPayment || !isAddressComplete ? styles.disabledButton : ""}`}
-                disabled={!selectedPayment || !isAddressComplete}
+                disabled={!selectedPayment || !isAddressComplete || loadingPix}
                 onClick={() => {
                   if (selectedPayment === "pix") {
-                    document.getElementById("form-checkout").submit()
+                    handlePixCheckout();
                   } else {
                     // Handle credit card payment logic
                     console.log("Processing credit card payment")
@@ -515,8 +617,15 @@ function Checkout() {
                   }
                 }}
               >
-                Finalizar Compra
+                 {loadingPix ? "Processando..." : "Finalizar Compra"}
               </button>
+
+              <PixQrCodeModal
+                show={showPixModal}
+                onClose={() => setShowPixModal(false)}
+                qrCodeImage={pixQrCodeImage}
+                qrCodeText={pixQrCodeText}
+              />
             </div>
           </div>
         </div>
