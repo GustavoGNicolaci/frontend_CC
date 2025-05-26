@@ -9,8 +9,8 @@ import NavbarComponent from "../navbar/navbar"
 import styles from "./checkout.module.css"
 
 import { loadMercadoPago } from "@mercadopago/sdk-js"
-import { criarOrderPix } from "../../services/mercadoPagoService"
 import PixQrCodeModal from "./pix/pixQrCodeModal"
+import axios from "axios";
 
 await loadMercadoPago()
 const mp = new window.MercadoPago("TEST-87a3956a-bd8d-41fb-9054-4ff3582631f8")
@@ -21,6 +21,12 @@ function Checkout() {
   const [selectedPayment, setSelectedPayment] = useState("")
   const [showCardDetails, setShowCardDetails] = useState(false)
   const [isAddressComplete, setIsAddressComplete] = useState(true)
+  const [showPixModal, setShowPixModal] = useState(false);
+  const [qrCodeBase64, setQrCodeBase64] = useState("");
+  const [chavePix, setChavePix] = useState("");
+  const [pagamentoCriado, setPagamentoCriado] = useState(false);
+  const [loadingPix, setLoadingPix] = useState(false);
+
   const [formData, setFormData] = useState({
     cep: "",
     city: "",
@@ -36,59 +42,75 @@ function Checkout() {
     installments: "1",
   })
 
-  const [showPixModal, setShowPixModal] = useState(false);
-  const [pixQrCodeImage, setPixQrCodeImage] = useState("");
-  const [pixQrCodeText, setPixQrCodeText] = useState("");
-  const [loadingPix, setLoadingPix] = useState(false);
-
-  const handlePixCheckout = async () => {
-    setLoadingPix(true);
+  const criarPagamentoPix = async () => {
     try {
-      const idempotencyKey = '82090445-5bb8-3b46-a226-b26c2e61f811-1748188399554';
-      const accessToken = "TEST-6498827097104807-052115-4edc6595b11307a3b98e549b5e2cc6c0-716666768"; // NUNCA deixe isso no frontend em produção real!
-      const externalReference = 'ext_ref_1234'
-      const payerEmail = document.getElementById("form-checkout__email").value;
-      const totalAmount = totalPrice.toFixed(2);
-
-      console.log("Dados do pagamento:", {
-        totalAmount,
-        payerEmail,
-        externalReference,
-        idempotencyKey,
-        accessToken
-      });
-
-      // Exemplo de chamada para o backend
-      const response = await fetch("http://localhost:5002/criar-order-pix", {
-        method: "POST",
+      const response = await axios.post("http://localhost:5002/pagamento/criar-pagamento-pix", {
+        totalAmount: Number(50.00).toFixed(2), // Exemplo de valor total
+        payerEmail: "cliente@exemplo.com",
+        description: "Compra de café especial"
+      }, {
         headers: {
-          "Content-Type": "application/json",
-          "X-Idempotency-Key": idempotencyKey
-        },
-        body: JSON.stringify({
-          totalAmount,
-          payerEmail,
-          externalReference
-        })
+          "x-idempotency-key": crypto.randomUUID()
+        }
       });
-      const order = await response.json();
 
-      // Pegue os dados do QR Code da resposta
-      const payment = order.transactions.payments[0];
-      const qrCodeImage = payment.point_of_interaction.transaction_data.qr_code_base64
-        ? `data:image/png;base64,${payment.point_of_interaction.transaction_data.qr_code_base64}`
-        : "";
-      const qrCodeText = payment.point_of_interaction.transaction_data.qr_code || "";
-
-      setPixQrCodeImage(qrCodeImage);
-      setPixQrCodeText(qrCodeText);
-      setShowPixModal(true);
-    } catch (err) {
-      alert("Erro ao criar pagamento Pix: " + err.message);
-    } finally {
-      setLoadingPix(false);
+      setQrCodeBase64(response.data.qrCodeBase64);
+      setChavePix(response.data.chavePix);
+      setPagamentoCriado(true);
+    } catch (error) {
+      console.error("Erro ao criar pagamento:", error);
+      alert("Erro ao gerar pagamento Pix");
     }
   };
+
+  // const handlePixCheckout = async () => {
+  //   setLoadingPix(true);
+  //   try {
+  //     const idempotencyKey = '82090445-5bb8-3b46-a226-b26c2e61f811-1748188399554';
+  //     const accessToken = "TEST-6498827097104807-052115-4edc6595b11307a3b98e549b5e2cc6c0-716666768"; // NUNCA deixe isso no frontend em produção real!
+  //     const externalReference = 'ext_ref_1234'
+  //     const payerEmail = document.getElementById("form-checkout__email").value;
+  //     const totalAmount = totalPrice.toFixed(2);
+
+  //     console.log("Dados do pagamento:", {
+  //       totalAmount,
+  //       payerEmail,
+  //       externalReference,
+  //       idempotencyKey,
+  //       accessToken
+  //     });
+
+  //     // Exemplo de chamada para o backend
+  //     const response = await fetch("http://localhost:5002/criar-order-pix", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "X-Idempotency-Key": idempotencyKey
+  //       },
+  //       body: JSON.stringify({
+  //         totalAmount,
+  //         payerEmail,
+  //         externalReference
+  //       })
+  //     });
+  //     const order = await response.json();
+
+  //     // Pegue os dados do QR Code da resposta
+  //     const payment = order.transactions.payments[0];
+  //     const qrCodeImage = payment.point_of_interaction.transaction_data.qr_code_base64
+  //       ? `data:image/png;base64,${payment.point_of_interaction.transaction_data.qr_code_base64}`
+  //       : "";
+  //     const qrCodeText = payment.point_of_interaction.transaction_data.qr_code || "";
+
+  //     setPixQrCodeImage(qrCodeImage);
+  //     setPixQrCodeText(qrCodeText);
+  //     setShowPixModal(true);
+  //   } catch (err) {
+  //     alert("Erro ao criar pagamento Pix: " + err.message);
+  //   } finally {
+  //     setLoadingPix(false);
+  //   }
+  // };
 
 
   const navigate = useNavigate()
@@ -609,7 +631,7 @@ function Checkout() {
                 disabled={!selectedPayment || !isAddressComplete || loadingPix}
                 onClick={() => {
                   if (selectedPayment === "pix") {
-                    handlePixCheckout();
+                    criarPagamentoPix();
                   } else {
                     // Handle credit card payment logic
                     console.log("Processing credit card payment")
@@ -623,8 +645,8 @@ function Checkout() {
               <PixQrCodeModal
                 show={showPixModal}
                 onClose={() => setShowPixModal(false)}
-                qrCodeImage={pixQrCodeImage}
-                qrCodeText={pixQrCodeText}
+                qrCodeImage={qrCodeBase64}
+                qrCodeText={chavePix}
               />
             </div>
           </div>
