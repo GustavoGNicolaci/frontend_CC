@@ -11,12 +11,17 @@ const OpcoesUsuarioModal = ({ onClose, onSair }) => {
         navigate('/perfil');
     };
 
+    const handlePedidos = () => {
+        onClose();
+        navigate('/pedidos');
+    };
+
     return (
         <div className={styles.modal}>
             <div className={styles.arrow}></div>
             <div className={styles.content}>
                 <button className={styles.option} onClick={handleAlterarConta}>Alterar Conta</button>
-                <button className={styles.option} onClick={handleAlterarConta}>Pedidos</button>
+                <button className={styles.option} onClick={handlePedidos}>Pedidos</button>
                 <hr/>
                 <button className={`${styles.option} ${styles.optionSair}`} onClick={onSair}>Sair</button>            
             </div>

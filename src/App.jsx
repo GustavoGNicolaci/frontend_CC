@@ -13,6 +13,7 @@ import Produtos from './components/produtos';
 import SobreCafeConnect from './components/sobreCafeConnect/sobreCafeConnect';
 import TrabalheConosco from './components/trabalheConosco/trabalheConosco';
 import Checkout from './components/checkout/checkout';
+import Pedidos from './components/pedidos/pedidos';
 import './styles/App.css';
 
 function App() {
@@ -29,12 +30,14 @@ function App() {
         <Route path="/nossas-lojas" element={<NossasLojas />} />
         <Route path="/trabalhe-conosco" element={<TrabalheConosco />} />
         <Route path="/sobre-cafe-connect" element={<SobreCafeConnect />} />
+        
 
         {/* Rotas protegidas */}
         <Route element={<PrivateRoute />}>
           <Route path="/carrinho" element={<Carrinho />} />
           <Route path="/perfil" element={<AlterarUsuario />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/pedidos" element={<Pedidos />} />
         </Route>
       </Routes>
     </CartProvider>
