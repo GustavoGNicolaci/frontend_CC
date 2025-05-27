@@ -45,7 +45,7 @@ function Checkout() {
   const criarPagamentoPix = async () => {
     try {
       const response = await axios.post("http://localhost:5002/pagamento/criar-pagamento-pix", {
-        totalAmount: Number(50.00).toFixed(2), // Exemplo de valor total
+        totalAmount: 50.00, // Exemplo de valor total
         payerEmail: "cliente@exemplo.com",
         description: "Compra de café especial"
       }, {
@@ -53,7 +53,7 @@ function Checkout() {
           "x-idempotency-key": crypto.randomUUID()
         }
       });
-
+      console.log("Resposta do backend:", response);
       setQrCodeBase64(response.data.qrCodeBase64);
       setChavePix(response.data.chavePix);
       setPagamentoCriado(true);
@@ -632,6 +632,7 @@ function Checkout() {
                 onClick={() => {
                   if (selectedPayment === "pix") {
                     criarPagamentoPix();
+                    setShowPixModal(true);
                   } else {
                     // Handle credit card payment logic
                     console.log("Processing credit card payment")
@@ -641,17 +642,16 @@ function Checkout() {
               >
                  {loadingPix ? "Processando..." : "Finalizar Compra"}
               </button>
-
-              <PixQrCodeModal
-                show={showPixModal}
-                onClose={() => setShowPixModal(false)}
-                qrCodeImage={qrCodeBase64}
-                qrCodeText={chavePix}
-              />
             </div>
           </div>
         </div>
       </div>
+      <PixQrCodeModal
+        show={showPixModal}
+        onClose={() => setShowPixModal(false)}
+        qrCodeImage={qrCodeBase64}
+        qrCodeText={chavePix}
+      />
       <Footer />
     </div>
   )
