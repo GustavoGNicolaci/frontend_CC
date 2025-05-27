@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./PixQrCodeModal.module.css";
 
 const PixQrCodeModal = ({ show, onClose, qrCodeImage, qrCodeText }) => {
-  const [showCopyPaste, setShowCopyPaste] = useState(false);
+  const [showHash, setShowHash] = useState(false);
   const [copied, setCopied] = useState(false);
 
   if (!show) return null;
@@ -12,27 +12,35 @@ const PixQrCodeModal = ({ show, onClose, qrCodeImage, qrCodeText }) => {
       <div className={styles.modalContent}>
         <button className={styles.closeButton} onClick={onClose}>X</button>
         <h2>Pagamento via Pix</h2>
-        <img src={qrCodeImage} alt="QR Code Pix" className={styles.qrCodeImage} />
-        <button
-          className={styles.copyPasteButton}
-          onClick={() => setShowCopyPaste(true)}
-          disabled={showCopyPaste}
-        >
-          Copia e Cola
-        </button>
-        {showCopyPaste && (
+        <img
+          src={`data:image/jpeg;base64,${qrCodeImage}`}
+          alt="QR Code Pix"
+          className={styles.qrCodeImage}
+        />
+        {!showHash ? (
+          <div>
+            <button
+              className={styles.copyButton}
+              onClick={() => setShowHash(true)}
+            >
+              Copia e Cola
+            </button>
+          </div>
+        ) : (
           <div className={styles.copyPasteSection}>
-            <textarea
-              className={styles.qrCodeText}
+            <input
+              type="text"
+              id="copiar"
               value={qrCodeText}
               readOnly
-              rows={3}
+              className={styles.qrCodeText}
             />
             <button
               className={styles.copyButton}
               onClick={() => {
                 navigator.clipboard.writeText(qrCodeText);
                 setCopied(true);
+                // O botão ficará desativado após copiar
               }}
               disabled={copied}
             >
