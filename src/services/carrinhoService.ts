@@ -74,15 +74,15 @@ export const removeProductFromCart = async (idProduto: string) => {
 
 /**
  * Atualiza a quantidade de um produto no carrinho do usuário autenticado.
- * @param idProduto ID do produto a ser atualizado.
+ * @param produtoId ID do produto a ser atualizado.
  * @param quantidade Nova quantidade do produto.
  * @returns Resposta da API.
  */
-export const updateCartItemQuantity = async (idProduto: string, quantidade: number) => {
+export const updateCartItemQuantity = async (itemsArray: {produtoId: string, quantidade: number}[], userId: string) => {
     try {
         const response = await api.put(
-            '/atualizar-quantidade',
-            { idProduto, quantidade },
+            `/atualizar/${userId}`,
+             { itemsArray } ,
             {
                 headers: getAuthHeaders(),
             }

@@ -4,6 +4,8 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { CartContext } from "../CartContext"
 import NavbarComponent from "./navbar/navbar"
+import { jwtDecode } from "jwt-decode";
+
 import Footer from "./footer"
 import LoadingModal from "./shared/loadingModal/loadingModal"
 import styles from "./carrinho.module.css"
@@ -102,28 +104,37 @@ function Carrinho() {
     }
   }
 
-  const handleQuantityChange = async (idProduto, newQuantity) => {
-    // Não permitir quantidades menores que 1
-    if (newQuantity < 1) return
+const handleQuantityChange = async (idProduto, newQuantity) => {
+  if (newQuantity < 1) return;
 
-    try {
-      // Atualiza localmente primeiro para feedback imediato
-      setItemQuantities((prev) => ({
-        ...prev,
-        [idProduto]: newQuantity,
-      }))
+  // Crie o novo objeto de quantidades já atualizado
+  const updatedQuantities = {
+    ...itemQuantities,
+    [idProduto]: newQuantity,
+  };
 
-      // Atualiza no servidor
-      await updateCartItemQuantity(idProduto, newQuantity)
-    } catch (error) {
-      console.error("Erro ao atualizar quantidade:", error)
-      // Reverte para o valor anterior em caso de erro
-      setItemQuantities((prev) => ({
-        ...prev,
-        [idProduto]: prev[idProduto],
-      }))
-    }
+  try {
+    setItemQuantities(updatedQuantities);
+
+    const token = localStorage.getItem("token");
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.id;
+
+    // Use o objeto atualizado para montar o array
+    const itemsArray = Object.entries(updatedQuantities).map(([id, quantidade]) => ({
+      produtoId: id,
+      quantidade,
+    }));
+
+    await updateCartItemQuantity(itemsArray, userId);
+  } catch (error) {
+    console.error("Erro ao atualizar quantidade:", error);
+    setItemQuantities((prev) => ({
+      ...prev,
+      [idProduto]: prev[idProduto],
+    }));
   }
+};  
 
   const handleCheckout = () => {
     navigate("/checkout", {
