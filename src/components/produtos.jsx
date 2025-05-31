@@ -11,37 +11,38 @@ import { Search, SlidersHorizontal, Coffee, DollarSign, Package } from "lucide-r
 import MessageModal from "./shared/messageModal/messageModal"
 import { addProductToCart } from "../services/carrinhoService"
 
-function CardProduto({ id, imageSrc, title, price, buttonText, description, stock }) {
+function CardProduto({ id, imageSrc, title, price, buttonText, description, stock, setIsModalOpen, setModalMessage }) {
   const navigate = useNavigate()
   const { addToCart } = useContext(CartContext)
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [modalMessage, setModalMessage] = useState("")
-
   const handleBuyClick = async () => {
-    if (stock > 0) {
-      try {
-        const response = await addProductToCart(id, 1) // Chamada ao serviço
-        if (response.success) {
-          setModalMessage(`${title} adicionado ao carrinho!`)
-        } else {
-          setModalMessage("Erro ao adicionar produto ao carrinho.")
-        }
-      } catch (error) {
-        console.error("Erro ao adicionar produto ao carrinho:", error)
-        setModalMessage("Erro ao adicionar produto ao carrinho. Tente novamente.")
-      } finally {
-        setIsModalOpen(true)
-      }
-    } else {
-      setModalMessage("Produto esgotado!")
-      setIsModalOpen(true)
-    }
+  if (stock <= 0) {
+    setModalMessage("Produto esgotado!");
+    setIsModalOpen(true);
+    return;
   }
 
-  const closeModal = () => {
-    setIsModalOpen(false) // Fecha a modal
+  try {
+    // (Opcional) Buscar estoque atualizado do produto na API
+    const responseEstoque = await axios.get(`http://localhost:5002/product/${id}`);
+    if (responseEstoque.data.quantidadeEstoque < 1) {
+      setModalMessage("Produto esgotado!");
+      setIsModalOpen(true);
+      return;
+    }
+
+    const response = await addProductToCart(id, 1);
+    if (response.success) {
+      setModalMessage(`${title} adicionado ao carrinho!`);
+    } else {
+      setModalMessage("Erro ao adicionar produto ao carrinho.");
+    }
+  } catch (error) {
+    setModalMessage("Erro ao adicionar produto ao carrinho. Tente novamente.");
+  } finally {
+    setIsModalOpen(true);
   }
+};
 
   return (
     <div className={styles.productCard}>
@@ -62,8 +63,6 @@ function CardProduto({ id, imageSrc, title, price, buttonText, description, stoc
       >
         Detalhes
       </button>
-
-      {isModalOpen && <MessageModal icon={<span>✔️</span>} message={modalMessage} onClose={closeModal} />}
     </div>
   )
 }
@@ -79,6 +78,8 @@ function Produtos() {
     sortBy: "default",
   })
   const [showFilters, setShowFilters] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalMessage, setModalMessage] = useState("")
 
   useEffect(() => {
     const fetchProdutos = async () => {
@@ -155,6 +156,10 @@ function Produtos() {
     return styles.mainContainer
   }
 
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
   return (
     <div className={getContainerClass()}>
       <NavbarComponent />
@@ -214,6 +219,8 @@ function Produtos() {
                 buttonText="Comprar"
                 description={produto.descricao}
                 stock={produto.quantidadeEstoque}
+                setIsModalOpen={setIsModalOpen}
+                setModalMessage={setModalMessage}
               />
             ))
           ) : (
@@ -223,9 +230,12 @@ function Produtos() {
             </div>
           )}
         </div>
+        {isModalOpen && <MessageModal icon={<span>✔️</span>} message={modalMessage} onClose={closeModal} />}
+
       </div>
       <Footer />
     </div>
+    
   )
 }
 
