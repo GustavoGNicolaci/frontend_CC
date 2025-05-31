@@ -74,7 +74,7 @@
   outline: none;
   padding: 12px;
   color: white;
-  background-color: #663300;
+  background-color: #27a417;
   text-align: center;
   cursor: pointer;
   width: 100%;
@@ -84,7 +84,7 @@
 }
 
 .productButton:hover {
-  background-color: #27a417;
+  background-color: #218813;
 }
 
 .detailsButton {

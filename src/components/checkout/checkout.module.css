@@ -415,13 +415,13 @@
 }
 
 .checkoutButton {
-    background-color: #663300;
+    background-color: #27a417;
     color: white;
     flex: 2;
 }
 
 .checkoutButton:hover {
-    background-color: #27a417;
+    background-color: #218813;
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(39, 164, 23, 0.3);
 }
