@@ -32,6 +32,14 @@ export const CartProvider = ({ children }) => {
         }));
     };
 
+    const updateCartItemQuantity = (produtoId, novaQuantidade) => {
+        setCartItems(prev =>
+          prev.map(item =>
+            item.id === produtoId ? { ...item, quantity: novaQuantidade } : item
+          )
+        );
+    };
+
     const calculateTotal = (shippingCost = 15.0) => {
         const subtotal = cartItems.reduce((total, item) => {
             const price = item.price || 0;
@@ -47,7 +55,8 @@ export const CartProvider = ({ children }) => {
             setCartItems, 
             addToCart, 
             stock,
-            calculateTotal
+            calculateTotal,
+            updateCartItemQuantity
         }}>
             {children}
         </CartContext.Provider>

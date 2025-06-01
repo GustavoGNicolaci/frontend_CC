@@ -183,11 +183,14 @@ function Checkout() {
   // Calcular preços
   const calculateSubtotal = () => {
     return cartItems.reduce((total, item) => {
-      const price = item.price || 0 // Já extraído no carrinho
-      const quantity = item.quantity || 1
-      return total + price * quantity
-    }, 0)
-  }
+      console.log("cartItems", cartItems)
+      const quantity = item.quantity || 1;
+      const price = typeof item.price === "string"
+        ? Number.parseFloat(item.price.replace(/[^\d.,]/g, "").replace(",", "."))
+        : item.price;
+      return total + (price * quantity);
+    }, 0);
+  };
 
   // Estado para o frete
   const [shippingCost, setShippingCost] = useState(15.0) // Valor padrão ou calculado

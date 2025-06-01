@@ -1,22 +1,19 @@
-"use client"
-
+import { jwtDecode } from "jwt-decode"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { CartContext } from "../CartContext"
 import NavbarComponent from "./navbar/navbar"
-import { jwtDecode } from "jwt-decode";
 
+import { Minus, Package, Plus, ShoppingCart } from "lucide-react"
+import { fetchCart, removeProductFromCart, updateCartItemQuantityChange } from "../services/carrinhoService"
+import styles from "./carrinho.module.css"
 import Footer from "./footer"
 import LoadingModal from "./shared/loadingModal/loadingModal"
-import styles from "./carrinho.module.css"
-import { fetchCart, removeProductFromCart, updateCartItemQuantity } from "../services/carrinhoService"
-import { ShoppingCart, Package, Plus, Minus } from "lucide-react"
 
 function Carrinho() {
-  const { cartItems = [], setCartItems } = useContext(CartContext)
+  const { cartItems = [], setCartItems, updateCartItemQuantity } = useContext(CartContext)
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
-  const [itemQuantities, setItemQuantities] = useState({})
 
   useEffect(() => {
     const loadCart = async () => {
@@ -42,7 +39,6 @@ function Carrinho() {
               const id = item.id || item._id
               quantities[id] = item.quantidade || item.quantity || 1
             })
-            setItemQuantities(quantities)
           } else if (data.data && typeof data.data === "object") {
             // Se não for um array, mas for um objeto, tenta extrair os itens
             const items = data.data.items || data.data.produtos || Object.values(data.data)
@@ -56,7 +52,6 @@ function Carrinho() {
                 const id = item.id || item._id
                 quantities[id] = item.quantidade || item.quantity || 1
               })
-              setItemQuantities(quantities)
             } else {
               console.error("Formato de dados inválido:", data.data)
               setCartItems([])
@@ -90,64 +85,48 @@ function Carrinho() {
       const response = await removeProductFromCart(idProduto)
       if (response.success) {
         // Atualize o estado do carrinho localmente
-        setCartItems((prevItems) => prevItems.filter((item) => item.id !== idProduto))
-
-        // Remova a quantidade do item
-        setItemQuantities((prev) => {
-          const newQuantities = { ...prev }
-          delete newQuantities[idProduto]
-          return newQuantities
-        })
+        setCartItems((prevItems) => prevItems.filter((item) => item.id !== idProduto))        
       }
     } catch (error) {
       console.error("Erro ao remover o produto do carrinho:", error)
     }
   }
 
-const handleQuantityChange = async (idProduto, newQuantity) => {
-  if (newQuantity < 1) return;
+  const handleQuantityChange = async (idProduto, newQuantity) => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const userId = jwtDecode(token).id || jwtDecode(token)._id;
 
-  // Crie o novo objeto de quantidades já atualizado
-  const updatedQuantities = {
-    ...itemQuantities,
-    [idProduto]: newQuantity,
+    await updateCartItemQuantityChange(
+      [{ produtoId: idProduto, quantidade: newQuantity }],
+      userId
+    );
+    updateCartItemQuantity(idProduto, newQuantity);
   };
 
-  try {
-    setItemQuantities(updatedQuantities);
-
+  const handleCheckout = async () => {
     const token = localStorage.getItem("token");
-    const decodedToken = jwtDecode(token);
-    const userId = decodedToken.id;
+    if (!token) return;
+    const userId = jwtDecode(token).id || jwtDecode(token)._id;
 
-    // Use o objeto atualizado para montar o array
-    const itemsArray = Object.entries(updatedQuantities).map(([id, quantidade]) => ({
-      produtoId: id,
-      quantidade,
+    const itemsArray = cartItems.map(item => ({
+      produtoId: item.id || item._id,
+      quantidade: item.quantity || 1
     }));
 
-    await updateCartItemQuantity(itemsArray, userId);
-  } catch (error) {
-    console.error("Erro ao atualizar quantidade:", error);
-    setItemQuantities((prev) => ({
-      ...prev,
-      [idProduto]: prev[idProduto],
-    }));
-  }
-};  
+    await updateCartItemQuantityChange(itemsArray, userId);
 
-  const handleCheckout = () => {
     navigate("/checkout", {
       state: {
         cartItems: cartItems.map(item => ({
           ...item,
           price: extractPrice(item),
-          quantity: itemQuantities[item.id || item._id] || 1
+          quantity: item.quantity || 1
         })),
         subtotal: calculateSubtotal()
       }
     });
-  }
+  };
 
   // Função para extrair o preço numérico de um item
   const extractPrice = (item) => {
@@ -168,17 +147,14 @@ const handleQuantityChange = async (idProduto, newQuantity) => {
 
   // Calcula o preço total de um item (preço unitário * quantidade)
   const calculateItemTotal = (item) => {
-    const id = item.id || item._id
-    const quantity = itemQuantities[id] || 1
-    const price = extractPrice(item)
-    return price * quantity
-  }
+    const price = extractPrice(item);
+    const quantity = item.quantity || 1;
+    return price * quantity;
+  };
 
   // Calcula o subtotal do carrinho
   const calculateSubtotal = () => {
-    return cartItems.reduce((total, item) => {
-      return total + calculateItemTotal(item)
-    }, 0)
+    return cartItems.reduce((total, item) => total + calculateItemTotal(item), 0);
   }
 
   // Determina a classe de padding com base na quantidade de itens
@@ -221,7 +197,7 @@ const handleQuantityChange = async (idProduto, newQuantity) => {
             <div className={styles.cartList}>
               {cartItems.map((item, index) => {
                 const id = item.id || item._id
-                const quantity = itemQuantities[id] || 1
+                const quantity = item.quantity || 1;
                 const unitPrice = extractPrice(item)
                 const itemTotal = unitPrice * quantity
 
