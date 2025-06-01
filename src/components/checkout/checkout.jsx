@@ -11,6 +11,8 @@ import styles from "./checkout.module.css"
 import { loadMercadoPago } from "@mercadopago/sdk-js"
 import PixQrCodeModal from "./pix/pixQrCodeModal"
 import axios from "axios";
+import { getInfoFromToken } from "../../utils/decodedToken"
+import { getinfoUsuario } from "../../services/loginService"
 
 await loadMercadoPago()
 const mp = new window.MercadoPago("TEST-87a3956a-bd8d-41fb-9054-4ff3582631f8")
@@ -23,7 +25,7 @@ function Checkout() {
   const [isAddressComplete, setIsAddressComplete] = useState(true)
   const [showPixModal, setShowPixModal] = useState(false);
   const [qrCodeBase64, setQrCodeBase64] = useState("");
-  const [chavePix, setChavePix] = useState("");
+  const [qrCode, setChavePix] = useState("");
   const [pagamentoCriado, setPagamentoCriado] = useState(false);
   const [loadingPix, setLoadingPix] = useState(false);
 
@@ -53,64 +55,14 @@ function Checkout() {
           "x-idempotency-key": crypto.randomUUID()
         }
       });
-      console.log("Resposta do backend:", response);
       setQrCodeBase64(response.data.qrCodeBase64);
-      setChavePix(response.data.chavePix);
+      setChavePix(response.data.qrCode);
       setPagamentoCriado(true);
     } catch (error) {
       console.error("Erro ao criar pagamento:", error);
       alert("Erro ao gerar pagamento Pix");
     }
   };
-
-  // const handlePixCheckout = async () => {
-  //   setLoadingPix(true);
-  //   try {
-  //     const idempotencyKey = '82090445-5bb8-3b46-a226-b26c2e61f811-1748188399554';
-  //     const accessToken = "TEST-6498827097104807-052115-4edc6595b11307a3b98e549b5e2cc6c0-716666768"; // NUNCA deixe isso no frontend em produção real!
-  //     const externalReference = 'ext_ref_1234'
-  //     const payerEmail = document.getElementById("form-checkout__email").value;
-  //     const totalAmount = totalPrice.toFixed(2);
-
-  //     console.log("Dados do pagamento:", {
-  //       totalAmount,
-  //       payerEmail,
-  //       externalReference,
-  //       idempotencyKey,
-  //       accessToken
-  //     });
-
-  //     // Exemplo de chamada para o backend
-  //     const response = await fetch("http://localhost:5002/criar-order-pix", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "X-Idempotency-Key": idempotencyKey
-  //       },
-  //       body: JSON.stringify({
-  //         totalAmount,
-  //         payerEmail,
-  //         externalReference
-  //       })
-  //     });
-  //     const order = await response.json();
-
-  //     // Pegue os dados do QR Code da resposta
-  //     const payment = order.transactions.payments[0];
-  //     const qrCodeImage = payment.point_of_interaction.transaction_data.qr_code_base64
-  //       ? `data:image/png;base64,${payment.point_of_interaction.transaction_data.qr_code_base64}`
-  //       : "";
-  //     const qrCodeText = payment.point_of_interaction.transaction_data.qr_code || "";
-
-  //     setPixQrCodeImage(qrCodeImage);
-  //     setPixQrCodeText(qrCodeText);
-  //     setShowPixModal(true);
-  //   } catch (err) {
-  //     alert("Erro ao criar pagamento Pix: " + err.message);
-  //   } finally {
-  //     setLoadingPix(false);
-  //   }
-  // };
 
 
   const navigate = useNavigate()
@@ -149,36 +101,32 @@ function Checkout() {
   }, [formData.cep, formData.city, formData.neighborhood, formData.street, formData.number])
 
   useEffect(() => {
-    // Função para buscar os dados do usuário do localStorage ou API
-    const fetchUserData = () => {
+    const fetchUserData = async () => {
+      const userId = getInfoFromToken();
+      console.log("USERID", userId)
+      if (!userId) return;
       try {
-        // Verificar se há dados do usuário no localStorage
-        const userData = localStorage.getItem("userData")
-
-        if (userData) {
-          const parsedUserData = JSON.parse(userData)
-
-          // Preencher os campos de endereço se existirem no userData
-          setFormData((prevData) => ({
-            ...prevData,
-            cep: parsedUserData.cep || "",
-            city: parsedUserData.cidade || "",
-            neighborhood: parsedUserData.bairro || "",
-            street: parsedUserData.rua || "",
-            number: parsedUserData.numero || "",
-            complement: parsedUserData.complemento || "",
-          }))
-
-          // Validar o endereço após preencher os campos
-          validateAddress()
+        const user = await getinfoUsuario(userId.id);
+        if (user && user.endereco) {
+          setFormData(prev => ({
+            ...prev,
+            cep: user.endereco.cep || "",
+            city: user.endereco.cidade || "",
+            neighborhood: user.endereco.bairro || "",
+            street: user.endereco.rua || "",
+            number: user.endereco.numero || "",
+            complement: user.endereco.complemento || "",
+            // outros campos se necessário
+          }));
+          validateAddress();
         }
-      } catch (error) {
-        console.error("Erro ao carregar dados do usuário:", error)
+      } catch (err) {
+        console.error("Erro ao buscar dados do usuário:", err);
       }
-    }
+    };
 
-    fetchUserData()
-  }, [])
+    fetchUserData();
+  }, []);
 
   // Calcular preços
   const calculateSubtotal = () => {
@@ -653,7 +601,7 @@ function Checkout() {
         show={showPixModal}
         onClose={() => setShowPixModal(false)}
         qrCodeImage={qrCodeBase64}
-        qrCodeText={chavePix}
+        qrCodeText={qrCode}
       />
       <Footer />
     </div>
