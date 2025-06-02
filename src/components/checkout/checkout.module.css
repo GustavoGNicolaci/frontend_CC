@@ -222,70 +222,124 @@
 
 /* Estilos para o formulário PIX */
 .pixDetailsForm {
-  margin-top: 5px;
-  padding-top: 10px;
-  border-top: 1px dashed #e0d5c8;
+    margin-top: 5px;
+    padding-top: 10px;
+    border-top: 1px dashed #e0d5c8;
 }
 
 .pixDetailsForm h3 {
-  margin: 0 0 15px 0;
-  font-size: 15px;
-  color: #4a2500;
+    margin: 0 0 15px 0;
+    font-size: 15px;
+    color: #4a2500;
 }
 
 .pixDetailsForm .formRow {
-  display: flex;
-  gap: 15px;
-  width: 100%;
-  margin-bottom: 15px;
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 15px;
 }
 
 .pixDetailsForm .inputGroup {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .pixDetailsForm .inputGroup label {
-  font-size: 14px;
-  color: #4a2500;
-  margin-bottom: 6px;
-  font-weight: 500;
+    font-size: 14px;
+    color: #4a2500;
+    margin-bottom: 6px;
+    font-weight: 500;
 }
 
 .pixDetailsForm .inputGroup input,
 .pixDetailsForm .inputGroup select {
-  padding: 12px;
-  border: 1px solid #e0d5c8;
-  border-radius: 6px;
-  font-size: 16px;
-  background-color: #fff;
-  transition: border-color 0.3s, box-shadow 0.3s;
+    padding: 12px;
+    border: 1px solid #e0d5c8;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #fff;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .pixDetailsForm .inputGroup input:focus,
 .pixDetailsForm .inputGroup select:focus {
-  outline: none;
-  border-color: #663300;
-  box-shadow: 0 0 0 2px rgba(102, 51, 0, 0.1);
+    outline: none;
+    border-color: #663300;
+    box-shadow: 0 0 0 2px rgba(102, 51, 0, 0.1);
 }
 
 .pixDetailsForm .inputGroup input::placeholder {
-  color: #ccc;
+    color: #ccc;
+}
+
+.cardInputContainer {
+  height: 40px;
+  padding: 0 !important;
+  border: 1px solid #e0d5c8;
+  border-radius: 6px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.cardInputContainer:hover {
+    border-color: #663300;
+}
+
+.cardInputContainer iframe {
+  width: 100% !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  border: none !important;
+  background: transparent !important;
+  padding: 8px 12px !important;
+}
+
+/* Adicione ao seu arquivo CSS module */
+.compactForm .inputGroup input,
+.compactForm .inputGroup select,
+.compactForm .cardInputContainer {
+    padding: 8px 12px;
+    font-size: 14px;
+    min-height: 40px;
+}
+
+.compactForm .formRow {
+    margin-bottom: 12px;
+}
+
+.compactForm .inputGroup label {
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.compactForm h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.compactForm .inputGroup select,
+.compactForm .inputGroup input[type="text"],
+.compactForm .inputGroup input[type="email"] {
+  height: 40px;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
 }
 
 /* Media queries para responsividade */
 @media (max-width: 576px) {
-  .pixDetailsForm .formRow {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .pixDetailsForm .inputGroup input,
-  .pixDetailsForm .inputGroup select {
-    padding: 10px;
-    font-size: 14px;
-  }
+    .pixDetailsForm .formRow {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .pixDetailsForm .inputGroup input,
+    .pixDetailsForm .inputGroup select {
+        padding: 10px;
+        font-size: 14px;
+    }
 }
 
 
@@ -452,7 +506,7 @@
 
 @media (max-width: 2000px) {
     .mainContainer[data-payment="creditCard"] {
-        padding-top: 566px !important;
+        padding-top: 735px !important;
     }
 }
 
@@ -472,7 +526,7 @@
     }
 
     .mainContainer[data-payment="creditCard"] {
-        padding-top: 1600px !important;
+        padding-top: 1850px !important;
     }
 
     .checkoutContent {
@@ -524,33 +578,33 @@
 }
 
 @media (max-width: 576px) {
-  .pixDetailsForm .formRow {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .pixDetailsForm .inputGroup input,
-  .pixDetailsForm .inputGroup select {
-    padding: 10px;
-    font-size: 14px;
-  }
+    .pixDetailsForm .formRow {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .pixDetailsForm .inputGroup input,
+    .pixDetailsForm .inputGroup select {
+        padding: 10px;
+        font-size: 14px;
+    }
 }
 
 @media (max-height: 600px) {
-  .pixDetailsForm h3 {
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-  
-  .pixDetailsForm .formRow {
-    margin-bottom: 10px;
-  }
-  
-  .pixDetailsForm .inputGroup input,
-  .pixDetailsForm .inputGroup select {
-    padding: 8px;
-    font-size: 14px;
-  }
+    .pixDetailsForm h3 {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .pixDetailsForm .formRow {
+        margin-bottom: 10px;
+    }
+
+    .pixDetailsForm .inputGroup input,
+    .pixDetailsForm .inputGroup select {
+        padding: 8px;
+        font-size: 14px;
+    }
 }
 
 @media (max-height: 800px) {

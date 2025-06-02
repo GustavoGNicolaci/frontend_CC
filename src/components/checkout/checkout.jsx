@@ -28,6 +28,11 @@ function Checkout() {
   const [qrCode, setChavePix] = useState("");
   const [pagamentoCriado, setPagamentoCriado] = useState(false);
   const [loadingPix, setLoadingPix] = useState(false);
+  const [cardFieldsLoaded, setCardFieldsLoaded] = useState(false);
+  const [identificationTypes, setIdentificationTypes] = useState([]);
+  const [paymentMethodId, setPaymentMethodId] = useState("");
+  const [issuerOptions, setIssuerOptions] = useState([]);
+  const [token, setToken] = useState("");
 
   const [formData, setFormData] = useState({
     cep: "",
@@ -64,6 +69,57 @@ function Checkout() {
     }
   };
 
+  const createCardToken = async (event) => {
+    try {
+      if (!token) {
+        event.preventDefault();
+        const tokenData = await mp.fields.createCardToken({
+          cardholderName: document.getElementById('form-checkout__cardholderName').value,
+          identificationType: document.getElementById('card-form-checkout__identificationType').value,
+          identificationNumber: document.getElementById('card-form-checkout__identificationNumber').value,
+        });
+        setToken(tokenData.id);
+
+        // Adicionar a lógica para enviar o pagamento
+        // Após a criação do token
+        processPayment(tokenData.id);
+      }
+    } catch (e) {
+      console.error('error creating card token: ', e);
+      alert("Erro ao processar o pagamento. Verifique os dados do cartão.");
+      return;
+    }
+  };
+
+  // Função para processar o pagamento com o token
+  const processPayment = async (tokenId) => {
+    try {
+      // Chamada para sua API backend
+      // que processaria o pagamento com o Mercado Pago
+      const response = await axios.post("http://localhost:5002/pagamento/processar-cartao", {
+        token: tokenId,
+        transactionAmount: totalPrice.toFixed(2),
+        paymentMethodId: paymentMethodId,
+        installments: document.getElementById('form-checkout__installments').value,
+        issuer: document.getElementById('form-checkout__issuer').value,
+        email: document.getElementById('card-form-checkout__email').value,
+        description: "Compra na Loja"
+      });
+
+      console.log("Pagamento processado:", response.data);
+      // Redirecionar para página de sucesso ou mostrar mensagem
+      alert("Pagamento realizado com sucesso!");
+
+    } catch (error) {
+      console.error("Erro ao processar pagamento:", error);
+      alert("Erro ao processar pagamento. Verifique os dados e tente novamente.");
+    }
+  };
+
+  const handleCreditCardSubmit = (event) => {
+    event.preventDefault();
+    createCardToken(event);
+  };
 
   const navigate = useNavigate()
   const { cartItems = [] } = useContext(CartContext)
@@ -202,15 +258,92 @@ function Checkout() {
     elem.appendChild(tempOptions)
   }
 
-  useEffect(() => {
-    if (selectedPayment === "pix") {// Obter tipos de documento do Mercado Pago
-      ; (async function getIdentificationTypes() {
-        try {
-          const identificationTypes = await mp.getIdentificationTypes()
-          const identificationTypeElement = document.getElementById("form-checkout__identificationType")
+  async function updateIssuer(paymentMethod, bin, issuerElement, issuerPlaceholder) {
+    const { additional_info_needed, issuer } = paymentMethod;
+    let issuerOptions = [issuer];
 
-          if (identificationTypeElement) {
-            createSelectOptions(identificationTypeElement, identificationTypes)
+    if (additional_info_needed.includes('issuer_id')) {
+      issuerOptions = await getIssuers(paymentMethod, bin);
+    }
+
+    clearHTMLSelectChildrenFrom(issuerElement);
+    createSelectElementPlaceholder(issuerElement, issuerPlaceholder);
+
+    if (issuerOptions.length > 0) {
+      issuerOptions.forEach(issuer => {
+        const optionElement = document.createElement('option');
+        optionElement.value = issuer.id;
+        optionElement.textContent = issuer.name;
+        issuerElement.appendChild(optionElement);
+      });
+    }
+  }
+
+  async function getIssuers(paymentMethod, bin) {
+    try {
+      const { id: paymentMethodId } = paymentMethod;
+      return await mp.getIssuers({ paymentMethodId, bin });
+    } catch (e) {
+      console.error('error getting issuers: ', e);
+      return [];
+    }
+  }
+
+  async function updateInstallments(paymentMethod, bin, installmentsElement, installmentsPlaceholder, amount) {
+    try {
+      clearHTMLSelectChildrenFrom(installmentsElement);
+      createSelectElementPlaceholder(installmentsElement, installmentsPlaceholder);
+
+      const installments = await mp.getInstallments({
+        amount: amount.toString(),
+        bin,
+        paymentTypeId: 'credit_card',
+        paymentMethodId: paymentMethod.id
+      });
+
+      if (installments.length > 0 && installments[0].payer_costs) {
+        installments[0].payer_costs.forEach(cost => {
+          const optionElement = document.createElement('option');
+          optionElement.value = cost.installments;
+          optionElement.textContent = `${cost.installments}x de ${cost.installment_amount} ${cost.installment_rate === 0 ? 'sem juros' : 'com juros'}`;
+          installmentsElement.appendChild(optionElement);
+        });
+      }
+    } catch (error) {
+      console.error('error getting installments: ', error);
+    }
+  }
+
+  function clearHTMLSelectChildrenFrom(element) {
+    const currOptions = [...element.children];
+    currOptions.forEach(child => child.remove());
+  }
+
+  function createSelectElementPlaceholder(element, placeholder) {
+    const optionElement = document.createElement('option');
+    optionElement.textContent = placeholder;
+    optionElement.setAttribute('selected', "");
+    optionElement.setAttribute('disabled', "");
+    element.appendChild(optionElement);
+  }
+
+
+  useEffect(() => {
+    if (selectedPayment === "pix" || selectedPayment === "creditCard") {
+      (async function getIdentificationTypes() {
+        try {
+          const types = await mp.getIdentificationTypes()
+          setIdentificationTypes(types)
+
+          const pixIdentificationElement = document.getElementById("form-checkout__identificationType")
+          const cardIdentificationElement = document.getElementById("card-form-checkout__identificationType")
+
+          if (pixIdentificationElement) {
+            createSelectOptions(pixIdentificationElement, types)
+          }
+
+          if (cardIdentificationElement) {
+            createSelectOptions(cardIdentificationElement, types)
           }
         } catch (e) {
           console.error("Error getting identificationTypes: ", e)
@@ -218,6 +351,203 @@ function Checkout() {
       })()
     }
   }, [selectedPayment])
+
+  useEffect(() => {
+    if (showCardDetails) {
+      mp.cardForm({
+        amount: totalPrice.toFixed(2),
+        autoMount: true,
+        form: {
+          id: "form-checkout",
+          cardholderName: {
+            id: "form-checkout__cardholderName",
+            placeholder: "Nome como aparece no cartão",
+          },
+          cardNumber: {
+            id: "form-checkout__cardNumber",
+            placeholder: "Número do cartão",
+          },
+          expirationDate: {
+            id: "form-checkout__expirationDate",
+            placeholder: "MM/YY",
+          },
+          securityCode: {
+            id: "form-checkout__securityCode",
+            placeholder: "CVV",
+          },
+          installments: {
+            id: "form-checkout__installments",
+            placeholder: "Parcelas",
+          },
+          issuer: {
+            id: "form-checkout__issuer",
+            placeholder: "Banco emissor",
+          },
+        },
+        callbacks: {
+          onFormMounted: error => {
+            if (error) console.error("Form Mounted handling error: ", error);
+          },
+          onSubmit: event => {
+            event.preventDefault();
+          },
+          onBinChange: data => {
+            console.log("BIN changed: ", data);
+          },
+        },
+      });
+    }
+  }, [showCardDetails, totalPrice]);
+
+  useEffect(() => {
+    if (showCardDetails && !cardFieldsLoaded) {
+      const initializeCardFields = async () => {
+        try {
+          // Inicializa os campos do cartão
+          const cardNumberElement = mp.fields.create('cardNumber', {
+            placeholder: "Número do cartão",
+
+          }).mount('form-checkout__cardNumber');
+
+          const expirationDateElement = mp.fields.create('expirationDate', {
+            placeholder: "MM/YY",
+          }).mount('form-checkout__expirationDate');
+
+          const securityCodeElement = mp.fields.create('securityCode', {
+            placeholder: "Código de segurança",
+          }).mount('form-checkout__securityCode');
+
+          const paymentMethodElement = document.createElement('input');
+          paymentMethodElement.type = 'hidden';
+          paymentMethodElement.id = 'paymentMethodId';
+          document.getElementById('form-checkout').appendChild(paymentMethodElement);
+
+          // Obtenha referências aos elementos do DOM
+          const issuerElement = document.getElementById('form-checkout__issuer');
+          const installmentsElement = document.getElementById('form-checkout__installments');
+
+          const issuerPlaceholder = "Banco emissor";
+          const installmentsPlaceholder = "Parcelas";
+
+          let currentBin;
+
+          // Configuração do evento binChange
+          cardNumberElement.on('binChange', async (data) => {
+            const { bin } = data;
+            try {
+              if (!bin && paymentMethodElement.value) {
+                clearSelectsAndSetPlaceholders();
+                paymentMethodElement.value = "";
+                setPaymentMethodId("");
+              }
+
+              if (bin && bin !== currentBin) {
+                const { results } = await mp.getPaymentMethods({ bin });
+                const paymentMethod = results[0];
+
+                paymentMethodElement.value = paymentMethod.id;
+                setPaymentMethodId(paymentMethod.id);
+                updatePCIFieldsSettings(paymentMethod, cardNumberElement, securityCodeElement);
+                await updateIssuer(paymentMethod, bin, issuerElement, issuerPlaceholder);
+                await updateInstallments(paymentMethod, bin, installmentsElement, installmentsPlaceholder, totalPrice);
+              }
+
+              currentBin = bin;
+            } catch (e) {
+              console.error('error getting payment methods: ', e);
+            }
+          });
+
+          function clearSelectsAndSetPlaceholders() {
+            clearHTMLSelectChildrenFrom(issuerElement);
+            createSelectElementPlaceholder(issuerElement, issuerPlaceholder);
+
+            clearHTMLSelectChildrenFrom(installmentsElement);
+            createSelectElementPlaceholder(installmentsElement, installmentsPlaceholder);
+          }
+
+          function clearHTMLSelectChildrenFrom(element) {
+            const currOptions = [...element.children];
+            currOptions.forEach(child => child.remove());
+          }
+
+          function createSelectElementPlaceholder(element, placeholder) {
+            const optionElement = document.createElement('option');
+            optionElement.textContent = placeholder;
+            optionElement.setAttribute('selected', "");
+            optionElement.setAttribute('disabled', "");
+            element.appendChild(optionElement);
+          }
+
+          function updatePCIFieldsSettings(paymentMethod, cardNumberElement, securityCodeElement) {
+            const { settings } = paymentMethod;
+
+            const cardNumberSettings = settings[0].card_number;
+            cardNumberElement.update({
+              settings: cardNumberSettings
+            });
+
+            const securityCodeSettings = settings[0].security_code;
+            securityCodeElement.update({
+              settings: securityCodeSettings
+            });
+          }
+
+          async function updateIssuer(paymentMethod, bin, issuerElement, issuerPlaceholder) {
+            clearHTMLSelectChildrenFrom(issuerElement);
+            createSelectElementPlaceholder(issuerElement, issuerPlaceholder);
+
+            const issuers = await mp.getIssuers({ paymentMethodId: paymentMethod.id, bin });
+
+            if (issuers.length > 0) {
+              issuers.forEach(issuer => {
+                const optionElement = document.createElement('option');
+                optionElement.value = issuer.id;
+                optionElement.textContent = issuer.name;
+                issuerElement.appendChild(optionElement);
+              });
+            }
+          }
+
+          async function updateInstallments(paymentMethod, bin, installmentsElement, installmentsPlaceholder, amount) {
+            clearHTMLSelectChildrenFrom(installmentsElement);
+            createSelectElementPlaceholder(installmentsElement, installmentsPlaceholder);
+
+            const installments = await mp.getInstallments({
+              amount: amount.toString(),
+              bin,
+              paymentTypeId: 'credit_card',
+              paymentMethodId: paymentMethod.id
+            });
+
+            if (installments.length > 0 && installments[0].payer_costs) {
+              installments[0].payer_costs.forEach(cost => {
+                const optionElement = document.createElement('option');
+                optionElement.value = cost.installments;
+                optionElement.textContent = `${cost.installments}x de ${cost.installment_amount} ${cost.installment_rate === 0 ? 'sem juros' : 'com juros'}`;
+                installmentsElement.appendChild(optionElement);
+              });
+            }
+          }
+
+          setCardFieldsLoaded(true);
+        } catch (error) {
+          console.error("Erro ao inicializar campos do cartão:", error);
+        }
+      };
+
+      initializeCardFields();
+
+      return () => {
+        const paymentMethodElement = document.getElementById('paymentMethodId');
+        if (paymentMethodElement) {
+          paymentMethodElement.remove();
+        }
+      };
+    }
+  }, [showCardDetails, cardFieldsLoaded, totalPrice]);
+
+
 
   return (
     <div className={getContainerClass()} data-payment={selectedPayment}>
@@ -381,20 +711,20 @@ function Checkout() {
                     <div className={styles.inputGroup}>
                       <label htmlFor="identificationType">Tipo de documento</label>
                       <select
-                        id="form-checkout__identificationType" 
-                        name="identificationType" 
+                        id="form-checkout__identificationType"
+                        name="identificationType"
                         type="text"
                         onChange={e => setIdentificationType(e.target.value)}
                       >
-                       </select>
+                      </select>
                     </div>
                   </div>
                   <div className={styles.formRow}>
                     <div className={styles.inputGroup}>
                       <label htmlFor="identificationNumber">Número do documento</label>
-                      <input 
-                        id="form-checkout__identificationNumber" 
-                        name="identificationNumber" 
+                      <input
+                        id="form-checkout__identificationNumber"
+                        name="identificationNumber"
                         type="text"
                         value={identificationNumber}
                         onChange={handleIdentificationNumberChange}
@@ -408,92 +738,145 @@ function Checkout() {
               </div>
             )}
 
-            {showCardDetails && (
-              <div className={styles.cardDetailsForm}>
-                <h3>Detalhes do Cartão</h3>
-                <div className={styles.formRow}>
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="cardNumber">Número do Cartão</label>
-                    <input
-                      type="text"
-                      id="cardNumber"
-                      value={formData.cardNumber}
-                      onChange={handleInputChange}
-                      placeholder="0000 0000 0000 0000"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className={styles.formRow}>
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="cardName">Nome no Cartão</label>
-                    <input
-                      type="text"
-                      id="cardName"
-                      value={formData.cardName}
-                      onChange={handleInputChange}
-                      placeholder="Nome como aparece no cartão"
-                      required
-                    />
-                  </div>
-                </div>
 
-                <div className={styles.formRow}>
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="expiryMonth">Data de Expiração</label>
-                    <div className={styles.expiryDateContainer}>
-                      <select id="expiryMonth" value={formData.expiryMonth} onChange={handleInputChange} required>
-                        {Array.from({ length: 12 }, (_, i) => (
-                          <option key={i} value={`${i + 1}`}>
-                            {i + 1}
-                          </option>
-                        ))}
+            {showCardDetails && (
+              <div className={`${styles.cardDetailsForm} ${styles.compactForm}`}>
+                <h3>Detalhes do Cartão</h3>
+                <form id="form-checkout">
+                  {/* Número do Cartão */}
+                  <div className={styles.formRow}>
+                    <div className={styles.inputGroup}>
+                      <label>Número do Cartão</label>
+                      <div id="form-checkout__cardNumber" className={styles.cardInputContainer}></div>
+                    </div>
+                  </div>
+
+                  {/* Nome no Cartão */}
+                  <div className={styles.formRow}>
+                    <div className={styles.inputGroup}>
+                      <label htmlFor="cardholderName">Nome no Cartão</label>
+                      <input
+                        type="text"
+                        id="cardholderName"
+                        name="cardholderName"
+                        value={formData.cardName}
+                        onChange={(e) => setFormData({ ...formData, cardName: e.target.value })}
+                        placeholder="Nome como aparece no cartão"
+                        required
+                        className={styles.input}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Data de Expiração e CVV */}
+                  <div className={styles.formRow}>
+                    <div className={styles.inputGroup}>
+                      <label>Data de Validade</label>
+                      <div id="form-checkout__expirationDate" className={styles.cardInputContainer}></div>
+                    </div>
+                    <div className={styles.inputGroup}>
+                      <label>Código de Segurança</label>
+                      <div id="form-checkout__securityCode" className={styles.cardInputContainer}></div>
+                    </div>
+                  </div>
+
+                  {/* Banco Emissor */}
+                  <div className={styles.formRow}>
+                    <div className={styles.inputGroup}>
+                      <label htmlFor="form-checkout__issuer">Banco emissor</label>
+                      <select
+                        id="form-checkout__issuer"
+                        name="issuer"
+                        className={styles.input}
+                      >
+                        <option value="" disabled selected>Selecione o banco</option>
                       </select>
-                      <span>/</span>
-                      <select id="expiryYear" value={formData.expiryYear} onChange={handleInputChange} required>
-                        {Array.from({ length: 21 }, (_, i) => (
-                          <option key={i} value={`${new Date().getFullYear() + i}`}>
-                            {new Date().getFullYear() + i}
+                    </div>
+                  </div>
+
+                  {/* Parcelas */}
+                  <div className={styles.formRow}>
+                    <div className={styles.inputGroup}>
+                      <label htmlFor="form-checkout__installments">Parcelas</label>
+                      <select
+                        id="form-checkout__installments"
+                        name="installments"
+                        className={styles.input}
+                      >
+                        <option value="" disabled selected>Selecione as parcelas</option>
+                        {Array.from({ length: 12 }, (_, i) => {
+                          const installmentNumber = i + 1
+                          const hasInterest = installmentNumber > 4
+                          const totalWithInterest = hasInterest ? totalPrice * 1.05 : totalPrice
+                          const installmentValue = (totalWithInterest / installmentNumber).toFixed(2)
+                          return (
+                            <option key={i} value={`${installmentNumber}`}>
+                              {installmentNumber}x de R$ {installmentValue}
+                              {!hasInterest ? " sem juros" : " com juros"}
+                            </option>
+                          )
+                        })}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Tipo de Documento */}
+                  <div className={styles.formRow}>
+                    <div className={styles.inputGroup}>
+                      <label htmlFor="card-form-checkout__identificationType">Tipo de documento</label>
+                      <select
+                        id="card-form-checkout__identificationType"
+                        name="identificationType"
+                        className={styles.input}
+                        onChange={e => setIdentificationType(e.target.value)}
+                      >
+                        <option value="" disabled selected>Selecione o tipo</option>
+                        {identificationTypes.map((type) => (
+                          <option key={type.id} value={type.id}>
+                            {type.name}
                           </option>
                         ))}
                       </select>
                     </div>
                   </div>
-                </div>
 
-                <div className={styles.formRow}>
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="cvv">CVV</label>
-                    <input
-                      type="text"
-                      id="cvv"
-                      value={formData.cvv}
-                      onChange={handleInputChange}
-                      placeholder="123"
-                      maxLength="4"
-                      required
-                    />
+                  {/* Número do Documento */}
+                  <div className={styles.formRow}>
+                    <div className={styles.inputGroup}>
+                      <label htmlFor="card-form-checkout__identificationNumber">Número do documento</label>
+                      <input
+                        type="text"
+                        id="card-form-checkout__identificationNumber"
+                        name="identificationNumber"
+                        value={identificationNumber}
+                        onChange={handleIdentificationNumberChange}
+                        placeholder={identificationType === "CNPJ" ? "00.000.000/0000-00" : "000.000.000-00"}
+                        maxLength={identificationType === "CNPJ" ? 18 : 14}
+                        required
+                        className={styles.input}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className={styles.formRow}>
-                  <div className={styles.inputGroup}>
-                    <label htmlFor="installments">Parcelas</label>
-                    <select id="installments" value={formData.installments} onChange={handleInputChange} required>
-                      {Array.from({ length: 12 }, (_, i) => {
-                        const installmentNumber = i + 1
-                        const hasInterest = installmentNumber > 4
-                        const totalWithInterest = hasInterest ? totalPrice * 1.05 : totalPrice
-                        const installmentValue = (totalWithInterest / installmentNumber).toFixed(2)
-                        return (
-                          <option key={i} value={`${installmentNumber}`}>
-                            {installmentNumber}x de R$ {installmentValue}
-                            {!hasInterest ? " sem juros" : " com juros"}
-                          </option>
-                        )
-                      })}
-                    </select>
+
+                  {/* E-mail */}
+                  <div className={styles.formRow}>
+                    <div className={styles.inputGroup}>
+                      <label htmlFor="card-form-checkout__email">E-mail</label>
+                      <input
+                        type="email"
+                        id="card-form-checkout__email"
+                        name="email"
+                        placeholder="Seu e-mail"
+                        required
+                        className={styles.input}
+                      />
+                    </div>
                   </div>
-                </div>
+
+                  {/* Campos ocultos */}
+                  <input type="hidden" id="transactionAmount" name="transactionAmount" value={totalPrice.toFixed(2)} />
+                  <input type="hidden" id="description" name="description" value="Compra na Loja" />
+                </form>
               </div>
             )}
           </div>
@@ -577,7 +960,7 @@ function Checkout() {
               </button>
 
               <button
-                type="button"
+                type="submit"
                 className={`${styles.checkoutButton} ${!selectedPayment || !isAddressComplete ? styles.disabledButton : ""}`}
                 disabled={!selectedPayment || !isAddressComplete || loadingPix}
                 onClick={() => {
@@ -585,13 +968,13 @@ function Checkout() {
                     criarPagamentoPix();
                     setShowPixModal(true);
                   } else {
-                    // Handle credit card payment logic
+                    handleCreditCardSubmit(event);
                     console.log("Processing credit card payment")
                     // Add your credit card payment submission logic here
                   }
                 }}
               >
-                 {loadingPix ? "Processando..." : "Finalizar Compra"}
+                {loadingPix ? "Processando..." : "Finalizar Compra"}
               </button>
             </div>
           </div>
