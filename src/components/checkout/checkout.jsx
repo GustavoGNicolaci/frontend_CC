@@ -33,6 +33,7 @@ function Checkout() {
   const [paymentMethodId, setPaymentMethodId] = useState("");
   const [issuerOptions, setIssuerOptions] = useState([]);
   const [token, setToken] = useState("");
+  const [processingCard, setProcessingCard] = useState(false);
 
   const [formData, setFormData] = useState({
     cep: "",
@@ -69,56 +70,89 @@ function Checkout() {
     }
   };
 
-  const createCardToken = async (event) => {
-    try {
-      if (!token) {
-        event.preventDefault();
-        const tokenData = await mp.fields.createCardToken({
-          cardholderName: document.getElementById('form-checkout__cardholderName').value,
-          identificationType: document.getElementById('card-form-checkout__identificationType').value,
-          identificationNumber: document.getElementById('card-form-checkout__identificationNumber').value,
-        });
-        setToken(tokenData.id);
-
-        // Adicionar a lógica para enviar o pagamento
-        // Após a criação do token
-        processPayment(tokenData.id);
-      }
-    } catch (e) {
-      console.error('error creating card token: ', e);
-      alert("Erro ao processar o pagamento. Verifique os dados do cartão.");
-      return;
-    }
-  };
-
   // Função para processar o pagamento com o token
   const processPayment = async (tokenId) => {
     try {
-      // Chamada para sua API backend
-      // que processaria o pagamento com o Mercado Pago
-      const response = await axios.post("http://localhost:5002/pagamento/processar-cartao", {
+      const response = await axios.post("http://localhost:5002/pagamento/criar-pagamento-cartao", {
+        totalAmount: totalPrice,
+        payerEmail: document.getElementById('card-form-checkout__email').value,
+        description: "Compra na Loja",
         token: tokenId,
-        transactionAmount: totalPrice.toFixed(2),
         paymentMethodId: paymentMethodId,
-        installments: document.getElementById('form-checkout__installments').value,
-        issuer: document.getElementById('form-checkout__issuer').value,
-        email: document.getElementById('card-form-checkout__email').value,
-        description: "Compra na Loja"
+        installments: parseInt(document.getElementById('form-checkout__installments').value),
+        issuer: document.getElementById('form-checkout__issuer').value
+      }, {
+        headers: {
+          "x-idempotency-key": crypto.randomUUID()
+        }
       });
 
-      console.log("Pagamento processado:", response.data);
-      // Redirecionar para página de sucesso ou mostrar mensagem
-      alert("Pagamento realizado com sucesso!");
-
+      if (response.data.status === "approved") {
+        alert("Pagamento aprovado com sucesso!");
+        // navigate("/sucesso"); // Descomente se tiver rota de sucesso
+      } else {
+        alert(`Pagamento ${response.data.status}`);
+      }
     } catch (error) {
-      console.error("Erro ao processar pagamento:", error);
-      alert("Erro ao processar pagamento. Verifique os dados e tente novamente.");
+      console.error("Erro no pagamento:", error);
+      alert(error.response?.data?.message || "Erro ao processar pagamento");
     }
   };
 
-  const handleCreditCardSubmit = (event) => {
+  const validateCreditCardForm = () => {
+    // Valida campos de texto normais
+    const textFields = [
+      'form-checkout__cardholderName',
+      'card-form-checkout__identificationType',
+      'card-form-checkout__identificationNumber',
+      'card-form-checkout__email'
+    ];
+
+    for (const fieldId of textFields) {
+      const element = document.getElementById(fieldId);
+      if (!element?.value) {
+        const label = document.querySelector(`label[for="${fieldId}"]`)?.textContent || fieldId;
+        alert(`Por favor, preencha o campo: ${label}`);
+        return false;
+      }
+    }
+
+    // Valida se os campos do MercadoPago foram renderizados
+    const mpContainers = ['cardNumber', 'expirationDate', 'securityCode'];
+    for (const field of mpContainers) {
+      const container = document.getElementById(`form-checkout__${field}`);
+      if (!container || container.children.length === 0) {
+        alert('Por favor, preencha todos os dados do cartão');
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  const handleCreditCardSubmit = async (event) => {
     event.preventDefault();
-    createCardToken(event);
+    setProcessingCard(true);
+
+    try {
+      if (!validateCreditCardForm()) {
+        return;
+      }
+
+      const tokenData = await mp.fields.createCardToken({
+        cardholderName: document.getElementById('form-checkout__cardholderName').value,
+        identificationType: document.getElementById('card-form-checkout__identificationType').value,
+        identificationNumber: document.getElementById('card-form-checkout__identificationNumber').value.replace(/\D/g, '')
+      });
+
+      setToken(tokenData.id);
+      await processPayment(tokenData.id);
+    } catch (error) {
+      console.error('Erro no pagamento:', error);
+      alert(error.message || "Erro ao processar o cartão");
+    } finally {
+      setProcessingCard(false);
+    }
   };
 
   const navigate = useNavigate()
@@ -754,10 +788,10 @@ function Checkout() {
                   {/* Nome no Cartão */}
                   <div className={styles.formRow}>
                     <div className={styles.inputGroup}>
-                      <label htmlFor="cardholderName">Nome no Cartão</label>
+                      <label htmlFor="form-checkout__cardholderName">Nome no Cartão</label>
                       <input
                         type="text"
-                        id="cardholderName"
+                        id="form-checkout__cardholderName"
                         name="cardholderName"
                         value={formData.cardName}
                         onChange={(e) => setFormData({ ...formData, cardName: e.target.value })}
@@ -962,19 +996,21 @@ function Checkout() {
               <button
                 type="submit"
                 className={`${styles.checkoutButton} ${!selectedPayment || !isAddressComplete ? styles.disabledButton : ""}`}
-                disabled={!selectedPayment || !isAddressComplete || loadingPix}
-                onClick={() => {
+                disabled={!selectedPayment || !isAddressComplete || loadingPix || processingCard}
+                onClick={async (event) => {
                   if (selectedPayment === "pix") {
-                    criarPagamentoPix();
+                    setLoadingPix(true);
+                    await criarPagamentoPix();
                     setShowPixModal(true);
-                  } else {
-                    handleCreditCardSubmit(event);
-                    console.log("Processing credit card payment")
-                    // Add your credit card payment submission logic here
+                    setLoadingPix(false);
+                  } else if (selectedPayment === "creditCard") {
+                    await handleCreditCardSubmit(event);
                   }
                 }}
               >
-                {loadingPix ? "Processando..." : "Finalizar Compra"}
+                {loadingPix ? "Processando..." :
+                  (selectedPayment === "creditCard" && token) ? "Pagamento em processamento..." :
+                    "Finalizar Compra"}
               </button>
             </div>
           </div>
