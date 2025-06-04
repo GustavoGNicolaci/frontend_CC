@@ -6,14 +6,11 @@ body {
 }
 
 .footer {
-  bottom: 0; /* Alinha o footer ao fundo da tela */
-  left: 0; /* Alinha à esquerda */
-  right: 0; /* Alinha à direita */
-  width: 100%; /* Faz o footer ocupar toda a largura da tela */
-  color: white; /* Cor do texto */
-  text-align: center; /* Centraliza o texto */
-  padding: 0px 0; /* Espaçamento interno */
-  padding-top: 10%;
+  width: 100vw;
+  height: 180px; /* Faz o footer ocupar toda a largura da tela */
+  background: #dfdcca;
+  padding-top: 24px;
+  text-align: center;
 }
 
 .content {
@@ -25,3 +22,38 @@ body {
   font-style: italic;
 }
 
+.text-footer {
+    margin-bottom: 12px;
+    color: #663300;
+    font-size: 16px;
+}
+
+.footer-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espaçamento entre os ícones */
+    margin-top: 8px;
+}
+
+.footer-icons a {
+    font-size: 24px;
+    transition: color 0.2s;
+}
+
+.footer-icons a[href*="instagram"] {
+    color: #e1306c; /* Rosa Instagram */
+}
+.footer-icons a[href*="facebook"] {
+    color: #1877f3; /* Azul Facebook */
+}
+.footer-icons a[href*="wa.me"] {
+    color: #25d366; /* Verde WhatsApp */
+}
+
+.footer-icons a[href*="twitter"] {
+    color: black ;
+}
+
+.footer-icons a:hover {
+    opacity: 0.8;
+}
