@@ -87,10 +87,9 @@ export const getinfoUsuario = async (userId: string) => {
             throw new Error('Token não encontrado. Faça login novamente.');
         }
 
-        // Faça a requisição com o cabeçalho Authorization
         const response = await axios.get(`${API_URL}/user/${userId}`, {
             headers: {
-                Authorization: `Bearer ${token}`, // Adicione o token no cabeçalho
+                Authorization: `Bearer ${token}`,
             },
         });
 
@@ -99,7 +98,7 @@ export const getinfoUsuario = async (userId: string) => {
         return {
             email: usuario.email,
             telefone: usuario.telefone,
-            nome: decryptData(usuario.nome),
+            nome: usuario.nome,
             endereco: {
                 ...usuario.endereco,    
                 cep: decryptData(usuario.endereco.cep),

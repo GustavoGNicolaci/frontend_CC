@@ -5,6 +5,7 @@ import Footer from '../footer';
 import NavbarComponent from '../navbar/navbar';
 import LoadingModal from '../shared/loadingModal/loadingModal';
 import styles from './login.module.css';
+import { useAuth } from '../../authenticate/authContext';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -12,6 +13,7 @@ const Login = () => {
     const [fieldErrors, setFieldErrors] = useState({});
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const { login: loginContext } = useAuth();
     const navigate = useNavigate();
 
     const validateFields = () => {
@@ -31,6 +33,7 @@ const Login = () => {
             const data = await login(email, password);
             if (data?.token) {
                 localStorage.setItem("token", data.token);
+                loginContext(data.token);
                 navigate('/produtos');
             } else {
                 setError("Erro ao autenticar. Tente novamente.");

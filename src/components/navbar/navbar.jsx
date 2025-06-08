@@ -1,23 +1,25 @@
 "use client"
 
 import "bootstrap/dist/css/bootstrap.min.css"
-import { useState, useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
 import NavDropdown from "react-bootstrap/NavDropdown"
-import { FaShoppingCart, FaUser, FaCoffee, FaMapMarkerAlt, FaBriefcase, FaInfoCircle } from "react-icons/fa"
+import { FaBriefcase, FaCoffee, FaInfoCircle, FaMapMarkerAlt, FaShoppingCart, FaUser } from "react-icons/fa"
+import chevronDownBrown from '../../assets/images/chevron-down-brown.png'
+import chevronDownLight from '../../assets/images/chevron-down-white.png'
+import chevronUpBrown from '../../assets/images/chevron-up-brown.png'
+import chevronUpLight from '../../assets/images/chevron-up-white.png'
 import { useAuth } from "../../authenticate/authContext"
+import { getinfoUsuario } from "../../services/loginService"
+import { getInfoFromToken } from "../../utils/decodedToken"
 import OpcoesUsuarioModal from "../login/opcoesUsuario/opcoesUsuarioModal"
 import styles from "./navbar.module.css"
-import chevronDownBrown from '../../assets/images/chevron-down-brown.png'
-import chevronUpBrown from '../../assets/images/chevron-up-brown.png'
-import chevronDownLight from '../../assets/images/chevron-down-white.png'
-import chevronUpLight from '../../assets/images/chevron-up-white.png'
-
 
 function NavbarComponent() {
   const [showModal, setShowModal] = useState(false)
   const [isUserHovered, setIsUserHovered] = useState(false)
+  const [userName, setUserName] = useState("");
   const modalRef = useRef(null);
 
   const { token, logout } = useAuth()
@@ -31,6 +33,27 @@ function NavbarComponent() {
       setShowModal(false);
     }
   };
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      if (token) {
+        const info = getInfoFromToken();
+        if (info.id) {
+          try {
+            const user = await getinfoUsuario(info.id || info._id);
+            setUserName(user?.nome || "");
+            console.log("User Name:", user);
+            console.log("User Info:", userName);
+          } catch {
+            setUserName("");
+          }
+        }
+      } else {
+        setUserName("");
+      }
+    };
+    fetchUserName();
+  }, [token]);
 
   useEffect(() => {
     if (showModal) {
@@ -97,7 +120,7 @@ function NavbarComponent() {
               <div className={styles.navIcon}>
                 <FaUser className={styles.IconUser}/>
                 <span className={styles.helloUser}>
-                  Olá, Geovanna
+                  Olá, {userName || "Usuário"}
                 </span>
                 <img
                   src={
