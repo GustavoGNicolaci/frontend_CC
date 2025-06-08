@@ -7,7 +7,7 @@ body {
 
 .footer {
   width: 100vw;
-  height: 180px; /* Faz o footer ocupar toda a largura da tela */
+  height: 100px; /* Faz o footer ocupar toda a largura da tela */
   background: #dfdcca;
   padding-top: 24px;
   text-align: center;
@@ -31,8 +31,8 @@ body {
 .footer-icons {
     display: flex;
     justify-content: center;
-    gap: 20px; /* Espaçamento entre os ícones */
-    margin-top: 8px;
+    gap: 20px;
+    margin-bottom: 4px;
 }
 
 .footer-icons a {
@@ -56,4 +56,8 @@ body {
 
 .footer-icons a:hover {
     opacity: 0.8;
+}
+
+.direitos {
+  color: #663300
 }
