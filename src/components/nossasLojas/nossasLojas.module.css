@@ -2,7 +2,7 @@
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
-    padding-top: 1850px;
+    padding-top: 820px;
 }
 
 .cardsWrapper {
@@ -67,7 +67,7 @@
 @media (max-width: 1024px) {
     .nossasLojasPage {
         padding: 15px;
-        padding-top: 1800px;
+        padding-top: 750px;
     }
 
     .cardsWrapper {
@@ -85,6 +85,12 @@
 
     .card {
         padding: 20px;
+    }
+}
+
+@media (max-width: 710px) {
+    .nossasLojasPage {
+        padding-top: 1750px;
     }
 }
 
