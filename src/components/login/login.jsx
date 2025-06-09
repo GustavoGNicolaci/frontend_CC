@@ -46,38 +46,42 @@ const Login = () => {
     };
 
     return (
-        <div className={styles.loginPage}>
+        <div className={styles.pageContainer}>
             <NavbarComponent />
-            <div className={styles.form}>
-                    <div>
-                        <h2 className={styles.welcomeMessage}>Seja Bem-vindo(a)!</h2>
-                        <form className={styles.loginForm} onSubmit={handleLogin}>
-                            <input
-                                type="email"
-                                placeholder="E-mail"
-                                className={styles.input}
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                            {fieldErrors.email && <p className={styles.error}>{fieldErrors.email}</p>}
-                            <input
-                                type="password"
-                                placeholder="Senha"
-                                className={styles.input}
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            {fieldErrors.password && <p className={styles.error}>{fieldErrors.password}</p>}
-                            <button type="submit" className={styles.button}>Login</button>
-                            {error && <p className={styles.error}>{error}</p>}
-                            <p className={styles.message}>
-                            Não tem uma conta? <button onClick={() => navigate('/cadastro')} className={styles.linkButton}>Cadastre-se</button>
-                            </p>
-                        </form>
+            <div className={styles.contentWrap}>
+                <div className={styles.loginPage}>
+                    <div className={styles.form}>
+                        <div>
+                            <h2 className={styles.welcomeMessage}>Seja Bem-vindo(a)!</h2>
+                            <form className={styles.loginForm} onSubmit={handleLogin}>
+                                <input
+                                    type="email"
+                                    placeholder="E-mail"
+                                    className={styles.input}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                                {fieldErrors.email && <p className={styles.error}>{fieldErrors.email}</p>}
+                                <input
+                                    type="password"
+                                    placeholder="Senha"
+                                    className={styles.input}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                {fieldErrors.password && <p className={styles.error}>{fieldErrors.password}</p>}
+                                <button type="submit" className={styles.button}>Login</button>
+                                {error && <p className={styles.error}>{error}</p>}
+                                <p className={styles.message}>
+                                    Não tem uma conta? <button onClick={() => navigate('/cadastro')} className={styles.linkButton}>Cadastre-se</button>
+                                </p>
+                            </form>
+                        </div>
                     </div>
+                </div>
+                <Footer />
+                {isLoading && <LoadingModal />}
             </div>
-            <Footer />
-            {isLoading && <LoadingModal />}
         </div>
     );
 };

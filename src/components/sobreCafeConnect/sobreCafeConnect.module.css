@@ -1,8 +1,7 @@
 .sobreCafeConnectPage {
-  padding: 20px;
-  max-width: 1400px; 
+  max-width: 1400px;
   margin: 0 auto;
-  padding-top: 1800px; 
+  padding-top: 1780px;
   min-height: 100vh;
 }
 
@@ -11,7 +10,7 @@
   background: white;
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(102, 51, 0, 0.1), 0 8px 16px rgba(102, 51, 0, 0.05);
-  max-width: 1000px; 
+  max-width: 1000px;
   margin: 20px auto;
   text-align: justify;
   position: relative;
@@ -156,8 +155,10 @@
 
 .interactiveGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Aumentado de 300px */
-  gap: 25px; /* Aumentado de 20px */
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  /* Aumentado de 300px */
+  gap: 25px;
+  /* Aumentado de 20px */
   margin-top: 30px;
 }
 
@@ -289,6 +290,7 @@
 }
 
 @keyframes bounce {
+
   0%,
   20%,
   50%,
@@ -296,19 +298,23 @@
   100% {
     transform: translateY(0);
   }
+
   40% {
     transform: translateY(-10px);
   }
+
   60% {
     transform: translateY(-5px);
   }
 }
 
 @keyframes pulse {
+
   0%,
   100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.1);
   }
@@ -318,6 +324,7 @@
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }
@@ -327,6 +334,7 @@
   0% {
     width: 0;
   }
+
   100% {
     width: 80px;
   }
@@ -336,6 +344,7 @@
   0% {
     transform: scaleX(0);
   }
+
   100% {
     transform: scaleX(1);
   }
@@ -345,38 +354,45 @@
   0% {
     transform: rotate(0deg);
   }
+
   25% {
     transform: rotate(5deg);
   }
+
   75% {
     transform: rotate(-5deg);
   }
+
   100% {
     transform: rotate(0deg);
   }
 }
 
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
 }
 
 @keyframes rocket {
+
   0%,
   100% {
     transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     transform: translateY(-5px) rotate(5deg);
   }
 }
 
-/* Media Queries - mantendo as originais com melhorias */
+/* Media Queries */
 @media (max-width: 1024px) {
   .sobreCafeConnectPage {
     padding: 15px;

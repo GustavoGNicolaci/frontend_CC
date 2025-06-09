@@ -1,5 +1,18 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.contentWrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+
 .container {
   width: 100%;
   min-height: 100vh;
@@ -9,7 +22,14 @@
   align-items: center;
   justify-content: center;
   padding: 110px 40px 25px;
-  padding-top: 120px;
+}
+
+.container.step1 {
+  padding-top: 220px;
+}
+
+.container.step2 {
+  padding-top: 150px;
 }
 
 .welcomeMessage {
@@ -492,8 +512,13 @@
 
 @media (max-width: 768px) {
 
-  .container {
+
+  .container.step1 {
     padding-top: 320px;
+  }
+
+  .container.step2 {
+    padding-top: 420px;
   }
 
   .registerForm {

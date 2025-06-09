@@ -237,220 +237,224 @@ const Cadastro = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.pageContainer}>
       <NavbarComponent />
-      <form className={styles.registerForm} onSubmit={handleSubmit}>
-        <h2 className={styles.welcomeMessage}>Cadastre-se</h2>
+      <div>
+        <div className={`${styles.container} ${currentStep === 1 ? styles.step1 : styles.step2}`}>
+          <form className={styles.registerForm} onSubmit={handleSubmit}>
+            <h2 className={styles.welcomeMessage}>Cadastre-se</h2>
 
-        {/* Barra de Progresso */}
-        <div className={styles.progressContainer}>
-          <div className={styles.progressBar}>
-            <div className={styles.progressFill} style={{ width: `${(currentStep / totalSteps) * 100}%` }}></div>
-          </div>
-          <div className={styles.stepInfo}>
-            <div className={styles.stepHeader}>
-              <span className={styles.stepCounter}>
-                Etapa {currentStep} de {totalSteps}
-              </span>
-            </div>
-            <h3 className={styles.stepTitle}>{getStepTitle()}</h3>
-            <p className={styles.stepDescription}>{getStepDescription()}</p>
-          </div>
-        </div>
-
-        {/* Etapa 1: Informações Pessoais */}
-        {currentStep === 1 && (
-          <div className={styles.stepContent}>
-            <div className={styles.informacoesPessoais}>
-              <input
-                type="text"
-                placeholder="Nome"
-                className={`${styles.input} ${fieldErrors.name ? styles.errorInput : ""}`}
-                value={name}
-                onChange={handleInputChange(setName, "name")}
-                aria-invalid={fieldErrors.name ? "true" : "false"}
-              />
-              <InputMask mask="999.999.999-99" value={cpf} onChange={handleInputChange(setCpf, "cpf")}>
-                {(inputProps) => (
-                  <input
-                    {...inputProps}
-                    type="text"
-                    placeholder="CPF"
-                    className={`${styles.input} ${fieldErrors.cpf ? styles.errorInput : ""}`}
-                    aria-invalid={fieldErrors.cpf ? "true" : "false"}
-                  />
-                )}
-              </InputMask>
-              <input
-                type="email"
-                placeholder="E-mail"
-                className={`${styles.input} ${fieldErrors.email ? styles.errorInput : ""}`}
-                value={email}
-                onChange={handleInputChange(setEmail, "email")}
-                required
-                aria-invalid={fieldErrors.email ? "true" : "false"}
-              />
-              <InputMask mask="(99) 99999-9999" value={phone} onChange={handleInputChange(setPhone, "phone")}>
-                {(inputProps) => (
-                  <input
-                    {...inputProps}
-                    type="text"
-                    placeholder="Telefone"
-                    className={`${styles.input} ${fieldErrors.phone ? styles.errorInput : ""}`}
-                    aria-invalid={fieldErrors.phone ? "true" : "false"}
-                  />
-                )}
-              </InputMask>
+            {/* Barra de Progresso */}
+            <div className={styles.progressContainer}>
+              <div className={styles.progressBar}>
+                <div className={styles.progressFill} style={{ width: `${(currentStep / totalSteps) * 100}%` }}></div>
+              </div>
+              <div className={styles.stepInfo}>
+                <div className={styles.stepHeader}>
+                  <span className={styles.stepCounter}>
+                    Etapa {currentStep} de {totalSteps}
+                  </span>
+                </div>
+                <h3 className={styles.stepTitle}>{getStepTitle()}</h3>
+                <p className={styles.stepDescription}>{getStepDescription()}</p>
+              </div>
             </div>
 
-            <div className={styles.confirmarSenha}>
-              <div className={styles.passwordWrapper}>
-                <div className={styles.passwordInputContainer}>
+            {/* Etapa 1: Informações Pessoais */}
+            {currentStep === 1 && (
+              <div className={styles.stepContent}>
+                <div className={styles.informacoesPessoais}>
                   <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Senha"
-                    className={`${styles.input} ${fieldErrors.password ? styles.errorInput : ""}`}
-                    value={password}
-                    onFocus={() => setShowPasswordRequirements(true)}
-                    onBlur={() => setShowPasswordRequirements(false)}
-                    onChange={handlePasswordChange}
-                    aria-invalid={fieldErrors.password ? "true" : "false"}
+                    type="text"
+                    placeholder="Nome"
+                    className={`${styles.input} ${fieldErrors.name ? styles.errorInput : ""}`}
+                    value={name}
+                    onChange={handleInputChange(setName, "name")}
+                    aria-invalid={fieldErrors.name ? "true" : "false"}
                   />
-                  <button type="button" className={styles.togglePassword} onClick={() => setShowPassword(!showPassword)}>
-                    <img src={showPassword ? invisivel : visivel} alt="Toggle Password Visibility" />
-                  </button>
-                  <RequisitoSenhaModal
-                    isVisible={showPasswordRequirements}
-                    requirements={passwordRequirements}
+                  <InputMask mask="999.999.999-99" value={cpf} onChange={handleInputChange(setCpf, "cpf")}>
+                    {(inputProps) => (
+                      <input
+                        {...inputProps}
+                        type="text"
+                        placeholder="CPF"
+                        className={`${styles.input} ${fieldErrors.cpf ? styles.errorInput : ""}`}
+                        aria-invalid={fieldErrors.cpf ? "true" : "false"}
+                      />
+                    )}
+                  </InputMask>
+                  <input
+                    type="email"
+                    placeholder="E-mail"
+                    className={`${styles.input} ${fieldErrors.email ? styles.errorInput : ""}`}
+                    value={email}
+                    onChange={handleInputChange(setEmail, "email")}
+                    required
+                    aria-invalid={fieldErrors.email ? "true" : "false"}
+                  />
+                  <InputMask mask="(99) 99999-9999" value={phone} onChange={handleInputChange(setPhone, "phone")}>
+                    {(inputProps) => (
+                      <input
+                        {...inputProps}
+                        type="text"
+                        placeholder="Telefone"
+                        className={`${styles.input} ${fieldErrors.phone ? styles.errorInput : ""}`}
+                        aria-invalid={fieldErrors.phone ? "true" : "false"}
+                      />
+                    )}
+                  </InputMask>
+                </div>
+
+                <div className={styles.confirmarSenha}>
+                  <div className={styles.passwordWrapper}>
+                    <div className={styles.passwordInputContainer}>
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Senha"
+                        className={`${styles.input} ${fieldErrors.password ? styles.errorInput : ""}`}
+                        value={password}
+                        onFocus={() => setShowPasswordRequirements(true)}
+                        onBlur={() => setShowPasswordRequirements(false)}
+                        onChange={handlePasswordChange}
+                        aria-invalid={fieldErrors.password ? "true" : "false"}
+                      />
+                      <button type="button" className={styles.togglePassword} onClick={() => setShowPassword(!showPassword)}>
+                        <img src={showPassword ? invisivel : visivel} alt="Toggle Password Visibility" />
+                      </button>
+                      <RequisitoSenhaModal
+                        isVisible={showPasswordRequirements}
+                        requirements={passwordRequirements}
+                      />
+                    </div>
+                  </div>
+
+                  <div className={styles.passwordWrapper}>
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="Confirmar Senha"
+                      className={`${styles.input} ${fieldErrors.confirmPassword ? styles.errorInput : ""}`}
+                      value={confirmPassword}
+                      onChange={handleInputChange(setConfirmPassword, "confirmPassword")}
+                      aria-invalid={fieldErrors.confirmPassword ? "true" : "false"}
+                    />
+                    <button
+                      type="button"
+                      className={styles.togglePassword}
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    >
+                      <img src={showConfirmPassword ? invisivel : visivel} alt="Toggle Password Visibility" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Etapa 2: Endereço */}
+            {currentStep === 2 && (
+              <div className={styles.stepContent}>
+                <div className={styles.endereco}>
+                  <InputMask mask="99999-999" value={cep} onChange={handleCepChange}>
+                    {(inputProps) => (
+                      <input
+                        {...inputProps}
+                        type="text"
+                        placeholder="CEP"
+                        className={`${styles.input} ${fieldErrors.cep ? styles.errorInput : ""}`}
+                        aria-invalid={fieldErrors.cep ? "true" : "false"}
+                      />
+                    )}
+                  </InputMask>
+                  <input
+                    type="text"
+                    placeholder="Rua"
+                    className={`${styles.input} ${fieldErrors.rua ? styles.errorInput : ""}`}
+                    value={rua}
+                    onChange={handleInputChange(setRua, "rua")}
+                    aria-invalid={fieldErrors.rua ? "true" : "false"}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Número"
+                    className={`${styles.input} ${fieldErrors.numero ? styles.errorInput : ""}`}
+                    value={numero}
+                    onChange={handleInputChange(setNumero, "numero")}
+                    aria-invalid={fieldErrors.numero ? "true" : "false"}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Complemento"
+                    className={styles.input}
+                    value={complemento}
+                    onChange={handleInputChange(setComplemento, "complemento")}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Bairro"
+                    className={`${styles.input} ${fieldErrors.bairro ? styles.errorInput : ""}`}
+                    value={bairro}
+                    onChange={handleInputChange(setBairro, "bairro")}
+                    aria-invalid={fieldErrors.bairro ? "true" : "false"}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Estado"
+                    className={`${styles.input} ${fieldErrors.estado ? styles.errorInput : ""}`}
+                    value={estado}
+                    onChange={handleInputChange(setEstado, "estado")}
+                    aria-invalid={fieldErrors.estado ? "true" : "false"}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Cidade"
+                    className={`${styles.input} ${fieldErrors.cidade ? styles.errorInput : ""}`}
+                    value={cidade}
+                    onChange={handleInputChange(setCidade, "cidade")}
+                    aria-invalid={fieldErrors.cidade ? "true" : "false"}
                   />
                 </div>
               </div>
+            )}
 
-              <div className={styles.passwordWrapper}>
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  placeholder="Confirmar Senha"
-                  className={`${styles.input} ${fieldErrors.confirmPassword ? styles.errorInput : ""}`}
-                  value={confirmPassword}
-                  onChange={handleInputChange(setConfirmPassword, "confirmPassword")}
-                  aria-invalid={fieldErrors.confirmPassword ? "true" : "false"}
-                />
-                <button
-                  type="button"
-                  className={styles.togglePassword}
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  <img src={showConfirmPassword ? invisivel : visivel} alt="Toggle Password Visibility" />
+            {/* Botões de Navegação */}
+            <div className={styles.buttonContainer}>
+              {currentStep > 1 && (
+                <button type="button" className={styles.buttonSecondary} onClick={handlePrevStep}>
+                  Voltar
                 </button>
-              </div>
-            </div>
-          </div>
-        )}
+              )}
 
-        {/* Etapa 2: Endereço */}
-        {currentStep === 2 && (
-          <div className={styles.stepContent}>
-            <div className={styles.endereco}>
-              <InputMask mask="99999-999" value={cep} onChange={handleCepChange}>
-                {(inputProps) => (
-                  <input
-                    {...inputProps}
-                    type="text"
-                    placeholder="CEP"
-                    className={`${styles.input} ${fieldErrors.cep ? styles.errorInput : ""}`}
-                    aria-invalid={fieldErrors.cep ? "true" : "false"}
-                  />
-                )}
-              </InputMask>
-              <input
-                type="text"
-                placeholder="Rua"
-                className={`${styles.input} ${fieldErrors.rua ? styles.errorInput : ""}`}
-                value={rua}
-                onChange={handleInputChange(setRua, "rua")}
-                aria-invalid={fieldErrors.rua ? "true" : "false"}
-              />
-              <input
-                type="text"
-                placeholder="Número"
-                className={`${styles.input} ${fieldErrors.numero ? styles.errorInput : ""}`}
-                value={numero}
-                onChange={handleInputChange(setNumero, "numero")}
-                aria-invalid={fieldErrors.numero ? "true" : "false"}
-              />
-              <input
-                type="text"
-                placeholder="Complemento"
-                className={styles.input}
-                value={complemento}
-                onChange={handleInputChange(setComplemento, "complemento")}
-              />
-              <input
-                type="text"
-                placeholder="Bairro"
-                className={`${styles.input} ${fieldErrors.bairro ? styles.errorInput : ""}`}
-                value={bairro}
-                onChange={handleInputChange(setBairro, "bairro")}
-                aria-invalid={fieldErrors.bairro ? "true" : "false"}
-              />
-              <input
-                type="text"
-                placeholder="Estado"
-                className={`${styles.input} ${fieldErrors.estado ? styles.errorInput : ""}`}
-                value={estado}
-                onChange={handleInputChange(setEstado, "estado")}
-                aria-invalid={fieldErrors.estado ? "true" : "false"}
-              />
-              <input
-                type="text"
-                placeholder="Cidade"
-                className={`${styles.input} ${fieldErrors.cidade ? styles.errorInput : ""}`}
-                value={cidade}
-                onChange={handleInputChange(setCidade, "cidade")}
-                aria-invalid={fieldErrors.cidade ? "true" : "false"}
-              />
+              <button type="submit" className={styles.button} disabled={isLoading}>
+                {isLoading ? "Cadastrando..." : currentStep === totalSteps ? "Cadastrar" : "Próximo"}
+              </button>
             </div>
-          </div>
-        )}
 
-        {/* Botões de Navegação */}
-        <div className={styles.buttonContainer}>
-          {currentStep > 1 && (
-            <button type="button" className={styles.buttonSecondary} onClick={handlePrevStep}>
-              Voltar
-            </button>
+            <p className={styles.message}>
+              Já tem uma conta?{" "}
+              <a href="/login" className={styles.link} onClick={toggleForm}>
+                Login
+              </a>
+            </p>
+          </form>
+
+          {isLoading && <LoadingModal />}
+
+          {isModalOpen && !errorMessage && (
+            <MessageModal
+              message="Cadastro realizado com sucesso"
+              onClose={closeModal}
+              icon={<img src={iconeSucesso || "/placeholder.svg"} alt="Sucesso" />}
+            />
           )}
 
-          <button type="submit" className={styles.button} disabled={isLoading}>
-            {isLoading ? "Cadastrando..." : currentStep === totalSteps ? "Cadastrar" : "Próximo"}
-          </button>
+          {errorMessage && (
+            <MessageModal
+              message={errorMessage}
+              onClose={() => setErrorMessage("")}
+              icon={<img src={iconeErro || "/placeholder.svg"} alt="Erro" />}
+            />
+          )}
         </div>
-
-        <p className={styles.message}>
-          Já tem uma conta?{" "}
-          <a href="/login" className={styles.link} onClick={toggleForm}>
-            Login
-          </a>
-        </p>
-      </form>
-
-      {isLoading && <LoadingModal />}
-
-      {isModalOpen && !errorMessage && (
-        <MessageModal
-          message="Cadastro realizado com sucesso"
-          onClose={closeModal}
-          icon={<img src={iconeSucesso || "/placeholder.svg"} alt="Sucesso" />}
-        />
-      )}
-
-      {errorMessage && (
-        <MessageModal
-          message={errorMessage}
-          onClose={() => setErrorMessage("")}
-          icon={<img src={iconeErro || "/placeholder.svg"} alt="Erro" />}
-        />
-      )}
+      </div>
       <Footer />
     </div>
   )
