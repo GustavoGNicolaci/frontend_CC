@@ -1,68 +1,126 @@
 "use client"
 
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState, useRef } from "react"
 import axios from "axios"
 import styles from "./produtos.module.css"
 import NavbarComponent from "./navbar/navbar"
 import Footer from "./footer"
 import { useNavigate } from "react-router-dom"
 import { CartContext } from "../CartContext"
-import { Search, SlidersHorizontal, Coffee, DollarSign, Package } from "lucide-react"
+import { Search, SlidersHorizontal, Coffee, DollarSign, Package, ShoppingCart, Eye, Star } from "lucide-react"
 import MessageModal from "./shared/messageModal/messageModal"
 import { addProductToCart } from "../services/carrinhoService"
 
-function CardProduto({ id, imageSrc, title, price, buttonText, description, stock, setIsModalOpen, setModalMessage }) {
+function CardProduto({
+  id,
+  imageSrc,
+  title,
+  price,
+  buttonText,
+  description,
+  stock,
+  setIsModalOpen,
+  setModalMessage,
+  index,
+}) {
   const navigate = useNavigate()
   const { addToCart } = useContext(CartContext)
+  const [isLoading, setIsLoading] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
 
   const handleBuyClick = async () => {
-  if (stock <= 0) {
-    setModalMessage("Produto esgotado!");
-    setIsModalOpen(true);
-    return;
-  }
-
-  try {
-    // (Opcional) Buscar estoque atualizado do produto na API
-    const responseEstoque = await axios.get(`http://localhost:5002/product/${id}`);
-    if (responseEstoque.data.quantidadeEstoque < 1) {
-      setModalMessage("Produto esgotado!");
-      setIsModalOpen(true);
-      return;
+    if (stock <= 0) {
+      setModalMessage("Produto esgotado!")
+      setIsModalOpen(true)
+      return
     }
 
-    const response = await addProductToCart(id, 1);
-    if (response.success) {
-      setModalMessage(`${title} adicionado ao carrinho!`);
-    } else {
-      setModalMessage("Erro ao adicionar produto ao carrinho.");
+    setIsLoading(true)
+    try {
+      const responseEstoque = await axios.get(`http://localhost:5002/product/${id}`)
+      if (responseEstoque.data.quantidadeEstoque < 1) {
+        setModalMessage("Produto esgotado!")
+        setIsModalOpen(true)
+        return
+      }
+
+      const response = await addProductToCart(id, 1)
+      if (response.success) {
+        setModalMessage(`${title} adicionado ao carrinho!`)
+      } else {
+        setModalMessage("Erro ao adicionar produto ao carrinho.")
+      }
+    } catch (error) {
+      setModalMessage("Erro ao adicionar produto ao carrinho. Tente novamente.")
+    } finally {
+      setIsLoading(false)
+      setIsModalOpen(true)
     }
-  } catch (error) {
-    setModalMessage("Erro ao adicionar produto ao carrinho. Tente novamente.");
-  } finally {
-    setIsModalOpen(true);
   }
-};
 
   return (
-    <div className={styles.productCard}>
-      <img className={styles.productImage} src={imageSrc || "/placeholder.svg"} alt={title} />
-      <h3 className={styles.productTitle}>{title}</h3>
-      <p className={styles.productPrice}>{price}</p>
-      <p className={styles.stockInfo}>Em estoque: {stock}</p>
-      <button
-        className={`${styles.productButton} ${stock === 0 ? styles.disabledButton : ""}`}
-        onClick={handleBuyClick}
-        disabled={stock === 0}
-      >
-        {buttonText}
-      </button>
-      <button
-        className={styles.detailsButton}
-        onClick={() => navigate("/detalhesProduto", { state: { title, imageSrc, price, description } })}
-      >
-        Detalhes
-      </button>
+    <div className={`${styles.productCard} ${styles.fadeInUp}`} style={{ animationDelay: `${index * 0.1}s` }}>
+      <div className={styles.productImageContainer}>
+        <img
+          className={`${styles.productImage} ${imageLoaded ? styles.imageLoaded : ""}`}
+          src={imageSrc || "/placeholder.svg"}
+          alt={title}
+          onLoad={() => setImageLoaded(true)}
+        />
+        <div className={styles.productOverlay}>
+          <button
+            className={styles.quickViewButton}
+            onClick={() => navigate("/detalhesProduto", { state: { title, imageSrc, price, description } })}
+          >
+            <Eye size={18} />
+            Visualizar
+          </button>
+        </div>
+        {stock <= 5 && stock > 0 && <div className={styles.lowStockBadge}>Últimas unidades!</div>}
+        {stock === 0 && <div className={styles.outOfStockBadge}>Esgotado</div>}
+      </div>
+
+      <div className={styles.productContent}>
+        <h3 className={styles.productTitle}>{title}</h3>
+        <div className={styles.productRating}>
+          {[...Array(5)].map((_, i) => (
+            <Star key={i} size={14} className={styles.starIcon} />
+          ))}
+          <span className={styles.ratingText}>(4.5)</span>
+        </div>
+        <p className={styles.productPrice}>{price}</p>
+        <div className={styles.stockInfo}>
+          <Package size={14} />
+          <span>Em estoque: {stock}</span>
+        </div>
+      </div>
+
+      <div className={styles.productActions}>
+        <button
+          className={`${styles.productButton} ${stock === 0 ? styles.disabledButton : ""} ${isLoading ? styles.loadingButton : ""}`}
+          onClick={handleBuyClick}
+          disabled={stock === 0 || isLoading}
+        >
+          {isLoading ? (
+            <>
+              <div className={styles.spinner}></div>
+              Adicionando...
+            </>
+          ) : (
+            <>
+              <ShoppingCart size={16} />
+              {buttonText}
+            </>
+          )}
+        </button>
+        <button
+          className={styles.detailsButton}
+          onClick={() => navigate("/detalhesProduto", { state: { title, imageSrc, price, description } })}
+        >
+          <Eye size={16} />
+          Detalhes
+        </button>
+      </div>
     </div>
   )
 }
@@ -80,6 +138,27 @@ function Produtos() {
   const [showFilters, setShowFilters] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalMessage, setModalMessage] = useState("")
+  const [isVisible, setIsVisible] = useState(false)
+  const contentRef = useRef(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true)
+          }
+        })
+      },
+      { threshold: 0.1 },
+    )
+
+    if (contentRef.current) {
+      observer.observe(contentRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     const fetchProdutos = async () => {
@@ -146,10 +225,37 @@ function Produtos() {
     }
   }, [showFilters, styles.filterContainer])
 
-  if (loading) return <div className={styles.loadingContainer}>Carregando produtos...</div>
-  if (error) return <div className={styles.errorContainer}>{error}</div>
+  if (loading) {
+    return (
+      <div className={styles.mainContainer}>
+        <NavbarComponent />
+        <div className={styles.loadingContainer}>
+          <div className={styles.loadingSpinner}></div>
+          <h3>Carregando produtos...</h3>
+          <p>Aguarde enquanto buscamos os melhores cafés para você</p>
+        </div>
+        <Footer />
+      </div>
+    )
+  }
 
-  // Determina a classe de padding com base na quantidade de produtos
+  if (error) {
+    return (
+      <div className={styles.mainContainer}>
+        <NavbarComponent />
+        <div className={styles.errorContainer}>
+          <Coffee size={48} className={styles.errorIcon} />
+          <h3>Ops! Algo deu errado</h3>
+          <p>{error}</p>
+          <button className={styles.retryButton} onClick={() => window.location.reload()}>
+            Tentar Novamente
+          </button>
+        </div>
+        <Footer />
+      </div>
+    )
+  }
+
   const getContainerClass = () => {
     if (filteredProdutos.length === 0) return `${styles.mainContainer} ${styles.noProducts}`
     if (filteredProdutos.length <= 3) return `${styles.mainContainer} ${styles.fewProducts}`
@@ -163,8 +269,11 @@ function Produtos() {
   return (
     <div className={getContainerClass()}>
       <NavbarComponent />
-      <div className={styles.produtosPage}>
-        <div className={styles.filterContainer}>
+      <div className={styles.produtosPage} ref={contentRef}>
+        <div
+          className={`${styles.filterContainer} ${isVisible ? styles.fadeInUp : ""}`}
+          style={{ animationDelay: "0.2s" }}
+        >
           <div className={styles.searchContainer}>
             <input
               type="text"
@@ -176,26 +285,41 @@ function Produtos() {
             <Search className={styles.searchIcon} size={20} />
           </div>
 
-          <button className={styles.filterToggleButton} onClick={() => setShowFilters(!showFilters)}>
-            <SlidersHorizontal size={18} />
-            Filtros
-          </button>
+          <div className={styles.filterActions}>
+            <div className={styles.resultsCount}>
+              {filteredProdutos.length} produto{filteredProdutos.length !== 1 ? "s" : ""} encontrado
+              {filteredProdutos.length !== 1 ? "s" : ""}
+            </div>
+            <button
+              className={`${styles.filterToggleButton} ${showFilters ? styles.active : ""}`}
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <SlidersHorizontal size={18} />
+              Filtros
+            </button>
+          </div>
 
           {showFilters && (
             <div className={styles.filtersDropdown}>
               <div className={styles.filterOption}>
                 <h4>
-                  <Package size={16} style={{ display: "inline", marginRight: "6px" }} /> Disponibilidade
+                  <Package size={16} /> Disponibilidade
                 </h4>
-                <label>
-                  <input type="checkbox" checked={filterOptions.showOnlyInStock} onChange={handleStockFilterChange} />
+                <label className={styles.checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    checked={filterOptions.showOnlyInStock}
+                    onChange={handleStockFilterChange}
+                    className={styles.checkbox}
+                  />
+                  <span className={styles.checkmark}></span>
                   Mostrar apenas produtos em estoque
                 </label>
               </div>
 
               <div className={styles.filterOption}>
                 <h4>
-                  <DollarSign size={16} style={{ display: "inline", marginRight: "6px" }} /> Ordenar por
+                  <DollarSign size={16} /> Ordenar por
                 </h4>
                 <select value={filterOptions.sortBy} onChange={handleSortChange} className={styles.sortSelect}>
                   <option value="default">Relevância</option>
@@ -207,35 +331,45 @@ function Produtos() {
           )}
         </div>
 
-        <div className={styles.productList}>
+        <div className={`${styles.productList} ${isVisible ? styles.fadeInUp : ""}`} style={{ animationDelay: "0.4s" }}>
           {filteredProdutos.length > 0 ? (
-            filteredProdutos.map((produto) => (
+            filteredProdutos.map((produto, index) => (
               <CardProduto
                 key={produto.id}
                 id={produto.id}
                 imageSrc={produto.imagem}
                 title={produto.titulo}
                 price={`R$${produto.preco.toFixed(2)}`}
-                buttonText="Comprar"
+                buttonText="Adicionar ao Carrinho"
                 description={produto.descricao}
                 stock={produto.quantidadeEstoque}
                 setIsModalOpen={setIsModalOpen}
                 setModalMessage={setModalMessage}
+                index={index}
               />
             ))
           ) : (
             <div className={styles.noProductsMessage}>
-              <Coffee size={32} style={{ marginBottom: "10px" }} />
-              <p>Nenhum produto encontrado com os filtros selecionados.</p>
+              <Coffee size={64} className={styles.noProductsIcon} />
+              <h3>Nenhum produto encontrado</h3>
+              <p>Tente ajustar os filtros ou buscar por outros termos.</p>
+              <button
+                className={styles.clearFiltersButton}
+                onClick={() => {
+                  setSearchTerm("")
+                  setFilterOptions({ showOnlyInStock: false, sortBy: "default" })
+                }}
+              >
+                Limpar Filtros
+              </button>
             </div>
           )}
         </div>
-        {isModalOpen && <MessageModal icon={<span>✔️</span>} message={modalMessage} onClose={closeModal} />}
 
+        {isModalOpen && <MessageModal icon={<span>✔️</span>} message={modalMessage} onClose={closeModal} />}
       </div>
       <Footer />
     </div>
-    
   )
 }
 
