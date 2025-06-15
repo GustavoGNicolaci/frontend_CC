@@ -14,6 +14,7 @@ import NavbarComponent from "../../navbar/navbar"
 import LoadingModal from "../../shared/loadingModal/loadingModal"
 import MessageModal from "../../shared/messageModal/messageModal"
 import styles from "./alterarUsuario.module.css"
+import { alterarInformacoes } from "../../../services/loginService"
 
 const AlterarUsuario = () => {
     const [errorMessage, setErrorMessage] = useState("")
@@ -153,7 +154,29 @@ const AlterarUsuario = () => {
         setIsLoading(true)
         setErrorMessage("")
         try {
-            // await atualizarUsuario(email, password, phone, confirmPassword, cep, rua, estado, cidade, bairro, numero, complemento);
+            if (activeSection === "pessoal") {
+                await alterarInformacoes({
+                    email,
+                    telefone: phone,
+                })
+            } else if (activeSection === "endereco") {
+                await alterarInformacoes({
+                    endereco: {
+                        cep,
+                        rua,
+                        estado,
+                        cidade,
+                        bairro,
+                        numero,
+                        complemento,
+                    },
+                })
+            }   else if (activeSection === "senha") {
+                    await alterarInformacoes({
+                        senha: password,
+                        confirmarSenha: confirmPassword,
+                    })
+                }
             setIsModalOpen(true)
         } catch (error) {
             setErrorMessage("Erro ao atualizar informações. Por favor, tente novamente.")

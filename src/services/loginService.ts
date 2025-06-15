@@ -116,6 +116,60 @@ export const getinfoUsuario = async (userId: string) => {
     }
 };
 
-export const alterarInformacoes = async () => {
+export const alterarInformacoes = async (
+    dadosAtualizados: Partial<{
+        email: string;
+        nome: string;
+        senha: string;
+        cpf: string;
+        telefone: string;
+        confirmarSenha: string;
+        endereco?: {
+            rua: string;
+            numero: string;
+            complemento?: string;
+            bairro: string;
+            cidade: string;
+            estado: string;
+            cep: string;
+        };
+    }>
+) => {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error('Token não encontrado. Faça login novamente.');
+        }
 
-}
+        // Criptografa os campos enviados
+        const encryptedData: any = {};
+        if (dadosAtualizados.email) encryptedData.email = dadosAtualizados.email;
+        if (dadosAtualizados.nome) encryptedData.nome = dadosAtualizados.nome;
+        if (dadosAtualizados.senha) encryptedData.senha = encryptData(dadosAtualizados.senha);
+        if (dadosAtualizados.cpf) encryptedData.cpf = encryptData(dadosAtualizados.cpf);
+        if (dadosAtualizados.telefone) encryptedData.telefone = encryptData(dadosAtualizados.telefone);
+        if (dadosAtualizados.confirmarSenha) encryptedData.confirmarSenha = encryptData(dadosAtualizados.confirmarSenha);
+
+        if (dadosAtualizados.endereco) {
+            encryptedData.endereco = {
+                rua: encryptData(dadosAtualizados.endereco.rua),
+                numero: encryptData(dadosAtualizados.endereco.numero),
+                complemento: dadosAtualizados.endereco.complemento ? encryptData(dadosAtualizados.endereco.complemento) : '',
+                bairro: encryptData(dadosAtualizados.endereco.bairro),
+                cidade: encryptData(dadosAtualizados.endereco.cidade),
+                estado: encryptData(dadosAtualizados.endereco.estado),
+                cep: encryptData(dadosAtualizados.endereco.cep),
+            };
+        }
+
+        const response = await axios.put(`${API_URL}/auth/user`, encryptedData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return response.data;
+    } catch (error) {
+        handleError(error);
+    }
+};
