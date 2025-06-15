@@ -55,8 +55,8 @@ export const registro = async (
 ) => {
     try {
         const encryptedData = {
-            email: encryptData(email),
-            nome: encryptData(nome),
+            email: email,
+            nome: nome,
             senha: encryptData(senha),
             cpf: encryptData(cpf),
             telefone: encryptData(telefone),
@@ -98,7 +98,7 @@ export const getinfoUsuario = async (userId: string) => {
         return {
             email: usuario.email,
             telefone: usuario.telefone,
-            nome: usuario.nome,
+            nome: decryptData(usuario.nome),
             endereco: {
                 ...usuario.endereco,    
                 cep: decryptData(usuario.endereco.cep),

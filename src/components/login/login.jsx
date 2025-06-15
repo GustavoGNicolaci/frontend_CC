@@ -6,6 +6,7 @@ import NavbarComponent from '../navbar/navbar';
 import LoadingModal from '../shared/loadingModal/loadingModal';
 import styles from './login.module.css';
 import { useAuth } from '../../authenticate/authContext';
+import MessageModal from '../shared/messageModal/messageModal';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -71,7 +72,6 @@ const Login = () => {
                                 />
                                 {fieldErrors.password && <p className={styles.error}>{fieldErrors.password}</p>}
                                 <button type="submit" className={styles.button}>Login</button>
-                                {error && <p className={styles.error}>{error}</p>}
                                 <p className={styles.message}>
                                     Não tem uma conta? <button onClick={() => navigate('/cadastro')} className={styles.linkButton}>Cadastre-se</button>
                                 </p>
@@ -81,6 +81,12 @@ const Login = () => {
                 </div>
                 <Footer />
                 {isLoading && <LoadingModal />}
+                {error && (
+                    <MessageModal
+                      message={error}
+                      onClose={() => setError("")}
+                    />
+                )}
             </div>
         </div>
     );
