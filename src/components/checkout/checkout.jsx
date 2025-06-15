@@ -187,8 +187,8 @@ function Checkout() {
   }
 
   useEffect(() => {
-    validateAddress()
-  }, [formData.cep, formData.city, formData.neighborhood, formData.street, formData.number])
+  validateAddress();
+}, [formData]);
 
   useEffect(() => {
     const fetchUserData = async () => {
