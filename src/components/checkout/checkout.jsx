@@ -36,6 +36,7 @@ function Checkout() {
   const [token, setToken] = useState("");
   const [processingCard, setProcessingCard] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [user, setUser] = useState(null);
 
   const [formData, setFormData] = useState({
     cep: "",
@@ -55,8 +56,8 @@ function Checkout() {
   const criarPagamentoPix = async () => {
     try {
       const response = await axios.post("http://localhost:5002/pagamento/criar-pagamento-pix", {
-        totalAmount: 50.00, // alterar para deixar dinâmico
-        payerEmail: "cliente@exemplo.com",
+        totalAmount: totalPrice,
+        payerEmail: user?.email || "cliente@exemplo.com",
         description: "Compra de café especial"
       }, {
         headers: {
@@ -79,7 +80,7 @@ function Checkout() {
     try {
       const response = await axios.post("http://localhost:5002/pagamento/criar-pagamento-cartao", {
         totalAmount: totalPrice,
-        payerEmail: document.getElementById('card-form-checkout__email').value,
+        payerEmail: user?.email || "cliente@exemplo.com",
         description: "Compra na Loja",
         token: tokenId,
         paymentMethodId: paymentMethodId,
@@ -201,6 +202,7 @@ function Checkout() {
       if (!userId) return;
       try {
         const user = await getinfoUsuario(userId.id);
+         setUser(user);
         if (user && user.endereco) {
           setFormData(prev => ({
             ...prev,
