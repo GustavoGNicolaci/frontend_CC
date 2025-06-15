@@ -9,10 +9,11 @@ import NavbarComponent from "../navbar/navbar"
 import styles from "./checkout.module.css"
 
 import { loadMercadoPago } from "@mercadopago/sdk-js"
-import PixQrCodeModal from "./pix/pixQrCodeModal"
-import axios from "axios";
-import { getInfoFromToken } from "../../utils/decodedToken"
+import axios from "axios"
 import { getinfoUsuario } from "../../services/loginService"
+import { getInfoFromToken } from "../../utils/decodedToken"
+import MessageModal from "../shared/messageModal/messageModal"
+import PixQrCodeModal from "./pix/pixQrCodeModal"
 
 await loadMercadoPago()
 const mp = new window.MercadoPago("TEST-87a3956a-bd8d-41fb-9054-4ff3582631f8")
@@ -34,6 +35,7 @@ function Checkout() {
   const [issuerOptions, setIssuerOptions] = useState([]);
   const [token, setToken] = useState("");
   const [processingCard, setProcessingCard] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   const [formData, setFormData] = useState({
     cep: "",
@@ -53,7 +55,7 @@ function Checkout() {
   const criarPagamentoPix = async () => {
     try {
       const response = await axios.post("http://localhost:5002/pagamento/criar-pagamento-pix", {
-        totalAmount: 50.00, // Exemplo de valor total
+        totalAmount: 50.00, // alterar para deixar dinâmico
         payerEmail: "cliente@exemplo.com",
         description: "Compra de café especial"
       }, {
@@ -64,9 +66,11 @@ function Checkout() {
       setQrCodeBase64(response.data.qrCodeBase64);
       setChavePix(response.data.qrCode);
       setPagamentoCriado(true);
+      setShowPixModal(true); 
     } catch (error) {
       console.error("Erro ao criar pagamento:", error);
-      alert("Erro ao gerar pagamento Pix");
+      setModalMessage("Erro ao gerar pagamento Pix");
+      setShowPixModal(false);
     }
   };
 
@@ -1001,7 +1005,6 @@ function Checkout() {
                   if (selectedPayment === "pix") {
                     setLoadingPix(true);
                     await criarPagamentoPix();
-                    setShowPixModal(true);
                     setLoadingPix(false);
                   } else if (selectedPayment === "creditCard") {
                     await handleCreditCardSubmit(event);
@@ -1023,7 +1026,14 @@ function Checkout() {
         qrCodeText={qrCode}
       />
       <Footer />
+      {modalMessage && (
+        <MessageModal
+          message={modalMessage}
+          onClose={() => setModalMessage("")}
+        />
+      )}
     </div>
+    
   )
 }
 
