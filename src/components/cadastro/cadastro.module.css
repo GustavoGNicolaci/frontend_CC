@@ -25,8 +25,22 @@
 }
 
 .container.step1 {
-  padding-top: 220px;
+  padding-top: 345px;
+  min-width: 600px;
+  max-width: 600px;
 }
+
+.step1 .informacoesPessoais {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.step1 .input {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
 
 .container.step2 {
   padding-top: 150px;
@@ -447,8 +461,7 @@
 
 .confirmarSenha {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
   width: 100%;
 }
 
@@ -460,11 +473,13 @@
   margin: 0 10px;
 }
 
-.passwordInputContainer {
-  position: relative;
+.passwordWrapper {
   width: 100%;
-  display: flex;
-  align-items: center;
+  margin-bottom: 15px;
+}
+
+.passwordInputContainer {
+  width: 100%;
 }
 
 .confirmarSenha .input {
@@ -480,6 +495,7 @@
   cursor: pointer;
   font-size: 14px;
   color: #333;
+  padding-top: 10px;
 }
 
 .confirmarSenha .togglePassword img {
