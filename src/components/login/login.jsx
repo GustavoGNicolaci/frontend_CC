@@ -71,6 +71,15 @@ const Login = () => {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                                 {fieldErrors.password && <p className={styles.error}>{fieldErrors.password}</p>}
+                                <p className={styles.forgotPassword}>
+                                    <button
+                                        type="button"
+                                        onClick={() => navigate('/recuperar-senha')}
+                                        className={styles.forgotPasswordButton}
+                                    >
+                                        Esqueceu a senha?
+                                    </button>
+                                </p>
                                 <button type="submit" className={styles.button}>Login</button>
                                 <p className={styles.message}>
                                     Não tem uma conta? <button onClick={() => navigate('/cadastro')} className={styles.linkButton}>Cadastre-se</button>
@@ -83,8 +92,8 @@ const Login = () => {
                 {isLoading && <LoadingModal />}
                 {error && (
                     <MessageModal
-                      message={error}
-                      onClose={() => setError("")}
+                        message={error}
+                        onClose={() => setError("")}
                     />
                 )}
             </div>

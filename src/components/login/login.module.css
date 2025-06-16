@@ -108,6 +108,25 @@
   text-decoration: underline;
 }
 
+.forgotPassword {
+    text-align: right;
+    margin: -10px 0 15px;
+}
+
+.forgotPasswordButton {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 0;
+    text-decoration: underline;
+}
+
+.forgotPasswordButton:hover {
+    color: #663300;
+}
+
 /* Tablets e dispositivos médios */
 @media (max-width: 992px) {
   .form {
