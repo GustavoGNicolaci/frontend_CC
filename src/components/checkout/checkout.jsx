@@ -37,6 +37,8 @@ function Checkout() {
   const [processingCard, setProcessingCard] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [user, setUser] = useState(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
 
   const [formData, setFormData] = useState({
     cep: "",
@@ -67,7 +69,7 @@ function Checkout() {
       setQrCodeBase64(response.data.qrCodeBase64);
       setChavePix(response.data.qrCode);
       setPagamentoCriado(true);
-      setShowPixModal(true); 
+      setShowPixModal(true);
     } catch (error) {
       console.error("Erro ao criar pagamento:", error);
       setModalMessage("Erro ao gerar pagamento Pix");
@@ -93,10 +95,10 @@ function Checkout() {
       });
 
       if (response.data.status === "approved") {
-        alert("Pagamento aprovado com sucesso!");
-        // navigate("/sucesso"); // Descomente se tiver rota de sucesso
+        if (clearCart) clearCart();
+        setShowSuccessModal(true);
       } else {
-        alert(`Pagamento ${response.data.status}`);
+        setModalMessage(`Pagamento ${response.data.status}`);
       }
     } catch (error) {
       console.error("Erro no pagamento:", error);
@@ -161,7 +163,7 @@ function Checkout() {
   };
 
   const navigate = useNavigate()
-  const { cartItems = [] } = useContext(CartContext)
+  const { cartItems = [], clearCart } = useContext(CartContext);
 
   const handlePaymentChange = (paymentMethod) => {
     setSelectedPayment(paymentMethod)
@@ -192,8 +194,8 @@ function Checkout() {
   }
 
   useEffect(() => {
-  validateAddress();
-}, [formData]);
+    validateAddress();
+  }, [formData]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -202,7 +204,7 @@ function Checkout() {
       if (!userId) return;
       try {
         const user = await getinfoUsuario(userId.id);
-         setUser(user);
+        setUser(user);
         if (user && user.endereco) {
           setFormData(prev => ({
             ...prev,
@@ -1034,8 +1036,32 @@ function Checkout() {
           onClose={() => setModalMessage("")}
         />
       )}
+
+      {showSuccessModal && (
+        <MessageModal
+          title="Compra Concluída"
+          message="Pagamento efetuado com sucesso! 
+          Obrigado por sua compra!"
+          onClose={() => {
+            setShowSuccessModal(false);
+            navigate("/");
+          }}
+          showCloseButton={true}
+          customButton={
+            <button
+              onClick={() => {
+                setShowSuccessModal(false);
+                navigate("/");
+              }}
+              className={styles.successButton}
+            >
+              Voltar ao menu principal
+            </button>
+          }
+        />
+      )}
     </div>
-    
+
   )
 }
 

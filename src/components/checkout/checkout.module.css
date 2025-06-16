@@ -497,6 +497,25 @@
     pointer-events: none;
 }
 
+.successButton {
+  background-color: #27a417;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+
+.successButton:hover {
+  background-color: #218813;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(39, 164, 23, 0.3);
+}
+
 /* Media Queries */
 @media (max-width: 1200px) {
     .checkoutContent {
