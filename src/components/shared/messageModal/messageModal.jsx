@@ -9,9 +9,7 @@ const MessageModal = ({ icon, message, onClose }) => {
                 <button className={styles.closeButton} onClick={onClose}>
                     &times;
                 </button>
-                <div className={styles.iconContainer}>
-                    {icon}
-                </div>
+                <span>{icon}</span>
                 <div className={styles.messageContainer}>
                     <p>{message}</p>
                 </div>

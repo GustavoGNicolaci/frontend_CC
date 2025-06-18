@@ -191,8 +191,8 @@ function DetalhesProduto() {
 
       {isModalOpen && (
         <MessageModal
-          icon={<img src={iconeSucesso || "/placeholder.svg"} alt="Sucesso" />}
-          message={`${title} adicionado ao carrinho!`}
+          icon="🛒"
+          message={`Item adicionado ao carrinho!`}
           onClose={closeModal}
         />
       )}

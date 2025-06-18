@@ -46,7 +46,7 @@ function CardProduto({
 
       const response = await addProductToCart(id, 1)
       if (response.success) {
-        setModalMessage(`${title} adicionado ao carrinho!`)
+        setModalMessage(`Item adicionado ao carrinho!`)
       } else {
         setModalMessage("Erro ao adicionar produto ao carrinho.")
       }
@@ -366,7 +366,7 @@ function Produtos() {
           )}
         </div>
 
-        {isModalOpen && <MessageModal icon={<span>✔️</span>} message={modalMessage} onClose={closeModal} />}
+        {isModalOpen && <MessageModal icon="🛒" message={modalMessage} onClose={closeModal} />}
       </div>
       <Footer />
     </div>
