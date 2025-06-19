@@ -1,5 +1,5 @@
 "use client"
-
+import { criarPedido } from "../../services/pedidoService"
 import { ArrowLeft, CreditCard, MapPin, ShoppingBag, Truck } from "lucide-react"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -55,6 +55,34 @@ function Checkout() {
     installments: "1",
   })
 
+  const handleCriarPedido = async () => {
+  try {
+    const pedidoData = {
+      produtos: cartItems.map(item => ({
+        produtoId: item.id,
+        nome: item.title,
+        quantidade: item.quantity,
+        preco: item.price
+      })),
+      total: totalPrice,
+      enderecoEntrega: {
+        rua: formData.street,
+        numero: formData.number,
+        complemento: formData.complement,
+        bairro: formData.neighborhood,
+        cidade: formData.city,
+        estado: formData.state,
+        cep: formData.cep
+      }
+    };
+
+    await criarPedido(pedidoData);
+    
+  } catch (error) {
+    setModalMessage("Erro ao criar pedido.");
+  }
+};
+
   const criarPagamentoPix = async () => {
     try {
       const response = await axios.post("http://localhost:5002/pagamento/criar-pagamento-pix", {
@@ -96,6 +124,7 @@ function Checkout() {
 
       if (response.data.status === "approved") {
         if (clearCart) clearCart();
+        await handleCriarPedido();
         setShowSuccessModal(true);
       } else {
         setModalMessage(`Pagamento ${response.data.status}`);
