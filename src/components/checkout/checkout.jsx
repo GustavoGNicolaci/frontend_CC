@@ -1,19 +1,22 @@
-"use client"
-import { criarPedido } from "../../services/pedidoService"
+
 import { ArrowLeft, CreditCard, MapPin, ShoppingBag, Truck } from "lucide-react"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { CartContext } from "../../CartContext"
+import { criarPedido } from "../../services/pedidoService"
 import Footer from "../footer"
 import NavbarComponent from "../navbar/navbar"
 import styles from "./checkout.module.css"
 
 import { loadMercadoPago } from "@mercadopago/sdk-js"
 import axios from "axios"
+import errorIcon from "../../assets/images/error.svg"
+import successIcon from "../../assets/images/sucesso.svg"
 import { getinfoUsuario } from "../../services/loginService"
 import { getInfoFromToken } from "../../utils/decodedToken"
 import MessageModal from "../shared/messageModal/messageModal"
 import PixQrCodeModal from "./pix/pixQrCodeModal"
+
 
 await loadMercadoPago()
 const mp = new window.MercadoPago("TEST-87a3956a-bd8d-41fb-9054-4ff3582631f8")
@@ -38,6 +41,8 @@ function Checkout() {
   const [modalMessage, setModalMessage] = useState("");
   const [user, setUser] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [modalType, setModalType] = useState("success"); // ou "error"
+
 
 
   const [formData, setFormData] = useState({
@@ -77,7 +82,7 @@ function Checkout() {
     };
 
     await criarPedido(pedidoData);
-    
+
   } catch (error) {
     setModalMessage("Erro ao criar pedido.");
   }
@@ -100,6 +105,7 @@ function Checkout() {
       setShowPixModal(true);
     } catch (error) {
       console.error("Erro ao criar pagamento:", error);
+      setModalType("error");
       setModalMessage("Erro ao gerar pagamento Pix");
       setShowPixModal(false);
     }
@@ -131,7 +137,8 @@ function Checkout() {
       }
     } catch (error) {
       console.error("Erro no pagamento:", error);
-      alert(error.response?.data?.message || "Erro ao processar pagamento");
+      setModalType("error");
+      setModalMessage(error.response?.data?.message || "Erro ao processar pagamento");
     }
   };
 
@@ -148,7 +155,8 @@ function Checkout() {
       const element = document.getElementById(fieldId);
       if (!element?.value) {
         const label = document.querySelector(`label[for="${fieldId}"]`)?.textContent || fieldId;
-        alert(`Por favor, preencha o campo: ${label}`);
+        setModalMessage(`Dados para pagamento não preenchidos`);
+        setModalType("error");
         return false;
       }
     }
@@ -158,7 +166,8 @@ function Checkout() {
     for (const field of mpContainers) {
       const container = document.getElementById(`form-checkout__${field}`);
       if (!container || container.children.length === 0) {
-        alert('Por favor, preencha todos os dados do cartão');
+        setModalMessage(`Dados para pagamento não preenchidos`);
+        setModalType("error");
         return false;
       }
     }
@@ -185,7 +194,8 @@ function Checkout() {
       await processPayment(tokenData.id);
     } catch (error) {
       console.error('Erro no pagamento:', error);
-      alert(error.message || "Erro ao processar o cartão");
+      setModalMessage(error.response?.message || "Erro ao processar o cartão");
+      setModalType("error");
     } finally {
       setProcessingCard(false);
     }
@@ -1061,6 +1071,11 @@ function Checkout() {
       <Footer />
       {modalMessage && (
         <MessageModal
+          icon={
+            modalType === "error"
+              ? <img src={errorIcon} alt="Erro" style={{ width: 48, height: 48 }} />
+              : <img src={successIcon} alt="Sucesso" style={{ width: 48, height: 48 }} />
+          }
           message={modalMessage}
           onClose={() => setModalMessage("")}
         />
