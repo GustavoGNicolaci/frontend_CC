@@ -1,17 +1,19 @@
-"use client"
-
 import { Package, Calendar, MapPin, Truck } from "lucide-react"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import NavbarComponent from "../navbar/navbar"
 import Footer from "../footer"
 import styles from "./pedidos.module.css"
+import { listarPedidosPorUsuario } from "../../services/pedidoService"
+  import { getInfoFromToken } from "../../utils/decodedToken";
 
 function Pedidos() {
   const [pedidos, setPedidos] = useState([])
   const [loading, setLoading] = useState(true)
   const [filtroStatus, setFiltroStatus] = useState("todos")
-  const navigate = useNavigate()
+  const navigate = useNavigate()  
+  const info = getInfoFromToken();
+  const usuarioId = info?.id || info?._id; // depende de como está salvo no token
 
   // Dados mockados para demonstração
   const pedidosMock = [
@@ -81,12 +83,18 @@ function Pedidos() {
   ]
 
   useEffect(() => {
-    // Simular carregamento de dados
-    setTimeout(() => {
-      setPedidos(pedidosMock)
-      setLoading(false)
-    }, 1000)
-  }, [])
+    const fetchPedidos = async () => {
+      try {
+        const data = await listarPedidosPorUsuario(usuarioId);
+        setPedidos(data); // data deve ser um array de pedidos
+      } catch (error) {
+        // Trate o erro conforme necessário
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPedidos();
+  }, [usuarioId]);
 
   const formatarData = (dataString) => {
     const data = new Date(dataString)
@@ -195,14 +203,14 @@ function Pedidos() {
           ) : (
             <div className={styles.pedidosList}>
               {pedidosFiltrados.map((pedido) => (
-                <div key={pedido._id} className={styles.pedidoCard}>
+                <div key={pedido.pedidoId} className={styles.pedidoCard}>
                   <div className={styles.pedidoHeader}>
                     <div className={styles.pedidoInfo}>
-                      <h3 className={styles.pedidoId}>Pedido #{pedido._id}</h3>
+                      <h3 className={styles.pedidoId}>Pedido #{pedido.pedidoId}</h3>
                       <div className={styles.pedidoMeta}>
                         <span className={styles.pedidoData}>
                           <Calendar size={16} />
-                          {formatarData(pedido.data_pedido)}
+                          {formatarData(pedido.dataPedido)}
                         </span>
                         <span
                           className={styles.pedidoStatus}
@@ -241,11 +249,11 @@ function Pedidos() {
                         Endereço de Entrega
                       </h4>
                       <p className={styles.endereco}>
-                        {pedido.endereco_entrega.rua}
+                        {pedido.enderecoEntrega.rua}
                         <br />
-                        {pedido.endereco_entrega.bairro}, {pedido.endereco_entrega.cidade}
+                        {pedido.enderecoEntrega.bairro}, {pedido.enderecoEntrega.cidade}
                         <br />
-                        CEP: {pedido.endereco_entrega.cep}
+                        CEP: {pedido.enderecoEntrega.cep}
                       </p>
                     </div>
 
@@ -259,7 +267,7 @@ function Pedidos() {
                           <span className={styles.codigoRastreamento}>Código: {pedido.rastreamento.codigo}</span>
                           <span className={styles.statusRastreamento}>{pedido.rastreamento.status}</span>
                           <span className={styles.ultimaAtualizacao}>
-                            Atualizado em: {formatarData(pedido.rastreamento.ultima_atualizacao)}
+                            Atualizado em: {formatarData(pedido.rastreamento.ultimaAtualizacao)}
                           </span>
                         </div>
                       </div>
