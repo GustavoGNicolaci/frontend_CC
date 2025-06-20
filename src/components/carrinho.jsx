@@ -2,6 +2,7 @@ import { jwtDecode } from "jwt-decode"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { CartContext } from "../CartContext"
+import { buscarProdutoPorId } from "../services/produtoService"
 import NavbarComponent from "./navbar/navbar"
 
 import { Minus, Package, Plus, ShoppingCart } from "lucide-react"
@@ -13,7 +14,21 @@ import LoadingModal from "./shared/loadingModal/loadingModal"
 function Carrinho() {
   const { cartItems = [], setCartItems, updateCartItemQuantity } = useContext(CartContext)
   const navigate = useNavigate()
+  const [estoques, setEstoques] = useState({});
   const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchEstoques = async () => {
+      const novosEstoques = {};
+      for (const item of cartItems) {
+        const id = item.id || item._id;
+        const produto = await buscarProdutoPorId(id);
+        novosEstoques[id] = produto?.quantidadeEstoque || 1;
+      }
+      setEstoques(novosEstoques);
+    };
+    if (cartItems.length > 0) fetchEstoques();
+}, [cartItems]);
 
   useEffect(() => {
     const loadCart = async () => {
@@ -91,6 +106,13 @@ function Carrinho() {
       console.error("Erro ao remover o produto do carrinho:", error)
     }
   }
+
+  const handleQuantityIncrease = async (id, currentQuantity) => {
+    const estoque = estoques[id] || 1;
+    if (currentQuantity < estoque) {
+      handleQuantityChange(id, currentQuantity + 1);
+    } 
+};
 
   const handleQuantityChange = async (idProduto, newQuantity) => {
     const token = localStorage.getItem("token");
@@ -228,8 +250,9 @@ function Carrinho() {
                         </button>
                         <span className={styles.quantityValue}>{quantity}</span>
                         <button
-                          className={styles.quantityButton}
-                          onClick={() => handleQuantityChange(id, quantity + 1)}
+                            className={styles.quantityButton}
+                          onClick={() => handleQuantityIncrease(id, quantity)}
+                          disabled={quantity >= (estoques[id] || 1)}
                         >
                           <Plus size={16} />
                         </button>
